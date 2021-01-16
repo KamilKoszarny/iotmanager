@@ -1,0 +1,25 @@
+{
+  "iotmanagerApp": {
+    "deviceModel": {
+      "home": {
+        "title": "Device Models",
+        "createLabel": "Create a new Device Model",
+        "createOrEditLabel": "Create or edit a Device Model",
+        "notFound": "No Device Models found"
+      },
+      "created": "A new Device Model is created with identifier {{ param }}",
+      "updated": "A Device Model is updated with identifier {{ param }}",
+      "deleted": "A Device Model is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Device Model {{ id }}?"
+      },
+      "detail": {
+        "title": "Device Model"
+      },
+      "name": "Name",
+      "device": "Device",
+      "deviceProducer": "Device Producer",
+      "deviceType": "Device Type"
+    }
+  }
+}

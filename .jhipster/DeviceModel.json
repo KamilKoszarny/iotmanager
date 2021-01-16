@@ -1,0 +1,42 @@
+{
+  "name": "DeviceModel",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "device",
+      "otherEntityRelationshipName": "deviceModel",
+      "relationshipName": "device"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "deviceProducer",
+      "otherEntityRelationshipName": "deviceModel",
+      "relationshipName": "deviceProducer",
+      "otherEntityField": "id"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "deviceType",
+      "otherEntityRelationshipName": "deviceModel",
+      "relationshipName": "deviceType",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20210116174519",
+  "entityTableName": "device_model",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

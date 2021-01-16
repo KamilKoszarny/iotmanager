@@ -1,0 +1,34 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="deviceType">
+            <h2><span jhiTranslate="iotmanagerApp.deviceType.detail.title">Device Type</span> {{ deviceType.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="iotmanagerApp.deviceType.name">Name</span></dt>
+                <dd>
+                    <span>{{ deviceType.name }}</span>
+                </dd>
+                <dt><span jhiTranslate="iotmanagerApp.deviceType.category">Category</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'iotmanagerApp.DeviceCategory.' + deviceType.category }}">{{ deviceType.category }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/device-type', deviceType.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

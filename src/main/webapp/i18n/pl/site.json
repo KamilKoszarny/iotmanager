@@ -1,0 +1,24 @@
+{
+  "iotmanagerApp": {
+    "site": {
+      "home": {
+        "title": "Site",
+        "createLabel": "Dodaj Site",
+        "createOrEditLabel": "Dodaj lub edytuj: Site",
+        "notFound": "No Sites found"
+      },
+      "created": "Utworzono nowy obiekt typu Site z identyfikatorem {{ param }}",
+      "updated": "Uaktualniono obiekt typu Site z identyfikatorem {{ param }}",
+      "deleted": "Usunięto obiekt typu Site z identyfikatorem {{ param }}",
+      "delete": {
+        "question": "Czy na pewno chcesz usunąć Site {{ id }}?"
+      },
+      "detail": {
+        "title": "Site"
+      },
+      "name": "Name",
+      "address": "Address",
+      "device": "Device"
+    }
+  }
+}

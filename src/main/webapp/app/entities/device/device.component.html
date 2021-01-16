@@ -1,0 +1,73 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="iotmanagerApp.device.home.title">Devices</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-device" [routerLink]="['/device/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="iotmanagerApp.device.home.createLabel">
+            Create a new Device
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="devices?.length === 0">
+        <span jhiTranslate="iotmanagerApp.device.home.notFound">No devices found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="devices && devices.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr>
+                    <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
+                    <th scope="col" ><span jhiTranslate="iotmanagerApp.device.serialNo">Serial No</span></th>
+                    <th scope="col" ><span jhiTranslate="iotmanagerApp.device.deviceModel">Device Model</span></th>
+                    <th scope="col" ><span jhiTranslate="iotmanagerApp.device.site">Site</span></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let device of devices ;trackBy: trackId">
+                    <td><a [routerLink]="['/device', device.id, 'view']">{{ device.id }}</a></td>
+                    <td>{{ device.serialNo }}</td>
+                    <td>
+                        <div *ngIf="device.deviceModel">
+                            <a [routerLink]="['/device-model', device.deviceModel?.id, 'view']" >{{ device.deviceModel?.id }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="device.site">
+                            <a [routerLink]="['/site', device.site?.id, 'view']" >{{ device.site?.id }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/device', device.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/device', device.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(device)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

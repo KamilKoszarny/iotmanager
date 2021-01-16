@@ -1,0 +1,24 @@
+{
+  "iotmanagerApp": {
+    "deviceType": {
+      "home": {
+        "title": "Device Type",
+        "createLabel": "Dodaj Device Type",
+        "createOrEditLabel": "Dodaj lub edytuj: Device Type",
+        "notFound": "No Device Types found"
+      },
+      "created": "Utworzono nowy obiekt typu Device Type z identyfikatorem {{ param }}",
+      "updated": "Uaktualniono obiekt typu Device Type z identyfikatorem {{ param }}",
+      "deleted": "Usunięto obiekt typu Device Type z identyfikatorem {{ param }}",
+      "delete": {
+        "question": "Czy na pewno chcesz usunąć Device Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Device Type"
+      },
+      "name": "Name",
+      "category": "Category",
+      "deviceModel": "Device Model"
+    }
+  }
+}

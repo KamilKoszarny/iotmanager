@@ -1,0 +1,23 @@
+{
+  "iotmanagerApp": {
+    "deviceProducer": {
+      "home": {
+        "title": "Device Producers",
+        "createLabel": "Create a new Device Producer",
+        "createOrEditLabel": "Create or edit a Device Producer",
+        "notFound": "No Device Producers found"
+      },
+      "created": "A new Device Producer is created with identifier {{ param }}",
+      "updated": "A Device Producer is updated with identifier {{ param }}",
+      "deleted": "A Device Producer is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Device Producer {{ id }}?"
+      },
+      "detail": {
+        "title": "Device Producer"
+      },
+      "name": "Name",
+      "deviceModel": "Device Model"
+    }
+  }
+}

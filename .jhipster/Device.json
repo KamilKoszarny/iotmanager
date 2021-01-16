@@ -1,0 +1,36 @@
+{
+  "name": "Device",
+  "fields": [
+    {
+      "fieldName": "serialNo",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "deviceModel",
+      "otherEntityRelationshipName": "device",
+      "relationshipName": "deviceModel",
+      "otherEntityField": "id"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "site",
+      "otherEntityRelationshipName": "device",
+      "relationshipName": "site",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20210116174319",
+  "entityTableName": "device",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

@@ -50,6 +50,16 @@ public class CacheConfiguration {
             createCache(cm, pl.kamilkoszarny.iotmanager.domain.User.class.getName());
             createCache(cm, pl.kamilkoszarny.iotmanager.domain.Authority.class.getName());
             createCache(cm, pl.kamilkoszarny.iotmanager.domain.User.class.getName() + ".authorities");
+            createCache(cm, pl.kamilkoszarny.iotmanager.domain.Device.class.getName());
+            createCache(cm, pl.kamilkoszarny.iotmanager.domain.DeviceType.class.getName());
+            createCache(cm, pl.kamilkoszarny.iotmanager.domain.DeviceType.class.getName() + ".deviceModels");
+            createCache(cm, pl.kamilkoszarny.iotmanager.domain.DeviceModel.class.getName());
+            createCache(cm, pl.kamilkoszarny.iotmanager.domain.DeviceModel.class.getName() + ".devices");
+            createCache(cm, pl.kamilkoszarny.iotmanager.domain.DeviceProducer.class.getName());
+            createCache(cm, pl.kamilkoszarny.iotmanager.domain.DeviceProducer.class.getName() + ".deviceModels");
+            createCache(cm, pl.kamilkoszarny.iotmanager.domain.Site.class.getName());
+            createCache(cm, pl.kamilkoszarny.iotmanager.domain.Site.class.getName() + ".devices");
+            createCache(cm, pl.kamilkoszarny.iotmanager.domain.Address.class.getName());
             // jhipster-needle-caffeine-add-entry
         };
     }

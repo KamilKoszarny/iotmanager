@@ -1,0 +1,58 @@
+
+entity Device {
+	serialNo String
+}
+
+enum DeviceCategory {
+	RTV,
+    AGD, 
+    HVAC,
+    OTHERS
+}
+
+entity DeviceType {
+	name String
+    category DeviceCategory
+}
+
+entity DeviceModel {
+	name String
+}
+
+entity DeviceProducer {
+	name String
+}
+
+entity Site {
+	name String
+}
+
+entity Address {
+	city String required
+    street String
+    streetNo String required
+}
+
+relationship OneToMany {
+	DeviceProducer to DeviceModel
+}
+
+relationship OneToMany {
+	DeviceType to DeviceModel
+}
+
+relationship OneToMany {
+	DeviceModel to Device
+}
+
+relationship OneToMany {
+	Site to Device
+}
+
+relationship OneToOne {
+	Site to Address
+}
+
+
+
+

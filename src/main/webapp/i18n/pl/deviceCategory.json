@@ -1,0 +1,11 @@
+{
+  "iotmanagerApp": {
+    "DeviceCategory": {
+      "null": "",
+      "RTV": "RTV",
+      "AGD": "AGD",
+      "HVAC": "HVAC",
+      "OTHERS": "OTHERS"
+    }
+  }
+}

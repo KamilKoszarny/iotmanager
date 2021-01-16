@@ -1,0 +1,28 @@
+{
+  "name": "DeviceProducer",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "deviceModel",
+      "otherEntityRelationshipName": "deviceProducer",
+      "relationshipName": "deviceModel"
+    }
+  ],
+  "changelogDate": "20210116174619",
+  "entityTableName": "device_producer",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}
