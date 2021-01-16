@@ -1,0 +1,43 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "pl.kamilkoszarny.iotmanager",
+      "nativeLanguage": "en"
+    },
+    "jhipsterVersion": "6.10.5",
+    "applicationType": "monolith",
+    "baseName": "iotmanager",
+    "packageName": "pl.kamilkoszarny.iotmanager",
+    "packageFolder": "pl/kamilkoszarny/iotmanager",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "caffeine",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "postgresql",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": "eureka",
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "MDhiMTM1MjkxZTczZjA4NjMzNTY2ZjEzZDAyOTI2NjRiYTU0OGUyOGJlYWU0YTYwYjk4NDM3NTk5NGQ0MzdlN2YyNTM5ZTQzZmI5MzMyOWY2MDE4YjYxM2RmZjQzYTJjZmUwN2ZmNGE5YzkyMGFkY2U0MjliM2I0MjBmMmRhMDU=",
+    "embeddableLaunchScript": false,
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "clientFramework": "angularX",
+    "clientTheme": "sandstone",
+    "clientThemeVariant": "dark",
+    "creationTimestamp": 1610814565537,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": true,
+    "nativeLanguage": "en",
+    "languages": ["en", "pl"],
+    "blueprints": []
+  }
+}
