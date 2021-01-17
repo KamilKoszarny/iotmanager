@@ -1,10 +1,10 @@
 package pl.kamilkoszarny.iotmanager.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -34,6 +34,10 @@ public class Site implements Serializable {
     @OneToMany(mappedBy = "site")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Device> devices = new HashSet<>();
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "sites", allowSetters = true)
+    private User user;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -93,6 +97,19 @@ public class Site implements Serializable {
 
     public void setDevices(Set<Device> devices) {
         this.devices = devices;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Site user(User user) {
+        this.user = user;
+        return this;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

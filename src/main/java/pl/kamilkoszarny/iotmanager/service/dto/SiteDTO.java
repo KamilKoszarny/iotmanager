@@ -13,6 +13,8 @@ public class SiteDTO implements Serializable {
 
 
     private Long addressId;
+
+    private Long userId;
     
     public Long getId() {
         return id;
@@ -36,6 +38,14 @@ public class SiteDTO implements Serializable {
 
     public void setAddressId(Long addressId) {
         this.addressId = addressId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -62,6 +72,7 @@ public class SiteDTO implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", addressId=" + getAddressId() +
+            ", userId=" + getUserId() +
             "}";
     }
 }

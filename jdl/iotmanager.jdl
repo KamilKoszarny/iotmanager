@@ -53,6 +53,10 @@ relationship OneToOne {
 	Site{address} to Address
 }
 
+relationship ManyToOne {
+	Site{user} to User
+}
+
 service * with serviceImpl
 dto * with mapstruct
 paginate * with pagination

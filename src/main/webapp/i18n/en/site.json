@@ -18,7 +18,8 @@
       },
       "name": "Name",
       "address": "Address",
-      "device": "Device"
+      "device": "Device",
+      "user": "User"
     }
   }
 }

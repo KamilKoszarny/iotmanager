@@ -25,6 +25,7 @@
                     <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="name"><span jhiTranslate="iotmanagerApp.site.name">Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="addressId"><span jhiTranslate="iotmanagerApp.site.address">Address</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="userId"><span jhiTranslate="iotmanagerApp.site.user">User</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -36,6 +37,9 @@
                         <div *ngIf="site.addressId">
                             <a [routerLink]="['/address', site.addressId , 'view']" >{{ site.addressId }}</a>
                         </div>
+                    </td>
+                    <td>
+                        {{ site.userId }}
                     </td>
                     <td class="text-right">
                         <div class="btn-group">

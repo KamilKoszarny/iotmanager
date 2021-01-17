@@ -20,6 +20,13 @@
       "otherEntityName": "device",
       "otherEntityRelationshipName": "site",
       "relationshipName": "device"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "site",
+      "relationshipName": "user",
+      "otherEntityField": "id"
     }
   ],
   "changelogDate": "20210116174719",

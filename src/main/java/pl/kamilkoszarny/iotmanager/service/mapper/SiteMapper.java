@@ -9,15 +9,17 @@ import pl.kamilkoszarny.iotmanager.service.dto.SiteDTO;
 /**
  * Mapper for the entity {@link Site} and its DTO {@link SiteDTO}.
  */
-@Mapper(componentModel = "spring", uses = {AddressMapper.class})
+@Mapper(componentModel = "spring", uses = {AddressMapper.class, UserMapper.class})
 public interface SiteMapper extends EntityMapper<SiteDTO, Site> {
 
     @Mapping(source = "address.id", target = "addressId")
+    @Mapping(source = "user.id", target = "userId")
     SiteDTO toDto(Site site);
 
     @Mapping(source = "addressId", target = "address")
     @Mapping(target = "devices", ignore = true)
     @Mapping(target = "removeDevice", ignore = true)
+    @Mapping(source = "userId", target = "user")
     Site toEntity(SiteDTO siteDTO);
 
     default Site fromId(Long id) {

@@ -18,6 +18,10 @@
                         <a [routerLink]="['/address', site.addressId, 'view']">{{ site.addressId }}</a>
                     </div>
                 </dd>
+                <dt><span jhiTranslate="iotmanagerApp.site.user">User</span></dt>
+                <dd>
+                    {{ site.userId }}
+                </dd>
             </dl>
 
             <button type="submit"

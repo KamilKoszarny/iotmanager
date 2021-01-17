@@ -10,6 +10,10 @@ import { ISite, Site } from 'app/shared/model/site.model';
 import { SiteService } from './site.service';
 import { IAddress } from 'app/shared/model/address.model';
 import { AddressService } from 'app/entities/address/address.service';
+import { IUser } from 'app/core/user/user.model';
+import { UserService } from 'app/core/user/user.service';
+
+type SelectableEntity = IAddress | IUser;
 
 @Component({
   selector: 'jhi-site-update',
@@ -18,16 +22,19 @@ import { AddressService } from 'app/entities/address/address.service';
 export class SiteUpdateComponent implements OnInit {
   isSaving = false;
   addresses: IAddress[] = [];
+  users: IUser[] = [];
 
   editForm = this.fb.group({
     id: [],
     name: [],
     addressId: [],
+    userId: [],
   });
 
   constructor(
     protected siteService: SiteService,
     protected addressService: AddressService,
+    protected userService: UserService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -57,6 +64,8 @@ export class SiteUpdateComponent implements OnInit {
               .subscribe((concatRes: IAddress[]) => (this.addresses = concatRes));
           }
         });
+
+      this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
     });
   }
 
@@ -65,6 +74,7 @@ export class SiteUpdateComponent implements OnInit {
       id: site.id,
       name: site.name,
       addressId: site.addressId,
+      userId: site.userId,
     });
   }
 
@@ -88,6 +98,7 @@ export class SiteUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       name: this.editForm.get(['name'])!.value,
       addressId: this.editForm.get(['addressId'])!.value,
+      userId: this.editForm.get(['userId'])!.value,
     };
   }
 
@@ -107,7 +118,7 @@ export class SiteUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  trackById(index: number, item: IAddress): any {
+  trackById(index: number, item: SelectableEntity): any {
     return item.id;
   }
 }
