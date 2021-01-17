@@ -2,6 +2,7 @@ package pl.kamilkoszarny.iotmanager.web.rest;
 
 import pl.kamilkoszarny.iotmanager.IotmanagerApp;
 import pl.kamilkoszarny.iotmanager.domain.DeviceModel;
+import pl.kamilkoszarny.iotmanager.domain.DeviceProducer;
 import pl.kamilkoszarny.iotmanager.repository.DeviceModelRepository;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -13,8 +14,11 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import pl.kamilkoszarny.iotmanager.web.rest.errors.EntityNotFoundException;
+
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -121,7 +125,7 @@ public class DeviceModelResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(deviceModel.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)));
     }
-    
+
     @Test
     @Transactional
     public void getDeviceModel() throws Exception {
@@ -152,7 +156,11 @@ public class DeviceModelResourceIT {
         int databaseSizeBeforeUpdate = deviceModelRepository.findAll().size();
 
         // Update the deviceModel
-        DeviceModel updatedDeviceModel = deviceModelRepository.findById(deviceModel.getId()).get();
+        final Optional<DeviceModel> optionalDeviceModel = deviceModelRepository.findById(deviceModel.getId());
+        if (!optionalDeviceModel.isPresent()) {
+            throw new EntityNotFoundException(DeviceModel.class.getName());
+        }
+        DeviceModel updatedDeviceModel = optionalDeviceModel.get();
         // Disconnect from session so that the updates on updatedDeviceModel are not directly saved in db
         em.detach(updatedDeviceModel);
         updatedDeviceModel

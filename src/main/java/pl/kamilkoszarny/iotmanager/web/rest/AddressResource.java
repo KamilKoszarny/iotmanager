@@ -92,8 +92,7 @@ public class AddressResource {
     public List<Address> getAllAddresses(@RequestParam(required = false) String filter) {
         if ("site-is-null".equals(filter)) {
             log.debug("REST request to get all Addresss where site is null");
-            return StreamSupport
-                .stream(addressRepository.findAll().spliterator(), false)
+            return addressRepository.findAll().stream()
                 .filter(address -> address.getSite() == null)
                 .collect(Collectors.toList());
         }

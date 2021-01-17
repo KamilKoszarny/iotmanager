@@ -13,8 +13,11 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import pl.kamilkoszarny.iotmanager.web.rest.errors.EntityNotFoundException;
+
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -121,7 +124,7 @@ public class SiteResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(site.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)));
     }
-    
+
     @Test
     @Transactional
     public void getSite() throws Exception {
@@ -152,7 +155,11 @@ public class SiteResourceIT {
         int databaseSizeBeforeUpdate = siteRepository.findAll().size();
 
         // Update the site
-        Site updatedSite = siteRepository.findById(site.getId()).get();
+        final Optional<Site> optionalSite = siteRepository.findById(site.getId());
+        if (!optionalSite.isPresent()) {
+            throw new EntityNotFoundException(Site.class.getName());
+        }
+        Site updatedSite = optionalSite.get();
         // Disconnect from session so that the updates on updatedSite are not directly saved in db
         em.detach(updatedSite);
         updatedSite

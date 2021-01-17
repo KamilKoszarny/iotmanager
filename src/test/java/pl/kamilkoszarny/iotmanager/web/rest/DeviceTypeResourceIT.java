@@ -1,6 +1,7 @@
 package pl.kamilkoszarny.iotmanager.web.rest;
 
 import pl.kamilkoszarny.iotmanager.IotmanagerApp;
+import pl.kamilkoszarny.iotmanager.domain.Address;
 import pl.kamilkoszarny.iotmanager.domain.DeviceType;
 import pl.kamilkoszarny.iotmanager.repository.DeviceTypeRepository;
 
@@ -15,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -22,6 +24,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import pl.kamilkoszarny.iotmanager.domain.enumeration.DeviceCategory;
+import pl.kamilkoszarny.iotmanager.web.rest.errors.EntityNotFoundException;
+
 /**
  * Integration tests for the {@link DeviceTypeResource} REST controller.
  */
@@ -129,7 +133,7 @@ public class DeviceTypeResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getDeviceType() throws Exception {
@@ -161,7 +165,11 @@ public class DeviceTypeResourceIT {
         int databaseSizeBeforeUpdate = deviceTypeRepository.findAll().size();
 
         // Update the deviceType
-        DeviceType updatedDeviceType = deviceTypeRepository.findById(deviceType.getId()).get();
+        final Optional<DeviceType> optionalDeviceType = deviceTypeRepository.findById(deviceType.getId());
+        if (!optionalDeviceType.isPresent()) {
+            throw new EntityNotFoundException(DeviceType.class.getName());
+        }
+        DeviceType updatedDeviceType = optionalDeviceType.get();
         // Disconnect from session so that the updates on updatedDeviceType are not directly saved in db
         em.detach(updatedDeviceType);
         updatedDeviceType

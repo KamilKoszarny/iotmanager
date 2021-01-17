@@ -2,6 +2,7 @@ package pl.kamilkoszarny.iotmanager.web.rest;
 
 import pl.kamilkoszarny.iotmanager.IotmanagerApp;
 import pl.kamilkoszarny.iotmanager.domain.Address;
+import pl.kamilkoszarny.iotmanager.domain.Site;
 import pl.kamilkoszarny.iotmanager.repository.AddressRepository;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -13,8 +14,11 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import pl.kamilkoszarny.iotmanager.web.rest.errors.EntityNotFoundException;
+
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -173,7 +177,7 @@ public class AddressResourceIT {
             .andExpect(jsonPath("$.[*].street").value(hasItem(DEFAULT_STREET)))
             .andExpect(jsonPath("$.[*].streetNo").value(hasItem(DEFAULT_STREET_NO)));
     }
-    
+
     @Test
     @Transactional
     public void getAddress() throws Exception {
@@ -206,7 +210,11 @@ public class AddressResourceIT {
         int databaseSizeBeforeUpdate = addressRepository.findAll().size();
 
         // Update the address
-        Address updatedAddress = addressRepository.findById(address.getId()).get();
+        final Optional<Address> optionalAddress = addressRepository.findById(address.getId());
+        if (!optionalAddress.isPresent()) {
+            throw new EntityNotFoundException(Address.class.getName());
+        }
+        Address updatedAddress = optionalAddress.get();
         // Disconnect from session so that the updates on updatedAddress are not directly saved in db
         em.detach(updatedAddress);
         updatedAddress
