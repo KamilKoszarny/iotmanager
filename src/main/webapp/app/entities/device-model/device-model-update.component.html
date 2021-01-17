@@ -19,17 +19,17 @@
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="iotmanagerApp.deviceModel.deviceProducer" for="field_deviceProducer">Device Producer</label>
-                    <select class="form-control" id="field_deviceProducer" name="deviceProducer" formControlName="deviceProducer">
+                    <select class="form-control" id="field_deviceProducer" name="deviceProducer" formControlName="deviceProducerId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="deviceProducerOption.id === editForm.get('deviceProducer')!.value?.id ? editForm.get('deviceProducer')!.value : deviceProducerOption" *ngFor="let deviceProducerOption of deviceproducers; trackBy: trackById">{{ deviceProducerOption.id }}</option>
+                        <option [ngValue]="deviceProducerOption.id" *ngFor="let deviceProducerOption of deviceproducers; trackBy: trackById">{{ deviceProducerOption.id }}</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="iotmanagerApp.deviceModel.deviceType" for="field_deviceType">Device Type</label>
-                    <select class="form-control" id="field_deviceType" name="deviceType" formControlName="deviceType">
+                    <select class="form-control" id="field_deviceType" name="deviceType" formControlName="deviceTypeId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="deviceTypeOption.id === editForm.get('deviceType')!.value?.id ? editForm.get('deviceType')!.value : deviceTypeOption" *ngFor="let deviceTypeOption of devicetypes; trackBy: trackById">{{ deviceTypeOption.id }}</option>
+                        <option [ngValue]="deviceTypeOption.id" *ngFor="let deviceTypeOption of devicetypes; trackBy: trackById">{{ deviceTypeOption.id }}</option>
                     </select>
                 </div>
             </div>

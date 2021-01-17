@@ -1,10 +1,5 @@
 package pl.kamilkoszarny.iotmanager.web.rest;
 
-import pl.kamilkoszarny.iotmanager.IotmanagerApp;
-import pl.kamilkoszarny.iotmanager.domain.Device;
-import pl.kamilkoszarny.iotmanager.domain.DeviceModel;
-import pl.kamilkoszarny.iotmanager.repository.DeviceRepository;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +9,12 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import pl.kamilkoszarny.iotmanager.IotmanagerApp;
+import pl.kamilkoszarny.iotmanager.domain.Device;
+import pl.kamilkoszarny.iotmanager.repository.DeviceRepository;
+import pl.kamilkoszarny.iotmanager.service.DeviceService;
+import pl.kamilkoszarny.iotmanager.service.dto.DeviceDTO;
+import pl.kamilkoszarny.iotmanager.service.mapper.DeviceMapper;
 import pl.kamilkoszarny.iotmanager.web.rest.errors.EntityNotFoundException;
 
 import javax.persistence.EntityManager;
@@ -38,6 +39,12 @@ public class DeviceResourceIT {
 
     @Autowired
     private DeviceRepository deviceRepository;
+
+    @Autowired
+    private DeviceMapper deviceMapper;
+
+    @Autowired
+    private DeviceService deviceService;
 
     @Autowired
     private EntityManager em;
@@ -80,9 +87,10 @@ public class DeviceResourceIT {
     public void createDevice() throws Exception {
         int databaseSizeBeforeCreate = deviceRepository.findAll().size();
         // Create the Device
+        DeviceDTO deviceDTO = deviceMapper.toDto(device);
         restDeviceMockMvc.perform(post("/api/devices")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(device)))
+            .content(TestUtil.convertObjectToJsonBytes(deviceDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Device in the database
@@ -99,11 +107,12 @@ public class DeviceResourceIT {
 
         // Create the Device with an existing ID
         device.setId(1L);
+        DeviceDTO deviceDTO = deviceMapper.toDto(device);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restDeviceMockMvc.perform(post("/api/devices")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(device)))
+            .content(TestUtil.convertObjectToJsonBytes(deviceDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Device in the database
@@ -165,10 +174,11 @@ public class DeviceResourceIT {
         em.detach(updatedDevice);
         updatedDevice
             .serialNo(UPDATED_SERIAL_NO);
+        DeviceDTO deviceDTO = deviceMapper.toDto(updatedDevice);
 
         restDeviceMockMvc.perform(put("/api/devices")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedDevice)))
+            .content(TestUtil.convertObjectToJsonBytes(deviceDTO)))
             .andExpect(status().isOk());
 
         // Validate the Device in the database
@@ -183,10 +193,13 @@ public class DeviceResourceIT {
     public void updateNonExistingDevice() throws Exception {
         int databaseSizeBeforeUpdate = deviceRepository.findAll().size();
 
+        // Create the Device
+        DeviceDTO deviceDTO = deviceMapper.toDto(device);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restDeviceMockMvc.perform(put("/api/devices")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(device)))
+            .content(TestUtil.convertObjectToJsonBytes(deviceDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Device in the database

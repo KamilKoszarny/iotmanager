@@ -5,7 +5,7 @@ import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { IDevice, Device } from 'app/shared/model/device.model';
+import { Device, IDevice } from 'app/shared/model/device.model';
 import { DeviceService } from './device.service';
 import { IDeviceModel } from 'app/shared/model/device-model.model';
 import { DeviceModelService } from 'app/entities/device-model/device-model.service';
@@ -26,8 +26,8 @@ export class DeviceUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     serialNo: [],
-    deviceModel: [],
-    site: [],
+    deviceModelId: [],
+    siteId: [],
   });
 
   constructor(
@@ -52,8 +52,8 @@ export class DeviceUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: device.id,
       serialNo: device.serialNo,
-      deviceModel: device.deviceModel,
-      site: device.site,
+      deviceModelId: device.deviceModelId,
+      siteId: device.siteId,
     });
   }
 
@@ -76,8 +76,8 @@ export class DeviceUpdateComponent implements OnInit {
       ...new Device(),
       id: this.editForm.get(['id'])!.value,
       serialNo: this.editForm.get(['serialNo'])!.value,
-      deviceModel: this.editForm.get(['deviceModel'])!.value,
-      site: this.editForm.get(['site'])!.value,
+      deviceModelId: this.editForm.get(['deviceModelId'])!.value,
+      siteId: this.editForm.get(['siteId'])!.value,
     };
   }
 

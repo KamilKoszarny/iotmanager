@@ -14,14 +14,14 @@
                 </dd>
                 <dt><span jhiTranslate="iotmanagerApp.device.deviceModel">Device Model</span></dt>
                 <dd>
-                    <div *ngIf="device.deviceModel">
-                        <a [routerLink]="['/device-model', device.deviceModel?.id, 'view']">{{ device.deviceModel?.id }}</a>
+                    <div *ngIf="device.deviceModelId">
+                        <a [routerLink]="['/device-model', device.deviceModelId, 'view']">{{ device.deviceModelId }}</a>
                     </div>
                 </dd>
                 <dt><span jhiTranslate="iotmanagerApp.device.site">Site</span></dt>
                 <dd>
-                    <div *ngIf="device.site">
-                        <a [routerLink]="['/site', device.site?.id, 'view']">{{ device.site?.id }}</a>
+                    <div *ngIf="device.siteId">
+                        <a [routerLink]="['/site', device.siteId, 'view']">{{ device.siteId }}</a>
                     </div>
                 </dd>
             </dl>

@@ -18,8 +18,7 @@
       },
       "city": "City",
       "street": "Street",
-      "streetNo": "Street No",
-      "site": "Site"
+      "streetNo": "Street No"
     }
   }
 }

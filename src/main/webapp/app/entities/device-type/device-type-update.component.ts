@@ -5,7 +5,7 @@ import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { IDeviceType, DeviceType } from 'app/shared/model/device-type.model';
+import { DeviceType, IDeviceType } from 'app/shared/model/device-type.model';
 import { DeviceTypeService } from './device-type.service';
 
 @Component({

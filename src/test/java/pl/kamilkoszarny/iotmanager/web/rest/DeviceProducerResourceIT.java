@@ -1,10 +1,5 @@
 package pl.kamilkoszarny.iotmanager.web.rest;
 
-import pl.kamilkoszarny.iotmanager.IotmanagerApp;
-import pl.kamilkoszarny.iotmanager.domain.Address;
-import pl.kamilkoszarny.iotmanager.domain.DeviceProducer;
-import pl.kamilkoszarny.iotmanager.repository.DeviceProducerRepository;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +9,12 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import pl.kamilkoszarny.iotmanager.IotmanagerApp;
+import pl.kamilkoszarny.iotmanager.domain.DeviceProducer;
+import pl.kamilkoszarny.iotmanager.repository.DeviceProducerRepository;
+import pl.kamilkoszarny.iotmanager.service.DeviceProducerService;
+import pl.kamilkoszarny.iotmanager.service.dto.DeviceProducerDTO;
+import pl.kamilkoszarny.iotmanager.service.mapper.DeviceProducerMapper;
 import pl.kamilkoszarny.iotmanager.web.rest.errors.EntityNotFoundException;
 
 import javax.persistence.EntityManager;
@@ -38,6 +39,12 @@ public class DeviceProducerResourceIT {
 
     @Autowired
     private DeviceProducerRepository deviceProducerRepository;
+
+    @Autowired
+    private DeviceProducerMapper deviceProducerMapper;
+
+    @Autowired
+    private DeviceProducerService deviceProducerService;
 
     @Autowired
     private EntityManager em;
@@ -80,9 +87,10 @@ public class DeviceProducerResourceIT {
     public void createDeviceProducer() throws Exception {
         int databaseSizeBeforeCreate = deviceProducerRepository.findAll().size();
         // Create the DeviceProducer
+        DeviceProducerDTO deviceProducerDTO = deviceProducerMapper.toDto(deviceProducer);
         restDeviceProducerMockMvc.perform(post("/api/device-producers")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(deviceProducer)))
+            .content(TestUtil.convertObjectToJsonBytes(deviceProducerDTO)))
             .andExpect(status().isCreated());
 
         // Validate the DeviceProducer in the database
@@ -99,11 +107,12 @@ public class DeviceProducerResourceIT {
 
         // Create the DeviceProducer with an existing ID
         deviceProducer.setId(1L);
+        DeviceProducerDTO deviceProducerDTO = deviceProducerMapper.toDto(deviceProducer);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restDeviceProducerMockMvc.perform(post("/api/device-producers")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(deviceProducer)))
+            .content(TestUtil.convertObjectToJsonBytes(deviceProducerDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the DeviceProducer in the database
@@ -165,10 +174,11 @@ public class DeviceProducerResourceIT {
         em.detach(updatedDeviceProducer);
         updatedDeviceProducer
             .name(UPDATED_NAME);
+        DeviceProducerDTO deviceProducerDTO = deviceProducerMapper.toDto(updatedDeviceProducer);
 
         restDeviceProducerMockMvc.perform(put("/api/device-producers")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedDeviceProducer)))
+            .content(TestUtil.convertObjectToJsonBytes(deviceProducerDTO)))
             .andExpect(status().isOk());
 
         // Validate the DeviceProducer in the database
@@ -183,10 +193,13 @@ public class DeviceProducerResourceIT {
     public void updateNonExistingDeviceProducer() throws Exception {
         int databaseSizeBeforeUpdate = deviceProducerRepository.findAll().size();
 
+        // Create the DeviceProducer
+        DeviceProducerDTO deviceProducerDTO = deviceProducerMapper.toDto(deviceProducer);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restDeviceProducerMockMvc.perform(put("/api/device-producers")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(deviceProducer)))
+            .content(TestUtil.convertObjectToJsonBytes(deviceProducerDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the DeviceProducer in the database

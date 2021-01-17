@@ -5,7 +5,7 @@ entity Device {
 
 enum DeviceCategory {
 	RTV,
-    AGD, 
+    AGD,
     HVAC,
     OTHERS
 }
@@ -50,9 +50,12 @@ relationship OneToMany {
 }
 
 relationship OneToOne {
-	Site to Address
+	Site{address} to Address
 }
 
+service * with serviceImpl
+dto * with mapstruct
+paginate * with pagination
 
 
 

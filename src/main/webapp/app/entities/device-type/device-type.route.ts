@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
-import { Observable, of, EMPTY } from 'rxjs';
+import { ActivatedRouteSnapshot, Resolve, Router, Routes } from '@angular/router';
+import { EMPTY, Observable, of } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 
 import { Authority } from 'app/shared/constants/authority.constants';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
-import { IDeviceType, DeviceType } from 'app/shared/model/device-type.model';
+import { DeviceType, IDeviceType } from 'app/shared/model/device-type.model';
 import { DeviceTypeService } from './device-type.service';
 import { DeviceTypeComponent } from './device-type.component';
 import { DeviceTypeDetailComponent } from './device-type-detail.component';
@@ -40,6 +40,7 @@ export const deviceTypeRoute: Routes = [
     component: DeviceTypeComponent,
     data: {
       authorities: [Authority.USER],
+      defaultSort: 'id,asc',
       pageTitle: 'iotmanagerApp.deviceType.home.title',
     },
     canActivate: [UserRouteAccessService],

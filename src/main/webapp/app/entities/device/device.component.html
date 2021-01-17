@@ -21,11 +21,11 @@
     <div class="table-responsive" id="entities" *ngIf="devices && devices.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-                <tr>
-                    <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
-                    <th scope="col" ><span jhiTranslate="iotmanagerApp.device.serialNo">Serial No</span></th>
-                    <th scope="col" ><span jhiTranslate="iotmanagerApp.device.deviceModel">Device Model</span></th>
-                    <th scope="col" ><span jhiTranslate="iotmanagerApp.device.site">Site</span></th>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="serialNo"><span jhiTranslate="iotmanagerApp.device.serialNo">Serial No</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="deviceModelId"><span jhiTranslate="iotmanagerApp.device.deviceModel">Device Model</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="siteId"><span jhiTranslate="iotmanagerApp.device.site">Site</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -34,13 +34,13 @@
                     <td><a [routerLink]="['/device', device.id, 'view']">{{ device.id }}</a></td>
                     <td>{{ device.serialNo }}</td>
                     <td>
-                        <div *ngIf="device.deviceModel">
-                            <a [routerLink]="['/device-model', device.deviceModel?.id, 'view']" >{{ device.deviceModel?.id }}</a>
+                        <div *ngIf="device.deviceModelId">
+                            <a [routerLink]="['/device-model', device.deviceModelId , 'view']" >{{ device.deviceModelId }}</a>
                         </div>
                     </td>
                     <td>
-                        <div *ngIf="device.site">
-                            <a [routerLink]="['/site', device.site?.id, 'view']" >{{ device.site?.id }}</a>
+                        <div *ngIf="device.siteId">
+                            <a [routerLink]="['/site', device.siteId , 'view']" >{{ device.siteId }}</a>
                         </div>
                     </td>
                     <td class="text-right">
@@ -69,5 +69,15 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <div *ngIf="devices && devices.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
     </div>
 </div>

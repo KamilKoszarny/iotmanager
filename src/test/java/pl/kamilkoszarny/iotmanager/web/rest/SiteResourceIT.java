@@ -1,9 +1,5 @@
 package pl.kamilkoszarny.iotmanager.web.rest;
 
-import pl.kamilkoszarny.iotmanager.IotmanagerApp;
-import pl.kamilkoszarny.iotmanager.domain.Site;
-import pl.kamilkoszarny.iotmanager.repository.SiteRepository;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +9,12 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import pl.kamilkoszarny.iotmanager.IotmanagerApp;
+import pl.kamilkoszarny.iotmanager.domain.Site;
+import pl.kamilkoszarny.iotmanager.repository.SiteRepository;
+import pl.kamilkoszarny.iotmanager.service.SiteService;
+import pl.kamilkoszarny.iotmanager.service.dto.SiteDTO;
+import pl.kamilkoszarny.iotmanager.service.mapper.SiteMapper;
 import pl.kamilkoszarny.iotmanager.web.rest.errors.EntityNotFoundException;
 
 import javax.persistence.EntityManager;
@@ -37,6 +39,12 @@ public class SiteResourceIT {
 
     @Autowired
     private SiteRepository siteRepository;
+
+    @Autowired
+    private SiteMapper siteMapper;
+
+    @Autowired
+    private SiteService siteService;
 
     @Autowired
     private EntityManager em;
@@ -79,9 +87,10 @@ public class SiteResourceIT {
     public void createSite() throws Exception {
         int databaseSizeBeforeCreate = siteRepository.findAll().size();
         // Create the Site
+        SiteDTO siteDTO = siteMapper.toDto(site);
         restSiteMockMvc.perform(post("/api/sites")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(site)))
+            .content(TestUtil.convertObjectToJsonBytes(siteDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Site in the database
@@ -98,11 +107,12 @@ public class SiteResourceIT {
 
         // Create the Site with an existing ID
         site.setId(1L);
+        SiteDTO siteDTO = siteMapper.toDto(site);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restSiteMockMvc.perform(post("/api/sites")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(site)))
+            .content(TestUtil.convertObjectToJsonBytes(siteDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Site in the database
@@ -164,10 +174,11 @@ public class SiteResourceIT {
         em.detach(updatedSite);
         updatedSite
             .name(UPDATED_NAME);
+        SiteDTO siteDTO = siteMapper.toDto(updatedSite);
 
         restSiteMockMvc.perform(put("/api/sites")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedSite)))
+            .content(TestUtil.convertObjectToJsonBytes(siteDTO)))
             .andExpect(status().isOk());
 
         // Validate the Site in the database
@@ -182,10 +193,13 @@ public class SiteResourceIT {
     public void updateNonExistingSite() throws Exception {
         int databaseSizeBeforeUpdate = siteRepository.findAll().size();
 
+        // Create the Site
+        SiteDTO siteDTO = siteMapper.toDto(site);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restSiteMockMvc.perform(put("/api/sites")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(site)))
+            .content(TestUtil.convertObjectToJsonBytes(siteDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Site in the database

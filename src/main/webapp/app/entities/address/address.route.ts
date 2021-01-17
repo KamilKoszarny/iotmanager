@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
-import { Observable, of, EMPTY } from 'rxjs';
+import { ActivatedRouteSnapshot, Resolve, Router, Routes } from '@angular/router';
+import { EMPTY, Observable, of } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 
 import { Authority } from 'app/shared/constants/authority.constants';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
-import { IAddress, Address } from 'app/shared/model/address.model';
+import { Address, IAddress } from 'app/shared/model/address.model';
 import { AddressService } from './address.service';
 import { AddressComponent } from './address.component';
 import { AddressDetailComponent } from './address-detail.component';
@@ -40,6 +40,7 @@ export const addressRoute: Routes = [
     component: AddressComponent,
     data: {
       authorities: [Authority.USER],
+      defaultSort: 'id,asc',
       pageTitle: 'iotmanagerApp.address.home.title',
     },
     canActivate: [UserRouteAccessService],

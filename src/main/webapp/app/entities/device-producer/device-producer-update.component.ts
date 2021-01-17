@@ -5,7 +5,7 @@ import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { IDeviceProducer, DeviceProducer } from 'app/shared/model/device-producer.model';
+import { DeviceProducer, IDeviceProducer } from 'app/shared/model/device-producer.model';
 import { DeviceProducerService } from './device-producer.service';
 
 @Component({

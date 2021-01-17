@@ -1,12 +1,10 @@
 package pl.kamilkoszarny.iotmanager.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -34,10 +32,6 @@ public class Address implements Serializable {
     @NotNull
     @Column(name = "street_no", nullable = false)
     private String streetNo;
-
-    @OneToOne(mappedBy = "address")
-    @JsonIgnore
-    private Site site;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -85,19 +79,6 @@ public class Address implements Serializable {
 
     public void setStreetNo(String streetNo) {
         this.streetNo = streetNo;
-    }
-
-    public Site getSite() {
-        return site;
-    }
-
-    public Address site(Site site) {
-        this.site = site;
-        return this;
-    }
-
-    public void setSite(Site site) {
-        this.site = site;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

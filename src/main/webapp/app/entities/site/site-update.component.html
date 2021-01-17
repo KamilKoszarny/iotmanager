@@ -19,9 +19,9 @@
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="iotmanagerApp.site.address" for="field_address">Address</label>
-                    <select class="form-control" id="field_address" name="address" formControlName="address">
+                    <select class="form-control" id="field_address" name="address" formControlName="addressId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="addressOption.id === editForm.get('address')!.value?.id ? editForm.get('address')!.value : addressOption" *ngFor="let addressOption of addresses; trackBy: trackById">{{ addressOption.id }}</option>
+                        <option [ngValue]="addressOption.id" *ngFor="let addressOption of addresses; trackBy: trackById">{{ addressOption.id }}</option>
                     </select>
                 </div>
             </div>

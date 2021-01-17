@@ -14,8 +14,8 @@
                 </dd>
                 <dt><span jhiTranslate="iotmanagerApp.site.address">Address</span></dt>
                 <dd>
-                    <div *ngIf="site.address">
-                        <a [routerLink]="['/address', site.address?.id, 'view']">{{ site.address?.id }}</a>
+                    <div *ngIf="site.addressId">
+                        <a [routerLink]="['/address', site.addressId, 'view']">{{ site.addressId }}</a>
                     </div>
                 </dd>
             </dl>

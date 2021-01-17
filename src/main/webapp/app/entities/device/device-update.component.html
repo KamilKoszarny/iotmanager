@@ -19,17 +19,17 @@
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="iotmanagerApp.device.deviceModel" for="field_deviceModel">Device Model</label>
-                    <select class="form-control" id="field_deviceModel" name="deviceModel" formControlName="deviceModel">
+                    <select class="form-control" id="field_deviceModel" name="deviceModel" formControlName="deviceModelId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="deviceModelOption.id === editForm.get('deviceModel')!.value?.id ? editForm.get('deviceModel')!.value : deviceModelOption" *ngFor="let deviceModelOption of devicemodels; trackBy: trackById">{{ deviceModelOption.id }}</option>
+                        <option [ngValue]="deviceModelOption.id" *ngFor="let deviceModelOption of devicemodels; trackBy: trackById">{{ deviceModelOption.id }}</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="iotmanagerApp.device.site" for="field_site">Site</label>
-                    <select class="form-control" id="field_site" name="site" formControlName="site">
+                    <select class="form-control" id="field_site" name="site" formControlName="siteId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="siteOption.id === editForm.get('site')!.value?.id ? editForm.get('site')!.value : siteOption" *ngFor="let siteOption of sites; trackBy: trackById">{{ siteOption.id }}</option>
+                        <option [ngValue]="siteOption.id" *ngFor="let siteOption of sites; trackBy: trackById">{{ siteOption.id }}</option>
                     </select>
                 </div>
             </div>

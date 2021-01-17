@@ -4,9 +4,7 @@
     {
       "fieldName": "city",
       "fieldType": "String",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "street",
@@ -15,25 +13,15 @@
     {
       "fieldName": "streetNo",
       "fieldType": "String",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldValidateRules": ["required"]
     }
   ],
-  "relationships": [
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "site",
-      "otherEntityRelationshipName": "address",
-      "relationshipName": "site",
-      "ownerSide": false
-    }
-  ],
+  "relationships": [],
   "changelogDate": "20210116174819",
   "entityTableName": "address",
-  "dto": "no",
-  "pagination": "no",
-  "service": "no",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
   "jpaMetamodelFiltering": false,
   "fluentMethods": true,
   "readOnly": false,

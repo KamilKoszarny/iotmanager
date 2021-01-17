@@ -22,7 +22,7 @@ export class SiteUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     name: [],
-    address: [],
+    addressId: [],
   });
 
   constructor(
@@ -44,11 +44,11 @@ export class SiteUpdateComponent implements OnInit {
           })
         )
         .subscribe((resBody: IAddress[]) => {
-          if (!site.address || !site.address.id) {
+          if (!site.addressId) {
             this.addresses = resBody;
           } else {
             this.addressService
-              .find(site.address.id)
+              .find(site.addressId)
               .pipe(
                 map((subRes: HttpResponse<IAddress>) => {
                   return subRes.body ? [subRes.body].concat(resBody) : resBody;
@@ -64,7 +64,7 @@ export class SiteUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: site.id,
       name: site.name,
-      address: site.address,
+      addressId: site.addressId,
     });
   }
 
@@ -87,7 +87,7 @@ export class SiteUpdateComponent implements OnInit {
       ...new Site(),
       id: this.editForm.get(['id'])!.value,
       name: this.editForm.get(['name'])!.value,
-      address: this.editForm.get(['address'])!.value,
+      addressId: this.editForm.get(['addressId'])!.value,
     };
   }
 

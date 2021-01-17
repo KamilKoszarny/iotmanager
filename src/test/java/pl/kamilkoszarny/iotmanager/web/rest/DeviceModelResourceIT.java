@@ -1,10 +1,5 @@
 package pl.kamilkoszarny.iotmanager.web.rest;
 
-import pl.kamilkoszarny.iotmanager.IotmanagerApp;
-import pl.kamilkoszarny.iotmanager.domain.DeviceModel;
-import pl.kamilkoszarny.iotmanager.domain.DeviceProducer;
-import pl.kamilkoszarny.iotmanager.repository.DeviceModelRepository;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +9,12 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import pl.kamilkoszarny.iotmanager.IotmanagerApp;
+import pl.kamilkoszarny.iotmanager.domain.DeviceModel;
+import pl.kamilkoszarny.iotmanager.repository.DeviceModelRepository;
+import pl.kamilkoszarny.iotmanager.service.DeviceModelService;
+import pl.kamilkoszarny.iotmanager.service.dto.DeviceModelDTO;
+import pl.kamilkoszarny.iotmanager.service.mapper.DeviceModelMapper;
 import pl.kamilkoszarny.iotmanager.web.rest.errors.EntityNotFoundException;
 
 import javax.persistence.EntityManager;
@@ -38,6 +39,12 @@ public class DeviceModelResourceIT {
 
     @Autowired
     private DeviceModelRepository deviceModelRepository;
+
+    @Autowired
+    private DeviceModelMapper deviceModelMapper;
+
+    @Autowired
+    private DeviceModelService deviceModelService;
 
     @Autowired
     private EntityManager em;
@@ -80,9 +87,10 @@ public class DeviceModelResourceIT {
     public void createDeviceModel() throws Exception {
         int databaseSizeBeforeCreate = deviceModelRepository.findAll().size();
         // Create the DeviceModel
+        DeviceModelDTO deviceModelDTO = deviceModelMapper.toDto(deviceModel);
         restDeviceModelMockMvc.perform(post("/api/device-models")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(deviceModel)))
+            .content(TestUtil.convertObjectToJsonBytes(deviceModelDTO)))
             .andExpect(status().isCreated());
 
         // Validate the DeviceModel in the database
@@ -99,11 +107,12 @@ public class DeviceModelResourceIT {
 
         // Create the DeviceModel with an existing ID
         deviceModel.setId(1L);
+        DeviceModelDTO deviceModelDTO = deviceModelMapper.toDto(deviceModel);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restDeviceModelMockMvc.perform(post("/api/device-models")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(deviceModel)))
+            .content(TestUtil.convertObjectToJsonBytes(deviceModelDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the DeviceModel in the database
@@ -165,10 +174,11 @@ public class DeviceModelResourceIT {
         em.detach(updatedDeviceModel);
         updatedDeviceModel
             .name(UPDATED_NAME);
+        DeviceModelDTO deviceModelDTO = deviceModelMapper.toDto(updatedDeviceModel);
 
         restDeviceModelMockMvc.perform(put("/api/device-models")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedDeviceModel)))
+            .content(TestUtil.convertObjectToJsonBytes(deviceModelDTO)))
             .andExpect(status().isOk());
 
         // Validate the DeviceModel in the database
@@ -183,10 +193,13 @@ public class DeviceModelResourceIT {
     public void updateNonExistingDeviceModel() throws Exception {
         int databaseSizeBeforeUpdate = deviceModelRepository.findAll().size();
 
+        // Create the DeviceModel
+        DeviceModelDTO deviceModelDTO = deviceModelMapper.toDto(deviceModel);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restDeviceModelMockMvc.perform(put("/api/device-models")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(deviceModel)))
+            .content(TestUtil.convertObjectToJsonBytes(deviceModelDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the DeviceModel in the database
