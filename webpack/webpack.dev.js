@@ -49,7 +49,7 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
     },
     module: {
         rules: [{
-            test: /\.(j|t)s$/,
+            test: /\.([jt])s$/,
             enforce: 'pre',
             loader: 'eslint-loader',
             exclude: /node_modules/
@@ -104,7 +104,7 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
             reload: false
         }),
         new webpack.ContextReplacementPlugin(
-            /angular(\\|\/)core(\\|\/)/,
+            /angular([\\/])core([\\/])/,
             path.resolve(__dirname, './src/main/webapp/')
         ),
         new writeFilePlugin(),
@@ -113,7 +113,7 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
         ]),
         new WebpackNotifierPlugin({
             title: 'JHipster',
-            contentImage: path.join(__dirname, 'logo-jhipster.png')
+            contentImage: path.join(__dirname, 'logo-network.png')
         })
     ].filter(Boolean),
     mode: 'development'
