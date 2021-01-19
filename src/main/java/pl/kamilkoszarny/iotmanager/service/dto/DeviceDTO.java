@@ -1,27 +1,40 @@
 package pl.kamilkoszarny.iotmanager.service.dto;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
  * A DTO for the {@link pl.kamilkoszarny.iotmanager.domain.Device} entity.
  */
 public class DeviceDTO implements Serializable {
-    
+
     private Long id;
 
+    @NotNull
+    private String name;
+
+    @NotNull
     private String serialNo;
 
 
     private Long deviceModelId;
 
     private Long siteId;
-    
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSerialNo() {
@@ -70,6 +83,7 @@ public class DeviceDTO implements Serializable {
     public String toString() {
         return "DeviceDTO{" +
             "id=" + getId() +
+            ", name='" + getName() + "'" +
             ", serialNo='" + getSerialNo() + "'" +
             ", deviceModelId=" + getDeviceModelId() +
             ", siteId=" + getSiteId() +

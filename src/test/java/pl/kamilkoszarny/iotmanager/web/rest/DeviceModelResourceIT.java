@@ -123,6 +123,26 @@ public class DeviceModelResourceIT {
 
     @Test
     @Transactional
+    public void checkNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = deviceModelRepository.findAll().size();
+        // set the field null
+        deviceModel.setName(null);
+
+        // Create the DeviceModel, which fails.
+        DeviceModelDTO deviceModelDTO = deviceModelMapper.toDto(deviceModel);
+
+
+        restDeviceModelMockMvc.perform(post("/api/device-models")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(deviceModelDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<DeviceModel> deviceModelList = deviceModelRepository.findAll();
+        assertThat(deviceModelList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllDeviceModels() throws Exception {
         // Initialize the database
         deviceModelRepository.saveAndFlush(deviceModel);

@@ -3,12 +3,14 @@
   "fields": [
     {
       "fieldName": "name",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "category",
       "fieldType": "DeviceCategory",
-      "fieldValues": "RTV,AGD,HVAC,OTHERS"
+      "fieldValues": "RTV,AGD,HVAC,OTHERS",
+      "fieldValidateRules": ["required"]
     }
   ],
   "relationships": [

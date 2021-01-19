@@ -1,7 +1,7 @@
-import { TestBed, getTestBed } from '@angular/core/testing';
+import { getTestBed, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { DeviceService } from 'app/entities/device/device.service';
-import { IDevice, Device } from 'app/shared/model/device.model';
+import { Device, IDevice } from 'app/shared/model/device.model';
 
 describe('Service Tests', () => {
   describe('Device Service', () => {
@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(DeviceService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Device(0, 'AAAAAAA');
+      elemDefault = new Device(0, 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -54,6 +54,7 @@ describe('Service Tests', () => {
       it('should update a Device', () => {
         const returnedFromService = Object.assign(
           {
+            name: 'BBBBBB',
             serialNo: 'BBBBBB',
           },
           elemDefault
@@ -71,6 +72,7 @@ describe('Service Tests', () => {
       it('should return a list of Device', () => {
         const returnedFromService = Object.assign(
           {
+            name: 'BBBBBB',
             serialNo: 'BBBBBB',
           },
           elemDefault

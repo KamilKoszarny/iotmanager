@@ -1,17 +1,19 @@
 package pl.kamilkoszarny.iotmanager.service.dto;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
  * A DTO for the {@link pl.kamilkoszarny.iotmanager.domain.DeviceProducer} entity.
  */
 public class DeviceProducerDTO implements Serializable {
-    
+
     private Long id;
 
+    @NotNull
     private String name;
 
-    
+
     public Long getId() {
         return id;
     }

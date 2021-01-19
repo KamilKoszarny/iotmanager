@@ -34,6 +34,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser
 public class DeviceResourceIT {
 
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
+
     private static final String DEFAULT_SERIAL_NO = "AAAAAAAAAA";
     private static final String UPDATED_SERIAL_NO = "BBBBBBBBBB";
 
@@ -62,6 +65,7 @@ public class DeviceResourceIT {
      */
     public static Device createEntity(EntityManager em) {
         Device device = new Device()
+            .name(DEFAULT_NAME)
             .serialNo(DEFAULT_SERIAL_NO);
         return device;
     }
@@ -73,6 +77,7 @@ public class DeviceResourceIT {
      */
     public static Device createUpdatedEntity(EntityManager em) {
         Device device = new Device()
+            .name(UPDATED_NAME)
             .serialNo(UPDATED_SERIAL_NO);
         return device;
     }
@@ -97,6 +102,7 @@ public class DeviceResourceIT {
         List<Device> deviceList = deviceRepository.findAll();
         assertThat(deviceList).hasSize(databaseSizeBeforeCreate + 1);
         Device testDevice = deviceList.get(deviceList.size() - 1);
+        assertThat(testDevice.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testDevice.getSerialNo()).isEqualTo(DEFAULT_SERIAL_NO);
     }
 
@@ -123,6 +129,46 @@ public class DeviceResourceIT {
 
     @Test
     @Transactional
+    public void checkNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = deviceRepository.findAll().size();
+        // set the field null
+        device.setName(null);
+
+        // Create the Device, which fails.
+        DeviceDTO deviceDTO = deviceMapper.toDto(device);
+
+
+        restDeviceMockMvc.perform(post("/api/devices")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(deviceDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Device> deviceList = deviceRepository.findAll();
+        assertThat(deviceList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkSerialNoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = deviceRepository.findAll().size();
+        // set the field null
+        device.setSerialNo(null);
+
+        // Create the Device, which fails.
+        DeviceDTO deviceDTO = deviceMapper.toDto(device);
+
+
+        restDeviceMockMvc.perform(post("/api/devices")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(deviceDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Device> deviceList = deviceRepository.findAll();
+        assertThat(deviceList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllDevices() throws Exception {
         // Initialize the database
         deviceRepository.saveAndFlush(device);
@@ -132,6 +178,7 @@ public class DeviceResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(device.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].serialNo").value(hasItem(DEFAULT_SERIAL_NO)));
     }
 
@@ -146,6 +193,7 @@ public class DeviceResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(device.getId().intValue()))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.serialNo").value(DEFAULT_SERIAL_NO));
     }
     @Test
@@ -173,6 +221,7 @@ public class DeviceResourceIT {
         // Disconnect from session so that the updates on updatedDevice are not directly saved in db
         em.detach(updatedDevice);
         updatedDevice
+            .name(UPDATED_NAME)
             .serialNo(UPDATED_SERIAL_NO);
         DeviceDTO deviceDTO = deviceMapper.toDto(updatedDevice);
 
@@ -185,6 +234,7 @@ public class DeviceResourceIT {
         List<Device> deviceList = deviceRepository.findAll();
         assertThat(deviceList).hasSize(databaseSizeBeforeUpdate);
         Device testDevice = deviceList.get(deviceList.size() - 1);
+        assertThat(testDevice.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testDevice.getSerialNo()).isEqualTo(UPDATED_SERIAL_NO);
     }
 

@@ -123,6 +123,26 @@ public class DeviceProducerResourceIT {
 
     @Test
     @Transactional
+    public void checkNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = deviceProducerRepository.findAll().size();
+        // set the field null
+        deviceProducer.setName(null);
+
+        // Create the DeviceProducer, which fails.
+        DeviceProducerDTO deviceProducerDTO = deviceProducerMapper.toDto(deviceProducer);
+
+
+        restDeviceProducerMockMvc.perform(post("/api/device-producers")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(deviceProducerDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<DeviceProducer> deviceProducerList = deviceProducerRepository.findAll();
+        assertThat(deviceProducerList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllDeviceProducers() throws Exception {
         // Initialize the database
         deviceProducerRepository.saveAndFlush(deviceProducer);

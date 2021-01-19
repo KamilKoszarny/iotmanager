@@ -16,6 +16,7 @@
       "detail": {
         "title": "Device"
       },
+      "name": "Name",
       "serialNo": "Serial No",
       "deviceModel": "Device Model",
       "site": "Site"

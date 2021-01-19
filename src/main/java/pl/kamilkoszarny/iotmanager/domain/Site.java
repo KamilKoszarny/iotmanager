@@ -5,6 +5,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,12 +25,20 @@ public class Site implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @Column(name = "name")
+    @NotNull
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Address address;
+    @NotNull
+    @Column(name = "city", nullable = false)
+    private String city;
+
+    @Column(name = "street")
+    private String street;
+
+    @NotNull
+    @Column(name = "street_no", nullable = false)
+    private String streetNo;
 
     @OneToMany(mappedBy = "site")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -61,17 +70,43 @@ public class Site implements Serializable {
         this.name = name;
     }
 
-    public Address getAddress() {
-        return address;
+    public String getCity() {
+        return city;
     }
 
-    public Site address(Address address) {
-        this.address = address;
+    public Site city(String city) {
+        this.city = city;
         return this;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public Site street(String street) {
+        this.street = street;
+        return this;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getStreetNo() {
+        return streetNo;
+    }
+
+    public Site streetNo(String streetNo) {
+        this.streetNo = streetNo;
+        return this;
+    }
+
+    public void setStreetNo(String streetNo) {
+        this.streetNo = streetNo;
     }
 
     public Set<Device> getDevices() {
@@ -135,6 +170,9 @@ public class Site implements Serializable {
         return "Site{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
+            ", city='" + getCity() + "'" +
+            ", street='" + getStreet() + "'" +
+            ", streetNo='" + getStreetNo() + "'" +
             "}";
     }
 }

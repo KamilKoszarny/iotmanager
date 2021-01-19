@@ -1,21 +1,29 @@
 package pl.kamilkoszarny.iotmanager.service.dto;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
  * A DTO for the {@link pl.kamilkoszarny.iotmanager.domain.Site} entity.
  */
 public class SiteDTO implements Serializable {
-    
+
     private Long id;
 
+    @NotNull
     private String name;
 
+    @NotNull
+    private String city;
 
-    private Long addressId;
+    private String street;
+
+    @NotNull
+    private String streetNo;
+
 
     private Long userId;
-    
+
     public Long getId() {
         return id;
     }
@@ -32,12 +40,28 @@ public class SiteDTO implements Serializable {
         this.name = name;
     }
 
-    public Long getAddressId() {
-        return addressId;
+    public String getCity() {
+        return city;
     }
 
-    public void setAddressId(Long addressId) {
-        this.addressId = addressId;
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getStreetNo() {
+        return streetNo;
+    }
+
+    public void setStreetNo(String streetNo) {
+        this.streetNo = streetNo;
     }
 
     public Long getUserId() {
@@ -71,7 +95,9 @@ public class SiteDTO implements Serializable {
         return "SiteDTO{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
-            ", addressId=" + getAddressId() +
+            ", city='" + getCity() + "'" +
+            ", street='" + getStreet() + "'" +
+            ", streetNo='" + getStreetNo() + "'" +
             ", userId=" + getUserId() +
             "}";
     }

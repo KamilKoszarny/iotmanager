@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -17,7 +17,7 @@ export class DeviceProducerUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    name: [],
+    name: [null, [Validators.required]],
   });
 
   constructor(protected deviceProducerService: DeviceProducerService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}

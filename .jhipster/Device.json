@@ -2,8 +2,14 @@
   "name": "Device",
   "fields": [
     {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
       "fieldName": "serialNo",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
     }
   ],
   "relationships": [

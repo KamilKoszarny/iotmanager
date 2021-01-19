@@ -24,7 +24,9 @@
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
                     <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="name"><span jhiTranslate="iotmanagerApp.site.name">Name</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="addressId"><span jhiTranslate="iotmanagerApp.site.address">Address</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="city"><span jhiTranslate="iotmanagerApp.site.city">City</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="street"><span jhiTranslate="iotmanagerApp.site.street">Street</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="streetNo"><span jhiTranslate="iotmanagerApp.site.streetNo">Street No</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="userId"><span jhiTranslate="iotmanagerApp.site.user">User</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
@@ -33,11 +35,9 @@
                 <tr *ngFor="let site of sites ;trackBy: trackId">
                     <td><a [routerLink]="['/site', site.id, 'view']">{{ site.id }}</a></td>
                     <td>{{ site.name }}</td>
-                    <td>
-                        <div *ngIf="site.addressId">
-                            <a [routerLink]="['/address', site.addressId , 'view']" >{{ site.addressId }}</a>
-                        </div>
-                    </td>
+                    <td>{{ site.city }}</td>
+                    <td>{{ site.street }}</td>
+                    <td>{{ site.streetNo }}</td>
                     <td>
                         {{ site.userId }}
                     </td>

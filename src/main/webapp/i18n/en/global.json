@@ -12,7 +12,6 @@
         "deviceModel": "Device Model",
         "deviceProducer": "Device Producer",
         "site": "Site",
-        "address": "Address",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

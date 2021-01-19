@@ -3,18 +3,25 @@
   "fields": [
     {
       "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "city",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "street",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "streetNo",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
     }
   ],
   "relationships": [
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "address",
-      "otherEntityRelationshipName": "site",
-      "relationshipName": "address",
-      "otherEntityField": "id",
-      "ownerSide": true
-    },
     {
       "relationshipType": "one-to-many",
       "otherEntityName": "device",

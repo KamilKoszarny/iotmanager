@@ -24,7 +24,6 @@
     <include file="config/liquibase/changelog/20210116174319_added_entity_constraints_Device.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210116174519_added_entity_constraints_DeviceModel.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210116174719_added_entity_constraints_Site.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20210117_diff_User_in_Site.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

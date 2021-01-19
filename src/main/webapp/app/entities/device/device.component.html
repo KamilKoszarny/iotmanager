@@ -23,6 +23,7 @@
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
                     <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="name"><span jhiTranslate="iotmanagerApp.device.name">Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="serialNo"><span jhiTranslate="iotmanagerApp.device.serialNo">Serial No</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="deviceModelId"><span jhiTranslate="iotmanagerApp.device.deviceModel">Device Model</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="siteId"><span jhiTranslate="iotmanagerApp.device.site">Site</span> <fa-icon icon="sort"></fa-icon></th>
@@ -32,6 +33,7 @@
             <tbody>
                 <tr *ngFor="let device of devices ;trackBy: trackId">
                     <td><a [routerLink]="['/device', device.id, 'view']">{{ device.id }}</a></td>
+                    <td>{{ device.name }}</td>
                     <td>{{ device.serialNo }}</td>
                     <td>
                         <div *ngIf="device.deviceModelId">

@@ -1,6 +1,7 @@
 
 entity Device {
-	serialNo String
+	name String required
+	serialNo String required
 }
 
 enum DeviceCategory {
@@ -11,24 +12,21 @@ enum DeviceCategory {
 }
 
 entity DeviceType {
-	name String
-    category DeviceCategory
+	name String required
+    category DeviceCategory required
 }
 
 entity DeviceModel {
-	name String
+	name String required
 }
 
 entity DeviceProducer {
-	name String
+	name String required
 }
 
 entity Site {
-	name String
-}
-
-entity Address {
-	city String required
+	name String required
+    city String required
     street String
     streetNo String required
 }
@@ -47,10 +45,6 @@ relationship OneToMany {
 
 relationship OneToMany {
 	Site to Device
-}
-
-relationship OneToOne {
-	Site{address} to Address
 }
 
 relationship ManyToOne {

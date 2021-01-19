@@ -12,9 +12,27 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="iotmanagerApp.device.name" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                           formControlName="name"/>
+                    <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('name')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="iotmanagerApp.device.serialNo" for="field_serialNo">Serial No</label>
                     <input type="text" class="form-control" name="serialNo" id="field_serialNo"
                            formControlName="serialNo"/>
+                    <div *ngIf="editForm.get('serialNo')!.invalid && (editForm.get('serialNo')!.dirty || editForm.get('serialNo')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('serialNo')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
                 </div>
 
                 <div class="form-group">

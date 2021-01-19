@@ -15,14 +15,42 @@
                     <label class="form-control-label" jhiTranslate="iotmanagerApp.site.name" for="field_name">Name</label>
                     <input type="text" class="form-control" name="name" id="field_name"
                            formControlName="name"/>
+                    <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('name')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="iotmanagerApp.site.address" for="field_address">Address</label>
-                    <select class="form-control" id="field_address" name="address" formControlName="addressId">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="addressOption.id" *ngFor="let addressOption of addresses; trackBy: trackById">{{ addressOption.id }}</option>
-                    </select>
+                    <label class="form-control-label" jhiTranslate="iotmanagerApp.site.city" for="field_city">City</label>
+                    <input type="text" class="form-control" name="city" id="field_city"
+                           formControlName="city"/>
+                    <div *ngIf="editForm.get('city')!.invalid && (editForm.get('city')!.dirty || editForm.get('city')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('city')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="iotmanagerApp.site.street" for="field_street">Street</label>
+                    <input type="text" class="form-control" name="street" id="field_street"
+                           formControlName="street"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="iotmanagerApp.site.streetNo" for="field_streetNo">Street No</label>
+                    <input type="text" class="form-control" name="streetNo" id="field_streetNo"
+                           formControlName="streetNo"/>
+                    <div *ngIf="editForm.get('streetNo')!.invalid && (editForm.get('streetNo')!.dirty || editForm.get('streetNo')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('streetNo')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
                 </div>
 
                 <div class="form-group">

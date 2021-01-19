@@ -17,7 +17,9 @@
         "title": "Site"
       },
       "name": "Name",
-      "address": "Address",
+      "city": "City",
+      "street": "Street",
+      "streetNo": "Street No",
       "device": "Device",
       "user": "User"
     }

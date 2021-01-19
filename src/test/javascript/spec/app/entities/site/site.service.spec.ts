@@ -1,4 +1,4 @@
-import { TestBed, getTestBed } from '@angular/core/testing';
+import { getTestBed, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { SiteService } from 'app/entities/site/site.service';
 import { ISite, Site } from 'app/shared/model/site.model';
@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(SiteService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Site(0, 'AAAAAAA');
+      elemDefault = new Site(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -55,6 +55,9 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             name: 'BBBBBB',
+            city: 'BBBBBB',
+            street: 'BBBBBB',
+            streetNo: 'BBBBBB',
           },
           elemDefault
         );
@@ -72,6 +75,9 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             name: 'BBBBBB',
+            city: 'BBBBBB',
+            street: 'BBBBBB',
+            streetNo: 'BBBBBB',
           },
           elemDefault
         );

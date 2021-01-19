@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -25,7 +25,8 @@ export class DeviceUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    serialNo: [],
+    name: [null, [Validators.required]],
+    serialNo: [null, [Validators.required]],
     deviceModelId: [],
     siteId: [],
   });
@@ -51,6 +52,7 @@ export class DeviceUpdateComponent implements OnInit {
   updateForm(device: IDevice): void {
     this.editForm.patchValue({
       id: device.id,
+      name: device.name,
       serialNo: device.serialNo,
       deviceModelId: device.deviceModelId,
       siteId: device.siteId,
@@ -75,6 +77,7 @@ export class DeviceUpdateComponent implements OnInit {
     return {
       ...new Device(),
       id: this.editForm.get(['id'])!.value,
+      name: this.editForm.get(['name'])!.value,
       serialNo: this.editForm.get(['serialNo'])!.value,
       deviceModelId: this.editForm.get(['deviceModelId'])!.value,
       siteId: this.editForm.get(['siteId'])!.value,

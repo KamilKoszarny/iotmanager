@@ -16,6 +16,7 @@ import pl.kamilkoszarny.iotmanager.service.DeviceModelService;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceModelDTO;
 import pl.kamilkoszarny.iotmanager.web.rest.errors.BadRequestAlertException;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -49,7 +50,7 @@ public class DeviceModelResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/device-models")
-    public ResponseEntity<DeviceModelDTO> createDeviceModel(@RequestBody DeviceModelDTO deviceModelDTO) throws URISyntaxException {
+    public ResponseEntity<DeviceModelDTO> createDeviceModel(@Valid @RequestBody DeviceModelDTO deviceModelDTO) throws URISyntaxException {
         log.debug("REST request to save DeviceModel : {}", deviceModelDTO);
         if (deviceModelDTO.getId() != null) {
             throw new BadRequestAlertException("A new deviceModel cannot already have an ID", ENTITY_NAME, "idexists");
@@ -70,7 +71,7 @@ public class DeviceModelResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/device-models")
-    public ResponseEntity<DeviceModelDTO> updateDeviceModel(@RequestBody DeviceModelDTO deviceModelDTO) throws URISyntaxException {
+    public ResponseEntity<DeviceModelDTO> updateDeviceModel(@Valid @RequestBody DeviceModelDTO deviceModelDTO) throws URISyntaxException {
         log.debug("REST request to update DeviceModel : {}", deviceModelDTO);
         if (deviceModelDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

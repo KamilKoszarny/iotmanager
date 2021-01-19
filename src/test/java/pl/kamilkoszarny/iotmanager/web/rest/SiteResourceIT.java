@@ -37,6 +37,15 @@ public class SiteResourceIT {
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
+    private static final String DEFAULT_CITY = "AAAAAAAAAA";
+    private static final String UPDATED_CITY = "BBBBBBBBBB";
+
+    private static final String DEFAULT_STREET = "AAAAAAAAAA";
+    private static final String UPDATED_STREET = "BBBBBBBBBB";
+
+    private static final String DEFAULT_STREET_NO = "AAAAAAAAAA";
+    private static final String UPDATED_STREET_NO = "BBBBBBBBBB";
+
     @Autowired
     private SiteRepository siteRepository;
 
@@ -62,7 +71,10 @@ public class SiteResourceIT {
      */
     public static Site createEntity(EntityManager em) {
         Site site = new Site()
-            .name(DEFAULT_NAME);
+            .name(DEFAULT_NAME)
+            .city(DEFAULT_CITY)
+            .street(DEFAULT_STREET)
+            .streetNo(DEFAULT_STREET_NO);
         return site;
     }
     /**
@@ -73,7 +85,10 @@ public class SiteResourceIT {
      */
     public static Site createUpdatedEntity(EntityManager em) {
         Site site = new Site()
-            .name(UPDATED_NAME);
+            .name(UPDATED_NAME)
+            .city(UPDATED_CITY)
+            .street(UPDATED_STREET)
+            .streetNo(UPDATED_STREET_NO);
         return site;
     }
 
@@ -98,6 +113,9 @@ public class SiteResourceIT {
         assertThat(siteList).hasSize(databaseSizeBeforeCreate + 1);
         Site testSite = siteList.get(siteList.size() - 1);
         assertThat(testSite.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testSite.getCity()).isEqualTo(DEFAULT_CITY);
+        assertThat(testSite.getStreet()).isEqualTo(DEFAULT_STREET);
+        assertThat(testSite.getStreetNo()).isEqualTo(DEFAULT_STREET_NO);
     }
 
     @Test
@@ -123,6 +141,66 @@ public class SiteResourceIT {
 
     @Test
     @Transactional
+    public void checkNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = siteRepository.findAll().size();
+        // set the field null
+        site.setName(null);
+
+        // Create the Site, which fails.
+        SiteDTO siteDTO = siteMapper.toDto(site);
+
+
+        restSiteMockMvc.perform(post("/api/sites")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(siteDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Site> siteList = siteRepository.findAll();
+        assertThat(siteList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkCityIsRequired() throws Exception {
+        int databaseSizeBeforeTest = siteRepository.findAll().size();
+        // set the field null
+        site.setCity(null);
+
+        // Create the Site, which fails.
+        SiteDTO siteDTO = siteMapper.toDto(site);
+
+
+        restSiteMockMvc.perform(post("/api/sites")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(siteDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Site> siteList = siteRepository.findAll();
+        assertThat(siteList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkStreetNoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = siteRepository.findAll().size();
+        // set the field null
+        site.setStreetNo(null);
+
+        // Create the Site, which fails.
+        SiteDTO siteDTO = siteMapper.toDto(site);
+
+
+        restSiteMockMvc.perform(post("/api/sites")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(siteDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Site> siteList = siteRepository.findAll();
+        assertThat(siteList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllSites() throws Exception {
         // Initialize the database
         siteRepository.saveAndFlush(site);
@@ -132,7 +210,10 @@ public class SiteResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(site.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)));
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY)))
+            .andExpect(jsonPath("$.[*].street").value(hasItem(DEFAULT_STREET)))
+            .andExpect(jsonPath("$.[*].streetNo").value(hasItem(DEFAULT_STREET_NO)));
     }
 
     @Test
@@ -146,7 +227,10 @@ public class SiteResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(site.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME));
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
+            .andExpect(jsonPath("$.city").value(DEFAULT_CITY))
+            .andExpect(jsonPath("$.street").value(DEFAULT_STREET))
+            .andExpect(jsonPath("$.streetNo").value(DEFAULT_STREET_NO));
     }
     @Test
     @Transactional
@@ -173,7 +257,10 @@ public class SiteResourceIT {
         // Disconnect from session so that the updates on updatedSite are not directly saved in db
         em.detach(updatedSite);
         updatedSite
-            .name(UPDATED_NAME);
+            .name(UPDATED_NAME)
+            .city(UPDATED_CITY)
+            .street(UPDATED_STREET)
+            .streetNo(UPDATED_STREET_NO);
         SiteDTO siteDTO = siteMapper.toDto(updatedSite);
 
         restSiteMockMvc.perform(put("/api/sites")
@@ -186,6 +273,9 @@ public class SiteResourceIT {
         assertThat(siteList).hasSize(databaseSizeBeforeUpdate);
         Site testSite = siteList.get(siteList.size() - 1);
         assertThat(testSite.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testSite.getCity()).isEqualTo(UPDATED_CITY);
+        assertThat(testSite.getStreet()).isEqualTo(UPDATED_STREET);
+        assertThat(testSite.getStreetNo()).isEqualTo(UPDATED_STREET_NO);
     }
 
     @Test

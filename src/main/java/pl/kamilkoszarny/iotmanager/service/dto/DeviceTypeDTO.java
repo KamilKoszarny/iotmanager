@@ -2,6 +2,7 @@ package pl.kamilkoszarny.iotmanager.service.dto;
 
 import pl.kamilkoszarny.iotmanager.domain.enumeration.DeviceCategory;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -11,8 +12,10 @@ public class DeviceTypeDTO implements Serializable {
 
     private Long id;
 
+    @NotNull
     private String name;
 
+    @NotNull
     private DeviceCategory category;
 
 

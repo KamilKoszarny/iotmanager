@@ -1,19 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { ISite, Site } from 'app/shared/model/site.model';
 import { SiteService } from './site.service';
-import { IAddress } from 'app/shared/model/address.model';
-import { AddressService } from 'app/entities/address/address.service';
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
-
-type SelectableEntity = IAddress | IUser;
 
 @Component({
   selector: 'jhi-site-update',
@@ -21,19 +16,19 @@ type SelectableEntity = IAddress | IUser;
 })
 export class SiteUpdateComponent implements OnInit {
   isSaving = false;
-  addresses: IAddress[] = [];
   users: IUser[] = [];
 
   editForm = this.fb.group({
     id: [],
-    name: [],
-    addressId: [],
+    name: [null, [Validators.required]],
+    city: [null, [Validators.required]],
+    street: [],
+    streetNo: [null, [Validators.required]],
     userId: [],
   });
 
   constructor(
     protected siteService: SiteService,
-    protected addressService: AddressService,
     protected userService: UserService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -43,28 +38,6 @@ export class SiteUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ site }) => {
       this.updateForm(site);
 
-      this.addressService
-        .query({ filter: 'site-is-null' })
-        .pipe(
-          map((res: HttpResponse<IAddress[]>) => {
-            return res.body || [];
-          })
-        )
-        .subscribe((resBody: IAddress[]) => {
-          if (!site.addressId) {
-            this.addresses = resBody;
-          } else {
-            this.addressService
-              .find(site.addressId)
-              .pipe(
-                map((subRes: HttpResponse<IAddress>) => {
-                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
-                })
-              )
-              .subscribe((concatRes: IAddress[]) => (this.addresses = concatRes));
-          }
-        });
-
       this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
     });
   }
@@ -73,7 +46,9 @@ export class SiteUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: site.id,
       name: site.name,
-      addressId: site.addressId,
+      city: site.city,
+      street: site.street,
+      streetNo: site.streetNo,
       userId: site.userId,
     });
   }
@@ -97,7 +72,9 @@ export class SiteUpdateComponent implements OnInit {
       ...new Site(),
       id: this.editForm.get(['id'])!.value,
       name: this.editForm.get(['name'])!.value,
-      addressId: this.editForm.get(['addressId'])!.value,
+      city: this.editForm.get(['city'])!.value,
+      street: this.editForm.get(['street'])!.value,
+      streetNo: this.editForm.get(['streetNo'])!.value,
       userId: this.editForm.get(['userId'])!.value,
     };
   }
@@ -118,7 +95,7 @@ export class SiteUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  trackById(index: number, item: SelectableEntity): any {
+  trackById(index: number, item: IUser): any {
     return item.id;
   }
 }

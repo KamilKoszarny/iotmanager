@@ -2,14 +2,13 @@ package pl.kamilkoszarny.iotmanager.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import pl.kamilkoszarny.iotmanager.domain.enumeration.DeviceCategory;
 
 import javax.persistence.*;
-
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-
-import pl.kamilkoszarny.iotmanager.domain.enumeration.DeviceCategory;
 
 /**
  * A DeviceType.
@@ -26,11 +25,13 @@ public class DeviceType implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @Column(name = "name")
+    @NotNull
+    @Column(name = "name", nullable = false)
     private String name;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "category")
+    @Column(name = "category", nullable = false)
     private DeviceCategory category;
 
     @OneToMany(mappedBy = "deviceType")

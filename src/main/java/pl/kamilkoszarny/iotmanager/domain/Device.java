@@ -5,7 +5,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -23,7 +23,12 @@ public class Device implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @Column(name = "serial_no")
+    @NotNull
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @NotNull
+    @Column(name = "serial_no", nullable = false)
     private String serialNo;
 
     @ManyToOne
@@ -41,6 +46,19 @@ public class Device implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Device name(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSerialNo() {
@@ -104,6 +122,7 @@ public class Device implements Serializable {
     public String toString() {
         return "Device{" +
             "id=" + getId() +
+            ", name='" + getName() + "'" +
             ", serialNo='" + getSerialNo() + "'" +
             "}";
     }

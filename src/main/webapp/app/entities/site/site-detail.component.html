@@ -12,11 +12,17 @@
                 <dd>
                     <span>{{ site.name }}</span>
                 </dd>
-                <dt><span jhiTranslate="iotmanagerApp.site.address">Address</span></dt>
+                <dt><span jhiTranslate="iotmanagerApp.site.city">City</span></dt>
                 <dd>
-                    <div *ngIf="site.addressId">
-                        <a [routerLink]="['/address', site.addressId, 'view']">{{ site.addressId }}</a>
-                    </div>
+                    <span>{{ site.city }}</span>
+                </dd>
+                <dt><span jhiTranslate="iotmanagerApp.site.street">Street</span></dt>
+                <dd>
+                    <span>{{ site.street }}</span>
+                </dd>
+                <dt><span jhiTranslate="iotmanagerApp.site.streetNo">Street No</span></dt>
+                <dd>
+                    <span>{{ site.streetNo }}</span>
                 </dd>
                 <dt><span jhiTranslate="iotmanagerApp.site.user">User</span></dt>
                 <dd>

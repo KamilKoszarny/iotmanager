@@ -129,6 +129,46 @@ public class DeviceTypeResourceIT {
 
     @Test
     @Transactional
+    public void checkNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = deviceTypeRepository.findAll().size();
+        // set the field null
+        deviceType.setName(null);
+
+        // Create the DeviceType, which fails.
+        DeviceTypeDTO deviceTypeDTO = deviceTypeMapper.toDto(deviceType);
+
+
+        restDeviceTypeMockMvc.perform(post("/api/device-types")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(deviceTypeDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<DeviceType> deviceTypeList = deviceTypeRepository.findAll();
+        assertThat(deviceTypeList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkCategoryIsRequired() throws Exception {
+        int databaseSizeBeforeTest = deviceTypeRepository.findAll().size();
+        // set the field null
+        deviceType.setCategory(null);
+
+        // Create the DeviceType, which fails.
+        DeviceTypeDTO deviceTypeDTO = deviceTypeMapper.toDto(deviceType);
+
+
+        restDeviceTypeMockMvc.perform(post("/api/device-types")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(deviceTypeDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<DeviceType> deviceTypeList = deviceTypeRepository.findAll();
+        assertThat(deviceTypeList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllDeviceTypes() throws Exception {
         // Initialize the database
         deviceTypeRepository.saveAndFlush(deviceType);
