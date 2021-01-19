@@ -18,7 +18,7 @@
       },
       "name": "Name",
       "category": "Category",
-      "deviceModel": "Device Model"
+      "model": "Model"
     }
   }
 }

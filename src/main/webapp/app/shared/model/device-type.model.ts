@@ -5,9 +5,9 @@ export interface IDeviceType {
   id?: number;
   name?: string;
   category?: DeviceCategory;
-  deviceModels?: IDeviceModel[];
+  models?: IDeviceModel[];
 }
 
 export class DeviceType implements IDeviceType {
-  constructor(public id?: number, public name?: string, public category?: DeviceCategory, public deviceModels?: IDeviceModel[]) {}
+  constructor(public id?: number, public name?: string, public category?: DeviceCategory, public models?: IDeviceModel[]) {}
 }

@@ -10,6 +10,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import pl.kamilkoszarny.iotmanager.IotmanagerApp;
+import pl.kamilkoszarny.iotmanager.domain.DeviceModel;
 import pl.kamilkoszarny.iotmanager.domain.DeviceType;
 import pl.kamilkoszarny.iotmanager.domain.enumeration.DeviceCategory;
 import pl.kamilkoszarny.iotmanager.repository.DeviceTypeRepository;
@@ -67,6 +68,16 @@ public class DeviceTypeResourceIT {
         DeviceType deviceType = new DeviceType()
             .name(DEFAULT_NAME)
             .category(DEFAULT_CATEGORY);
+        // Add required entity
+        DeviceModel deviceModel;
+        if (TestUtil.findAll(em, DeviceModel.class).isEmpty()) {
+            deviceModel = DeviceModelResourceIT.createEntity(em);
+            em.persist(deviceModel);
+            em.flush();
+        } else {
+            deviceModel = TestUtil.findAll(em, DeviceModel.class).get(0);
+        }
+        deviceType.getModels().add(deviceModel);
         return deviceType;
     }
     /**
@@ -79,6 +90,16 @@ public class DeviceTypeResourceIT {
         DeviceType deviceType = new DeviceType()
             .name(UPDATED_NAME)
             .category(UPDATED_CATEGORY);
+        // Add required entity
+        DeviceModel deviceModel;
+        if (TestUtil.findAll(em, DeviceModel.class).isEmpty()) {
+            deviceModel = DeviceModelResourceIT.createUpdatedEntity(em);
+            em.persist(deviceModel);
+            em.flush();
+        } else {
+            deviceModel = TestUtil.findAll(em, DeviceModel.class).get(0);
+        }
+        deviceType.getModels().add(deviceModel);
         return deviceType;
     }
 

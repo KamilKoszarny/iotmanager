@@ -18,7 +18,7 @@
       },
       "name": "Name",
       "serialNo": "Serial No",
-      "deviceModel": "Device Model",
+      "model": "Model",
       "site": "Site"
     }
   }

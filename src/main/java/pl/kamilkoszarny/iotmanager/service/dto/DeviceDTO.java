@@ -17,7 +17,7 @@ public class DeviceDTO implements Serializable {
     private String serialNo;
 
 
-    private Long deviceModelId;
+    private Long modelId;
 
     private Long siteId;
 
@@ -45,12 +45,12 @@ public class DeviceDTO implements Serializable {
         this.serialNo = serialNo;
     }
 
-    public Long getDeviceModelId() {
-        return deviceModelId;
+    public Long getModelId() {
+        return modelId;
     }
 
-    public void setDeviceModelId(Long deviceModelId) {
-        this.deviceModelId = deviceModelId;
+    public void setModelId(Long deviceModelId) {
+        this.modelId = deviceModelId;
     }
 
     public Long getSiteId() {
@@ -85,7 +85,7 @@ public class DeviceDTO implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", serialNo='" + getSerialNo() + "'" +
-            ", deviceModelId=" + getDeviceModelId() +
+            ", modelId=" + getModelId() +
             ", siteId=" + getSiteId() +
             "}";
     }

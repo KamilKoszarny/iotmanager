@@ -1,11 +1,11 @@
-id;name;serial_no
-1;systemic;Bacon program
-2;system-worthy;panel
-3;Toys bandwidth;bandwidth Harbors paradigms
-4;strategic Intelligent Frozen Keyboard;bandwidth
-5;zero defect Ergonomic;Lead Rwanda Franc
-6;Avon Fiji Dollar;Human service-desk Borders
-7;distributed Implementation silver;haptic
-8;Grass-roots;turquoise
-9;Colorado;Bedfordshire fresh-thinking Tuna
-10;robust Assistant;Senior functionalities Checking Account
+id;name;serial_no;model_id;site_id
+1;systemic;Bacon program;1;1
+2;system-worthy;panel;2;2
+3;Toys bandwidth;bandwidth Harbors paradigms;3;3
+4;strategic Intelligent Frozen Keyboard;bandwidth;4;4
+5;zero defect Ergonomic;Lead Rwanda Franc;5;5
+6;Avon Fiji Dollar;Human service-desk Borders;6;6
+7;distributed Implementation silver;haptic;7;7
+8;Grass-roots;turquoise;8;8
+9;Colorado;Bedfordshire fresh-thinking Tuna;9;9
+10;robust Assistant;Senior functionalities Checking Account;10;10

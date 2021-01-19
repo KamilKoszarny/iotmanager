@@ -26,12 +26,14 @@
       "relationshipType": "one-to-many",
       "otherEntityName": "device",
       "otherEntityRelationshipName": "site",
+      "relationshipValidateRules": "required",
       "relationshipName": "device"
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "user",
       "otherEntityRelationshipName": "site",
+      "relationshipValidateRules": "required",
       "relationshipName": "user",
       "otherEntityField": "id"
     }

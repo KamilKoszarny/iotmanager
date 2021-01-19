@@ -24,8 +24,8 @@
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
                     <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="name"><span jhiTranslate="iotmanagerApp.deviceModel.name">Name</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="deviceProducerId"><span jhiTranslate="iotmanagerApp.deviceModel.deviceProducer">Device Producer</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="deviceTypeId"><span jhiTranslate="iotmanagerApp.deviceModel.deviceType">Device Type</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="producerId"><span jhiTranslate="iotmanagerApp.deviceModel.producer">Producer</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="typeId"><span jhiTranslate="iotmanagerApp.deviceModel.type">Type</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -34,13 +34,13 @@
                     <td><a [routerLink]="['/device-model', deviceModel.id, 'view']">{{ deviceModel.id }}</a></td>
                     <td>{{ deviceModel.name }}</td>
                     <td>
-                        <div *ngIf="deviceModel.deviceProducerId">
-                            <a [routerLink]="['/device-producer', deviceModel.deviceProducerId , 'view']" >{{ deviceModel.deviceProducerId }}</a>
+                        <div *ngIf="deviceModel.producerId">
+                            <a [routerLink]="['/device-producer', deviceModel.producerId , 'view']" >{{ deviceModel.producerId }}</a>
                         </div>
                     </td>
                     <td>
-                        <div *ngIf="deviceModel.deviceTypeId">
-                            <a [routerLink]="['/device-type', deviceModel.deviceTypeId , 'view']" >{{ deviceModel.deviceTypeId }}</a>
+                        <div *ngIf="deviceModel.typeId">
+                            <a [routerLink]="['/device-type', deviceModel.typeId , 'view']" >{{ deviceModel.typeId }}</a>
                         </div>
                     </td>
                     <td class="text-right">

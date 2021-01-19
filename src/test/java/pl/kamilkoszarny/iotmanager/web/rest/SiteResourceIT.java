@@ -10,14 +10,16 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import pl.kamilkoszarny.iotmanager.IotmanagerApp;
+import pl.kamilkoszarny.iotmanager.domain.Device;
 import pl.kamilkoszarny.iotmanager.domain.Site;
+import pl.kamilkoszarny.iotmanager.domain.User;
 import pl.kamilkoszarny.iotmanager.repository.SiteRepository;
 import pl.kamilkoszarny.iotmanager.service.SiteService;
 import pl.kamilkoszarny.iotmanager.service.dto.SiteDTO;
 import pl.kamilkoszarny.iotmanager.service.mapper.SiteMapper;
-import pl.kamilkoszarny.iotmanager.web.rest.errors.EntityNotFoundException;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,6 +77,21 @@ public class SiteResourceIT {
             .city(DEFAULT_CITY)
             .street(DEFAULT_STREET)
             .streetNo(DEFAULT_STREET_NO);
+        // Add required entity
+        Device device;
+        if (TestUtil.findAll(em, Device.class).isEmpty()) {
+            device = DeviceResourceIT.createEntity(em);
+            em.persist(device);
+            em.flush();
+        } else {
+            device = TestUtil.findAll(em, Device.class).get(0);
+        }
+        site.getDevices().add(device);
+        // Add required entity
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        site.setUser(user);
         return site;
     }
     /**
@@ -89,6 +106,21 @@ public class SiteResourceIT {
             .city(UPDATED_CITY)
             .street(UPDATED_STREET)
             .streetNo(UPDATED_STREET_NO);
+        // Add required entity
+        Device device;
+        if (TestUtil.findAll(em, Device.class).isEmpty()) {
+            device = DeviceResourceIT.createUpdatedEntity(em);
+            em.persist(device);
+            em.flush();
+        } else {
+            device = TestUtil.findAll(em, Device.class).get(0);
+        }
+        site.getDevices().add(device);
+        // Add required entity
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        site.setUser(user);
         return site;
     }
 

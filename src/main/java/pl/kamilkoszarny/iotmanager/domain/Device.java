@@ -31,11 +31,13 @@ public class Device implements Serializable {
     @Column(name = "serial_no", nullable = false)
     private String serialNo;
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = "devices", allowSetters = true)
-    private DeviceModel deviceModel;
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties(value = "models", allowSetters = true)
+    private DeviceModel model;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties(value = "devices", allowSetters = true)
     private Site site;
 
@@ -74,17 +76,17 @@ public class Device implements Serializable {
         this.serialNo = serialNo;
     }
 
-    public DeviceModel getDeviceModel() {
-        return deviceModel;
+    public DeviceModel getModel() {
+        return model;
     }
 
-    public Device deviceModel(DeviceModel deviceModel) {
-        this.deviceModel = deviceModel;
+    public Device model(DeviceModel deviceModel) {
+        this.model = deviceModel;
         return this;
     }
 
-    public void setDeviceModel(DeviceModel deviceModel) {
-        this.deviceModel = deviceModel;
+    public void setModel(DeviceModel deviceModel) {
+        this.model = deviceModel;
     }
 
     public Site getSite() {

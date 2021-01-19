@@ -11,21 +11,24 @@
     {
       "relationshipType": "one-to-many",
       "otherEntityName": "device",
-      "otherEntityRelationshipName": "deviceModel",
-      "relationshipName": "device"
+      "otherEntityRelationshipName": "model",
+      "relationshipValidateRules": "required",
+      "relationshipName": "model"
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "deviceProducer",
-      "otherEntityRelationshipName": "deviceModel",
-      "relationshipName": "deviceProducer",
+      "otherEntityRelationshipName": "model",
+      "relationshipValidateRules": "required",
+      "relationshipName": "producer",
       "otherEntityField": "id"
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "deviceType",
-      "otherEntityRelationshipName": "deviceModel",
-      "relationshipName": "deviceType",
+      "otherEntityRelationshipName": "model",
+      "relationshipValidateRules": "required",
+      "relationshipName": "type",
       "otherEntityField": "id"
     }
   ],

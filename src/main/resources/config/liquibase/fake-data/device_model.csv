@@ -1,11 +1,11 @@
-id;name
-1;Pants
-2;quantify Money Market Account
-3;Handcrafted users Montana
-4;solid state
-5;Principal HTTP payment
-6;Personal Loan Account
-7;Developer Lesotho
-8;Cape Verde Escudo Usability metrics
-9;Assistant deposit secondary
-10;maroon
+id;name;producer_id;type_id
+1;Pants;1;1
+2;quantify Money Market Account;2;2
+3;Handcrafted users Montana;3;3
+4;solid state;4;4
+5;Principal HTTP payment;5;5
+6;Personal Loan Account;6;6
+7;Developer Lesotho;7;7
+8;Cape Verde Escudo Usability metrics;8;8
+9;Assistant deposit secondary;9;9
+10;maroon;10;10

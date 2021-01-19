@@ -11,13 +11,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import pl.kamilkoszarny.iotmanager.IotmanagerApp;
 import pl.kamilkoszarny.iotmanager.domain.Device;
+import pl.kamilkoszarny.iotmanager.domain.DeviceModel;
+import pl.kamilkoszarny.iotmanager.domain.Site;
 import pl.kamilkoszarny.iotmanager.repository.DeviceRepository;
 import pl.kamilkoszarny.iotmanager.service.DeviceService;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceDTO;
 import pl.kamilkoszarny.iotmanager.service.mapper.DeviceMapper;
-import pl.kamilkoszarny.iotmanager.web.rest.errors.EntityNotFoundException;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,6 +69,26 @@ public class DeviceResourceIT {
         Device device = new Device()
             .name(DEFAULT_NAME)
             .serialNo(DEFAULT_SERIAL_NO);
+        // Add required entity
+        DeviceModel deviceModel;
+        if (TestUtil.findAll(em, DeviceModel.class).isEmpty()) {
+            deviceModel = DeviceModelResourceIT.createEntity(em);
+            em.persist(deviceModel);
+            em.flush();
+        } else {
+            deviceModel = TestUtil.findAll(em, DeviceModel.class).get(0);
+        }
+        device.setModel(deviceModel);
+        // Add required entity
+        Site site;
+        if (TestUtil.findAll(em, Site.class).isEmpty()) {
+            site = SiteResourceIT.createEntity(em);
+            em.persist(site);
+            em.flush();
+        } else {
+            site = TestUtil.findAll(em, Site.class).get(0);
+        }
+        device.setSite(site);
         return device;
     }
     /**
@@ -79,6 +101,26 @@ public class DeviceResourceIT {
         Device device = new Device()
             .name(UPDATED_NAME)
             .serialNo(UPDATED_SERIAL_NO);
+        // Add required entity
+        DeviceModel deviceModel;
+        if (TestUtil.findAll(em, DeviceModel.class).isEmpty()) {
+            deviceModel = DeviceModelResourceIT.createUpdatedEntity(em);
+            em.persist(deviceModel);
+            em.flush();
+        } else {
+            deviceModel = TestUtil.findAll(em, DeviceModel.class).get(0);
+        }
+        device.setModel(deviceModel);
+        // Add required entity
+        Site site;
+        if (TestUtil.findAll(em, Site.class).isEmpty()) {
+            site = SiteResourceIT.createUpdatedEntity(em);
+            em.persist(site);
+            em.flush();
+        } else {
+            site = TestUtil.findAll(em, Site.class).get(0);
+        }
+        device.setSite(site);
         return device;
     }
 

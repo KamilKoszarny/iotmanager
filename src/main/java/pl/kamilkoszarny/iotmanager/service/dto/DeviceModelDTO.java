@@ -14,9 +14,9 @@ public class DeviceModelDTO implements Serializable {
     private String name;
 
 
-    private Long deviceProducerId;
+    private Long producerId;
 
-    private Long deviceTypeId;
+    private Long typeId;
 
     public Long getId() {
         return id;
@@ -34,20 +34,20 @@ public class DeviceModelDTO implements Serializable {
         this.name = name;
     }
 
-    public Long getDeviceProducerId() {
-        return deviceProducerId;
+    public Long getProducerId() {
+        return producerId;
     }
 
-    public void setDeviceProducerId(Long deviceProducerId) {
-        this.deviceProducerId = deviceProducerId;
+    public void setProducerId(Long deviceProducerId) {
+        this.producerId = deviceProducerId;
     }
 
-    public Long getDeviceTypeId() {
-        return deviceTypeId;
+    public Long getTypeId() {
+        return typeId;
     }
 
-    public void setDeviceTypeId(Long deviceTypeId) {
-        this.deviceTypeId = deviceTypeId;
+    public void setTypeId(Long deviceTypeId) {
+        this.typeId = deviceTypeId;
     }
 
     @Override
@@ -73,8 +73,8 @@ public class DeviceModelDTO implements Serializable {
         return "DeviceModelDTO{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
-            ", deviceProducerId=" + getDeviceProducerId() +
-            ", deviceTypeId=" + getDeviceTypeId() +
+            ", producerId=" + getProducerId() +
+            ", typeId=" + getTypeId() +
             "}";
     }
 }

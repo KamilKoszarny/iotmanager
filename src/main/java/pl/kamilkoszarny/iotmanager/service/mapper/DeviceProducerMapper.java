@@ -13,8 +13,8 @@ import pl.kamilkoszarny.iotmanager.service.dto.DeviceProducerDTO;
 public interface DeviceProducerMapper extends EntityMapper<DeviceProducerDTO, DeviceProducer> {
 
 
-    @Mapping(target = "deviceModels", ignore = true)
-    @Mapping(target = "removeDeviceModel", ignore = true)
+    @Mapping(target = "models", ignore = true)
+    @Mapping(target = "removeModel", ignore = true)
     DeviceProducer toEntity(DeviceProducerDTO deviceProducerDTO);
 
     default DeviceProducer fromId(Long id) {

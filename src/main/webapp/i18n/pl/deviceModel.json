@@ -17,9 +17,9 @@
         "title": "Device Model"
       },
       "name": "Name",
-      "device": "Device",
-      "deviceProducer": "Device Producer",
-      "deviceType": "Device Type"
+      "model": "Model",
+      "producer": "Producer",
+      "type": "Type"
     }
   }
 }

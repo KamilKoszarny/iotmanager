@@ -32,23 +32,23 @@ entity Site {
 }
 
 relationship OneToMany {
-	DeviceProducer to DeviceModel
+	DeviceProducer{model required} to DeviceModel{producer required}
 }
 
 relationship OneToMany {
-	DeviceType to DeviceModel
+	DeviceType{model required} to DeviceModel{type required}
 }
 
 relationship OneToMany {
-	DeviceModel to Device
+	DeviceModel{model required} to Device{model required}
 }
 
 relationship OneToMany {
-	Site to Device
+	Site{device required} to Device{site required}
 }
 
 relationship ManyToOne {
-	Site{user} to User
+	Site{user required} to User
 }
 
 service * with serviceImpl

@@ -29,17 +29,19 @@ public class DeviceModel implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "deviceModel")
+    @OneToMany(mappedBy = "model")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<Device> devices = new HashSet<>();
+    private Set<Device> models = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = "deviceModels", allowSetters = true)
-    private DeviceProducer deviceProducer;
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties(value = "models", allowSetters = true)
+    private DeviceProducer producer;
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = "deviceModels", allowSetters = true)
-    private DeviceType deviceType;
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties(value = "models", allowSetters = true)
+    private DeviceType type;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -63,55 +65,55 @@ public class DeviceModel implements Serializable {
         this.name = name;
     }
 
-    public Set<Device> getDevices() {
-        return devices;
+    public Set<Device> getModels() {
+        return models;
     }
 
-    public DeviceModel devices(Set<Device> devices) {
-        this.devices = devices;
+    public DeviceModel models(Set<Device> devices) {
+        this.models = devices;
         return this;
     }
 
-    public DeviceModel addDevice(Device device) {
-        this.devices.add(device);
-        device.setDeviceModel(this);
+    public DeviceModel addModel(Device device) {
+        this.models.add(device);
+        device.setModel(this);
         return this;
     }
 
-    public DeviceModel removeDevice(Device device) {
-        this.devices.remove(device);
-        device.setDeviceModel(null);
+    public DeviceModel removeModel(Device device) {
+        this.models.remove(device);
+        device.setModel(null);
         return this;
     }
 
-    public void setDevices(Set<Device> devices) {
-        this.devices = devices;
+    public void setModels(Set<Device> devices) {
+        this.models = devices;
     }
 
-    public DeviceProducer getDeviceProducer() {
-        return deviceProducer;
+    public DeviceProducer getProducer() {
+        return producer;
     }
 
-    public DeviceModel deviceProducer(DeviceProducer deviceProducer) {
-        this.deviceProducer = deviceProducer;
+    public DeviceModel producer(DeviceProducer deviceProducer) {
+        this.producer = deviceProducer;
         return this;
     }
 
-    public void setDeviceProducer(DeviceProducer deviceProducer) {
-        this.deviceProducer = deviceProducer;
+    public void setProducer(DeviceProducer deviceProducer) {
+        this.producer = deviceProducer;
     }
 
-    public DeviceType getDeviceType() {
-        return deviceType;
+    public DeviceType getType() {
+        return type;
     }
 
-    public DeviceModel deviceType(DeviceType deviceType) {
-        this.deviceType = deviceType;
+    public DeviceModel type(DeviceType deviceType) {
+        this.type = deviceType;
         return this;
     }
 
-    public void setDeviceType(DeviceType deviceType) {
-        this.deviceType = deviceType;
+    public void setType(DeviceType deviceType) {
+        this.type = deviceType;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

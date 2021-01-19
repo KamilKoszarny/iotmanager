@@ -12,11 +12,11 @@ import pl.kamilkoszarny.iotmanager.service.dto.DeviceDTO;
 @Mapper(componentModel = "spring", uses = {DeviceModelMapper.class, SiteMapper.class})
 public interface DeviceMapper extends EntityMapper<DeviceDTO, Device> {
 
-    @Mapping(source = "deviceModel.id", target = "deviceModelId")
+    @Mapping(source = "model.id", target = "modelId")
     @Mapping(source = "site.id", target = "siteId")
     DeviceDTO toDto(Device device);
 
-    @Mapping(source = "deviceModelId", target = "deviceModel")
+    @Mapping(source = "modelId", target = "model")
     @Mapping(source = "siteId", target = "site")
     Device toEntity(DeviceDTO deviceDTO);
 

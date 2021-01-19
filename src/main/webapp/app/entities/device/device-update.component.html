@@ -36,19 +36,31 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="iotmanagerApp.device.deviceModel" for="field_deviceModel">Device Model</label>
-                    <select class="form-control" id="field_deviceModel" name="deviceModel" formControlName="deviceModelId">
-                        <option [ngValue]="null"></option>
+                    <label class="form-control-label" jhiTranslate="iotmanagerApp.device.model" for="field_model">Model</label>
+                    <select class="form-control" id="field_model" name="model" formControlName="modelId">
+                        <option *ngIf="!editForm.get('modelId')!.value" [ngValue]="null" selected></option>
                         <option [ngValue]="deviceModelOption.id" *ngFor="let deviceModelOption of devicemodels; trackBy: trackById">{{ deviceModelOption.id }}</option>
                     </select>
+                </div>
+                <div *ngIf="editForm.get('modelId')!.invalid && (editForm.get('modelId')!.dirty || editForm.get('modelId')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('modelId')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
                 </div>
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="iotmanagerApp.device.site" for="field_site">Site</label>
                     <select class="form-control" id="field_site" name="site" formControlName="siteId">
-                        <option [ngValue]="null"></option>
+                        <option *ngIf="!editForm.get('siteId')!.value" [ngValue]="null" selected></option>
                         <option [ngValue]="siteOption.id" *ngFor="let siteOption of sites; trackBy: trackById">{{ siteOption.id }}</option>
                     </select>
+                </div>
+                <div *ngIf="editForm.get('siteId')!.invalid && (editForm.get('siteId')!.dirty || editForm.get('siteId')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('siteId')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
                 </div>
             </div>
 

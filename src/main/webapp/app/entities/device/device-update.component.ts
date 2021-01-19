@@ -27,8 +27,8 @@ export class DeviceUpdateComponent implements OnInit {
     id: [],
     name: [null, [Validators.required]],
     serialNo: [null, [Validators.required]],
-    deviceModelId: [],
-    siteId: [],
+    modelId: [null, Validators.required],
+    siteId: [null, Validators.required],
   });
 
   constructor(
@@ -54,7 +54,7 @@ export class DeviceUpdateComponent implements OnInit {
       id: device.id,
       name: device.name,
       serialNo: device.serialNo,
-      deviceModelId: device.deviceModelId,
+      modelId: device.modelId,
       siteId: device.siteId,
     });
   }
@@ -79,7 +79,7 @@ export class DeviceUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       name: this.editForm.get(['name'])!.value,
       serialNo: this.editForm.get(['serialNo'])!.value,
-      deviceModelId: this.editForm.get(['deviceModelId'])!.value,
+      modelId: this.editForm.get(['modelId'])!.value,
       siteId: this.editForm.get(['siteId'])!.value,
     };
   }

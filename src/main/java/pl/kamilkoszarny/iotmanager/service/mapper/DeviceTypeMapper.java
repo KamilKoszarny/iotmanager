@@ -13,8 +13,8 @@ import pl.kamilkoszarny.iotmanager.service.dto.DeviceTypeDTO;
 public interface DeviceTypeMapper extends EntityMapper<DeviceTypeDTO, DeviceType> {
 
 
-    @Mapping(target = "deviceModels", ignore = true)
-    @Mapping(target = "removeDeviceModel", ignore = true)
+    @Mapping(target = "models", ignore = true)
+    @Mapping(target = "removeModel", ignore = true)
     DeviceType toEntity(DeviceTypeDTO deviceTypeDTO);
 
     default DeviceType fromId(Long id) {

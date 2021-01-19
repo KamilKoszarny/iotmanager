@@ -12,16 +12,16 @@
                 <dd>
                     <span>{{ deviceModel.name }}</span>
                 </dd>
-                <dt><span jhiTranslate="iotmanagerApp.deviceModel.deviceProducer">Device Producer</span></dt>
+                <dt><span jhiTranslate="iotmanagerApp.deviceModel.producer">Producer</span></dt>
                 <dd>
-                    <div *ngIf="deviceModel.deviceProducerId">
-                        <a [routerLink]="['/device-producer', deviceModel.deviceProducerId, 'view']">{{ deviceModel.deviceProducerId }}</a>
+                    <div *ngIf="deviceModel.producerId">
+                        <a [routerLink]="['/device-producer', deviceModel.producerId, 'view']">{{ deviceModel.producerId }}</a>
                     </div>
                 </dd>
-                <dt><span jhiTranslate="iotmanagerApp.deviceModel.deviceType">Device Type</span></dt>
+                <dt><span jhiTranslate="iotmanagerApp.deviceModel.type">Type</span></dt>
                 <dd>
-                    <div *ngIf="deviceModel.deviceTypeId">
-                        <a [routerLink]="['/device-type', deviceModel.deviceTypeId, 'view']">{{ deviceModel.deviceTypeId }}</a>
+                    <div *ngIf="deviceModel.typeId">
+                        <a [routerLink]="['/device-type', deviceModel.typeId, 'view']">{{ deviceModel.typeId }}</a>
                     </div>
                 </dd>
             </dl>

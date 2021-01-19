@@ -24,7 +24,7 @@ export class SiteUpdateComponent implements OnInit {
     city: [null, [Validators.required]],
     street: [],
     streetNo: [null, [Validators.required]],
-    userId: [],
+    userId: [null, Validators.required],
   });
 
   constructor(

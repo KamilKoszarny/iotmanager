@@ -12,14 +12,14 @@ import pl.kamilkoszarny.iotmanager.service.dto.DeviceModelDTO;
 @Mapper(componentModel = "spring", uses = {DeviceProducerMapper.class, DeviceTypeMapper.class})
 public interface DeviceModelMapper extends EntityMapper<DeviceModelDTO, DeviceModel> {
 
-    @Mapping(source = "deviceProducer.id", target = "deviceProducerId")
-    @Mapping(source = "deviceType.id", target = "deviceTypeId")
+    @Mapping(source = "producer.id", target = "producerId")
+    @Mapping(source = "type.id", target = "typeId")
     DeviceModelDTO toDto(DeviceModel deviceModel);
 
-    @Mapping(target = "devices", ignore = true)
-    @Mapping(target = "removeDevice", ignore = true)
-    @Mapping(source = "deviceProducerId", target = "deviceProducer")
-    @Mapping(source = "deviceTypeId", target = "deviceType")
+    @Mapping(target = "models", ignore = true)
+    @Mapping(target = "removeModel", ignore = true)
+    @Mapping(source = "producerId", target = "producer")
+    @Mapping(source = "typeId", target = "type")
     DeviceModel toEntity(DeviceModelDTO deviceModelDTO);
 
     default DeviceModel fromId(Long id) {

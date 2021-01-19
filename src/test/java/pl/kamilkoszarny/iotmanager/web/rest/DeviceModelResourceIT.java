@@ -10,14 +10,17 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import pl.kamilkoszarny.iotmanager.IotmanagerApp;
+import pl.kamilkoszarny.iotmanager.domain.Device;
 import pl.kamilkoszarny.iotmanager.domain.DeviceModel;
+import pl.kamilkoszarny.iotmanager.domain.DeviceProducer;
+import pl.kamilkoszarny.iotmanager.domain.DeviceType;
 import pl.kamilkoszarny.iotmanager.repository.DeviceModelRepository;
 import pl.kamilkoszarny.iotmanager.service.DeviceModelService;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceModelDTO;
 import pl.kamilkoszarny.iotmanager.service.mapper.DeviceModelMapper;
-import pl.kamilkoszarny.iotmanager.web.rest.errors.EntityNotFoundException;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,6 +66,36 @@ public class DeviceModelResourceIT {
     public static DeviceModel createEntity(EntityManager em) {
         DeviceModel deviceModel = new DeviceModel()
             .name(DEFAULT_NAME);
+        // Add required entity
+        Device device;
+        if (TestUtil.findAll(em, Device.class).isEmpty()) {
+            device = DeviceResourceIT.createEntity(em);
+            em.persist(device);
+            em.flush();
+        } else {
+            device = TestUtil.findAll(em, Device.class).get(0);
+        }
+        deviceModel.getModels().add(device);
+        // Add required entity
+        DeviceProducer deviceProducer;
+        if (TestUtil.findAll(em, DeviceProducer.class).isEmpty()) {
+            deviceProducer = DeviceProducerResourceIT.createEntity(em);
+            em.persist(deviceProducer);
+            em.flush();
+        } else {
+            deviceProducer = TestUtil.findAll(em, DeviceProducer.class).get(0);
+        }
+        deviceModel.setProducer(deviceProducer);
+        // Add required entity
+        DeviceType deviceType;
+        if (TestUtil.findAll(em, DeviceType.class).isEmpty()) {
+            deviceType = DeviceTypeResourceIT.createEntity(em);
+            em.persist(deviceType);
+            em.flush();
+        } else {
+            deviceType = TestUtil.findAll(em, DeviceType.class).get(0);
+        }
+        deviceModel.setType(deviceType);
         return deviceModel;
     }
     /**
@@ -74,6 +107,36 @@ public class DeviceModelResourceIT {
     public static DeviceModel createUpdatedEntity(EntityManager em) {
         DeviceModel deviceModel = new DeviceModel()
             .name(UPDATED_NAME);
+        // Add required entity
+        Device device;
+        if (TestUtil.findAll(em, Device.class).isEmpty()) {
+            device = DeviceResourceIT.createUpdatedEntity(em);
+            em.persist(device);
+            em.flush();
+        } else {
+            device = TestUtil.findAll(em, Device.class).get(0);
+        }
+        deviceModel.getModels().add(device);
+        // Add required entity
+        DeviceProducer deviceProducer;
+        if (TestUtil.findAll(em, DeviceProducer.class).isEmpty()) {
+            deviceProducer = DeviceProducerResourceIT.createUpdatedEntity(em);
+            em.persist(deviceProducer);
+            em.flush();
+        } else {
+            deviceProducer = TestUtil.findAll(em, DeviceProducer.class).get(0);
+        }
+        deviceModel.setProducer(deviceProducer);
+        // Add required entity
+        DeviceType deviceType;
+        if (TestUtil.findAll(em, DeviceType.class).isEmpty()) {
+            deviceType = DeviceTypeResourceIT.createUpdatedEntity(em);
+            em.persist(deviceType);
+            em.flush();
+        } else {
+            deviceType = TestUtil.findAll(em, DeviceType.class).get(0);
+        }
+        deviceModel.setType(deviceType);
         return deviceModel;
     }
 

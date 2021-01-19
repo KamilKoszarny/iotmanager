@@ -16,10 +16,10 @@
                 <dd>
                     <span>{{ device.serialNo }}</span>
                 </dd>
-                <dt><span jhiTranslate="iotmanagerApp.device.deviceModel">Device Model</span></dt>
+                <dt><span jhiTranslate="iotmanagerApp.device.model">Model</span></dt>
                 <dd>
-                    <div *ngIf="device.deviceModelId">
-                        <a [routerLink]="['/device-model', device.deviceModelId, 'view']">{{ device.deviceModelId }}</a>
+                    <div *ngIf="device.modelId">
+                        <a [routerLink]="['/device-model', device.modelId, 'view']">{{ device.modelId }}</a>
                     </div>
                 </dd>
                 <dt><span jhiTranslate="iotmanagerApp.device.site">Site</span></dt>

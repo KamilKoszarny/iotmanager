@@ -16,14 +16,16 @@
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "deviceModel",
-      "otherEntityRelationshipName": "device",
-      "relationshipName": "deviceModel",
+      "otherEntityRelationshipName": "model",
+      "relationshipValidateRules": "required",
+      "relationshipName": "model",
       "otherEntityField": "id"
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "site",
       "otherEntityRelationshipName": "device",
+      "relationshipValidateRules": "required",
       "relationshipName": "site",
       "otherEntityField": "id"
     }

@@ -34,9 +34,9 @@ public class DeviceType implements Serializable {
     @Column(name = "category", nullable = false)
     private DeviceCategory category;
 
-    @OneToMany(mappedBy = "deviceType")
+    @OneToMany(mappedBy = "type")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<DeviceModel> deviceModels = new HashSet<>();
+    private Set<DeviceModel> models = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -73,29 +73,29 @@ public class DeviceType implements Serializable {
         this.category = category;
     }
 
-    public Set<DeviceModel> getDeviceModels() {
-        return deviceModels;
+    public Set<DeviceModel> getModels() {
+        return models;
     }
 
-    public DeviceType deviceModels(Set<DeviceModel> deviceModels) {
-        this.deviceModels = deviceModels;
+    public DeviceType models(Set<DeviceModel> deviceModels) {
+        this.models = deviceModels;
         return this;
     }
 
-    public DeviceType addDeviceModel(DeviceModel deviceModel) {
-        this.deviceModels.add(deviceModel);
-        deviceModel.setDeviceType(this);
+    public DeviceType addModel(DeviceModel deviceModel) {
+        this.models.add(deviceModel);
+        deviceModel.setType(this);
         return this;
     }
 
-    public DeviceType removeDeviceModel(DeviceModel deviceModel) {
-        this.deviceModels.remove(deviceModel);
-        deviceModel.setDeviceType(null);
+    public DeviceType removeModel(DeviceModel deviceModel) {
+        this.models.remove(deviceModel);
+        deviceModel.setType(null);
         return this;
     }
 
-    public void setDeviceModels(Set<DeviceModel> deviceModels) {
-        this.deviceModels = deviceModels;
+    public void setModels(Set<DeviceModel> deviceModels) {
+        this.models = deviceModels;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

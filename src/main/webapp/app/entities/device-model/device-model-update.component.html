@@ -24,19 +24,31 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="iotmanagerApp.deviceModel.deviceProducer" for="field_deviceProducer">Device Producer</label>
-                    <select class="form-control" id="field_deviceProducer" name="deviceProducer" formControlName="deviceProducerId">
-                        <option [ngValue]="null"></option>
+                    <label class="form-control-label" jhiTranslate="iotmanagerApp.deviceModel.producer" for="field_producer">Producer</label>
+                    <select class="form-control" id="field_producer" name="producer" formControlName="producerId">
+                        <option *ngIf="!editForm.get('producerId')!.value" [ngValue]="null" selected></option>
                         <option [ngValue]="deviceProducerOption.id" *ngFor="let deviceProducerOption of deviceproducers; trackBy: trackById">{{ deviceProducerOption.id }}</option>
                     </select>
                 </div>
+                <div *ngIf="editForm.get('producerId')!.invalid && (editForm.get('producerId')!.dirty || editForm.get('producerId')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('producerId')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="iotmanagerApp.deviceModel.deviceType" for="field_deviceType">Device Type</label>
-                    <select class="form-control" id="field_deviceType" name="deviceType" formControlName="deviceTypeId">
-                        <option [ngValue]="null"></option>
+                    <label class="form-control-label" jhiTranslate="iotmanagerApp.deviceModel.type" for="field_type">Type</label>
+                    <select class="form-control" id="field_type" name="type" formControlName="typeId">
+                        <option *ngIf="!editForm.get('typeId')!.value" [ngValue]="null" selected></option>
                         <option [ngValue]="deviceTypeOption.id" *ngFor="let deviceTypeOption of devicetypes; trackBy: trackById">{{ deviceTypeOption.id }}</option>
                     </select>
+                </div>
+                <div *ngIf="editForm.get('typeId')!.invalid && (editForm.get('typeId')!.dirty || editForm.get('typeId')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('typeId')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
                 </div>
             </div>
 

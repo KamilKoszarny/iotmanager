@@ -8,15 +8,15 @@
     -->
     <changeSet id="20210116174519-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="device_producer_id"
+        <addForeignKeyConstraint baseColumnNames="producer_id"
                                  baseTableName="device_model"
-                                 constraintName="fk_device_model_device_producer_id"
+                                 constraintName="fk_device_model_producer_id"
                                  referencedColumnNames="id"
                                  referencedTableName="device_producer"/>
 
-        <addForeignKeyConstraint baseColumnNames="device_type_id"
+        <addForeignKeyConstraint baseColumnNames="type_id"
                                  baseTableName="device_model"
-                                 constraintName="fk_device_model_device_type_id"
+                                 constraintName="fk_device_model_type_id"
                                  referencedColumnNames="id"
                                  referencedTableName="device_type"/>
 

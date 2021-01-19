@@ -11,8 +11,9 @@
     {
       "relationshipType": "one-to-many",
       "otherEntityName": "deviceModel",
-      "otherEntityRelationshipName": "deviceProducer",
-      "relationshipName": "deviceModel"
+      "otherEntityRelationshipName": "producer",
+      "relationshipValidateRules": "required",
+      "relationshipName": "model"
     }
   ],
   "changelogDate": "20210116174619",
