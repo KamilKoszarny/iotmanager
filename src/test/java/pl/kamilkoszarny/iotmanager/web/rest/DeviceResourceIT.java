@@ -19,9 +19,7 @@ import pl.kamilkoszarny.iotmanager.service.dto.DeviceDTO;
 import pl.kamilkoszarny.iotmanager.service.mapper.DeviceMapper;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -255,11 +253,7 @@ public class DeviceResourceIT {
         int databaseSizeBeforeUpdate = deviceRepository.findAll().size();
 
         // Update the device
-        final Optional<Device> optionalDevice = deviceRepository.findById(device.getId());
-        if (!optionalDevice.isPresent()) {
-            throw new EntityNotFoundException(Device.class.getName());
-        }
-        Device updatedDevice = optionalDevice.get();
+        Device updatedDevice = deviceRepository.findById(device.getId()).get();
         // Disconnect from session so that the updates on updatedDevice are not directly saved in db
         em.detach(updatedDevice);
         updatedDevice

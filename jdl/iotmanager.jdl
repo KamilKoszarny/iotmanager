@@ -1,7 +1,7 @@
 
 entity Device {
-	name String required
-	serialNo String required
+	name String required maxlength(50)
+	serialNo String required maxlength(80)
 }
 
 enum DeviceCategory {
@@ -12,23 +12,23 @@ enum DeviceCategory {
 }
 
 entity DeviceType {
-	name String required
+	name String required maxlength(50)
     category DeviceCategory required
 }
 
 entity DeviceModel {
-	name String required
+	name String required maxlength(50)
 }
 
 entity DeviceProducer {
-	name String required
+	name String required maxlength(80)
 }
 
 entity Site {
-	name String required
-    city String required
-    street String
-    streetNo String required
+	name String required maxlength(50)
+    city String required maxlength(50)
+    street String maxlength(50)
+    streetNo String required maxlength(10)
 }
 
 relationship OneToMany {

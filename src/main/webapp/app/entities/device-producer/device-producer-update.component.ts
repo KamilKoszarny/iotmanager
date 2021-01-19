@@ -17,7 +17,7 @@ export class DeviceProducerUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    name: [null, [Validators.required]],
+    name: [null, [Validators.required, Validators.maxLength(80)]],
   });
 
   constructor(protected deviceProducerService: DeviceProducerService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}

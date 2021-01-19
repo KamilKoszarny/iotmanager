@@ -9,7 +9,7 @@ import pl.kamilkoszarny.iotmanager.service.dto.DeviceTypeDTO;
 /**
  * Mapper for the entity {@link DeviceType} and its DTO {@link DeviceTypeDTO}.
  */
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {})
 public interface DeviceTypeMapper extends EntityMapper<DeviceTypeDTO, DeviceType> {
 
 

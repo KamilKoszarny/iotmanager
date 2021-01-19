@@ -25,7 +25,7 @@ export class DeviceModelUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    name: [null, [Validators.required]],
+    name: [null, [Validators.required, Validators.maxLength(50)]],
     producerId: [null, Validators.required],
     typeId: [null, Validators.required],
   });

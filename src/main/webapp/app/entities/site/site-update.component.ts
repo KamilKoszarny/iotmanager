@@ -20,10 +20,10 @@ export class SiteUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    name: [null, [Validators.required]],
-    city: [null, [Validators.required]],
-    street: [],
-    streetNo: [null, [Validators.required]],
+    name: [null, [Validators.required, Validators.maxLength(50)]],
+    city: [null, [Validators.required, Validators.maxLength(50)]],
+    street: [null, [Validators.maxLength(50)]],
+    streetNo: [null, [Validators.required, Validators.maxLength(10)]],
     userId: [null, Validators.required],
   });
 

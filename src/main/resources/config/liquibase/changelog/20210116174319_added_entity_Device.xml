@@ -13,10 +13,10 @@
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="name" type="varchar(255)">
+            <column name="name" type="varchar(50)">
                 <constraints nullable="false" />
             </column>
-            <column name="serial_no" type="varchar(255)">
+            <column name="serial_no" type="varchar(80)">
                 <constraints nullable="false" />
             </column>
             <column name="model_id" type="bigint">

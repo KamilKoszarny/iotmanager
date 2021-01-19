@@ -6,6 +6,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,18 +27,22 @@ public class Site implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "name", nullable = false)
+    @Size(max = 50)
+    @Column(name = "name", length = 50, nullable = false)
     private String name;
 
     @NotNull
-    @Column(name = "city", nullable = false)
+    @Size(max = 50)
+    @Column(name = "city", length = 50, nullable = false)
     private String city;
 
-    @Column(name = "street")
+    @Size(max = 50)
+    @Column(name = "street", length = 50)
     private String street;
 
     @NotNull
-    @Column(name = "street_no", nullable = false)
+    @Size(max = 10)
+    @Column(name = "street_no", length = 10, nullable = false)
     private String streetNo;
 
     @OneToMany(mappedBy = "site")

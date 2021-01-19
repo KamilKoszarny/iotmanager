@@ -17,9 +17,7 @@ import pl.kamilkoszarny.iotmanager.service.dto.DeviceProducerDTO;
 import pl.kamilkoszarny.iotmanager.service.mapper.DeviceProducerMapper;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -185,11 +183,7 @@ public class DeviceProducerResourceIT {
         int databaseSizeBeforeUpdate = deviceProducerRepository.findAll().size();
 
         // Update the deviceProducer
-        final Optional<DeviceProducer> optionalDeviceProducer = deviceProducerRepository.findById(deviceProducer.getId());
-        if (!optionalDeviceProducer.isPresent()) {
-            throw new EntityNotFoundException(DeviceProducer.class.getName());
-        }
-        DeviceProducer updatedDeviceProducer = optionalDeviceProducer.get();
+        DeviceProducer updatedDeviceProducer = deviceProducerRepository.findById(deviceProducer.getId()).get();
         // Disconnect from session so that the updates on updatedDeviceProducer are not directly saved in db
         em.detach(updatedDeviceProducer);
         updatedDeviceProducer

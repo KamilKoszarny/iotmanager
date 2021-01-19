@@ -17,7 +17,7 @@ export class DeviceTypeUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    name: [null, [Validators.required]],
+    name: [null, [Validators.required, Validators.maxLength(50)]],
     category: [null, [Validators.required]],
   });
 

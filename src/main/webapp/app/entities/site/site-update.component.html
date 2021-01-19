@@ -20,6 +20,10 @@
                                *ngIf="editForm.get('name')?.errors?.required" jhiTranslate="entity.validation.required">
                         This field is required.
                         </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('name')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 50 }">
+                        This field cannot be longer than 50 characters.
+                        </small>
                     </div>
                 </div>
 
@@ -32,6 +36,10 @@
                                *ngIf="editForm.get('city')?.errors?.required" jhiTranslate="entity.validation.required">
                         This field is required.
                         </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('city')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 50 }">
+                        This field cannot be longer than 50 characters.
+                        </small>
                     </div>
                 </div>
 
@@ -39,6 +47,12 @@
                     <label class="form-control-label" jhiTranslate="iotmanagerApp.site.street" for="field_street">Street</label>
                     <input type="text" class="form-control" name="street" id="field_street"
                            formControlName="street"/>
+                    <div *ngIf="editForm.get('street')!.invalid && (editForm.get('street')!.dirty || editForm.get('street')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('street')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 50 }">
+                        This field cannot be longer than 50 characters.
+                        </small>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -49,6 +63,10 @@
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('streetNo')?.errors?.required" jhiTranslate="entity.validation.required">
                         This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('streetNo')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 10 }">
+                        This field cannot be longer than 10 characters.
                         </small>
                     </div>
                 </div>

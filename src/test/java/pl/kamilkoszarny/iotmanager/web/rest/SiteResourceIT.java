@@ -18,9 +18,7 @@ import pl.kamilkoszarny.iotmanager.service.dto.SiteDTO;
 import pl.kamilkoszarny.iotmanager.service.mapper.SiteMapper;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -260,11 +258,7 @@ public class SiteResourceIT {
         int databaseSizeBeforeUpdate = siteRepository.findAll().size();
 
         // Update the site
-        final Optional<Site> optionalSite = siteRepository.findById(site.getId());
-        if (!optionalSite.isPresent()) {
-            throw new EntityNotFoundException(Site.class.getName());
-        }
-        Site updatedSite = optionalSite.get();
+        Site updatedSite = siteRepository.findById(site.getId()).get();
         // Disconnect from session so that the updates on updatedSite are not directly saved in db
         em.detach(updatedSite);
         updatedSite
