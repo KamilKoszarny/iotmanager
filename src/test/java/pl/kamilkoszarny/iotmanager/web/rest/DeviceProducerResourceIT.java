@@ -10,15 +10,14 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import pl.kamilkoszarny.iotmanager.IotmanagerApp;
-import pl.kamilkoszarny.iotmanager.domain.DeviceModel;
 import pl.kamilkoszarny.iotmanager.domain.DeviceProducer;
 import pl.kamilkoszarny.iotmanager.repository.DeviceProducerRepository;
 import pl.kamilkoszarny.iotmanager.service.DeviceProducerService;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceProducerDTO;
 import pl.kamilkoszarny.iotmanager.service.mapper.DeviceProducerMapper;
-import pl.kamilkoszarny.iotmanager.web.rest.errors.EntityNotFoundException;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,16 +63,6 @@ public class DeviceProducerResourceIT {
     public static DeviceProducer createEntity(EntityManager em) {
         DeviceProducer deviceProducer = new DeviceProducer()
             .name(DEFAULT_NAME);
-        // Add required entity
-        DeviceModel deviceModel;
-        if (TestUtil.findAll(em, DeviceModel.class).isEmpty()) {
-            deviceModel = DeviceModelResourceIT.createEntity(em);
-            em.persist(deviceModel);
-            em.flush();
-        } else {
-            deviceModel = TestUtil.findAll(em, DeviceModel.class).get(0);
-        }
-        deviceProducer.getModels().add(deviceModel);
         return deviceProducer;
     }
     /**
@@ -85,16 +74,6 @@ public class DeviceProducerResourceIT {
     public static DeviceProducer createUpdatedEntity(EntityManager em) {
         DeviceProducer deviceProducer = new DeviceProducer()
             .name(UPDATED_NAME);
-        // Add required entity
-        DeviceModel deviceModel;
-        if (TestUtil.findAll(em, DeviceModel.class).isEmpty()) {
-            deviceModel = DeviceModelResourceIT.createUpdatedEntity(em);
-            em.persist(deviceModel);
-            em.flush();
-        } else {
-            deviceModel = TestUtil.findAll(em, DeviceModel.class).get(0);
-        }
-        deviceProducer.getModels().add(deviceModel);
         return deviceProducer;
     }
 

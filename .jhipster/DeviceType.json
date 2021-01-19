@@ -18,7 +18,6 @@
       "relationshipType": "one-to-many",
       "otherEntityName": "deviceModel",
       "otherEntityRelationshipName": "type",
-      "relationshipValidateRules": "required",
       "relationshipName": "model"
     }
   ],

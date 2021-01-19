@@ -10,7 +10,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import pl.kamilkoszarny.iotmanager.IotmanagerApp;
-import pl.kamilkoszarny.iotmanager.domain.Device;
 import pl.kamilkoszarny.iotmanager.domain.Site;
 import pl.kamilkoszarny.iotmanager.domain.User;
 import pl.kamilkoszarny.iotmanager.repository.SiteRepository;
@@ -78,16 +77,6 @@ public class SiteResourceIT {
             .street(DEFAULT_STREET)
             .streetNo(DEFAULT_STREET_NO);
         // Add required entity
-        Device device;
-        if (TestUtil.findAll(em, Device.class).isEmpty()) {
-            device = DeviceResourceIT.createEntity(em);
-            em.persist(device);
-            em.flush();
-        } else {
-            device = TestUtil.findAll(em, Device.class).get(0);
-        }
-        site.getDevices().add(device);
-        // Add required entity
         User user = UserResourceIT.createEntity(em);
         em.persist(user);
         em.flush();
@@ -106,16 +95,6 @@ public class SiteResourceIT {
             .city(UPDATED_CITY)
             .street(UPDATED_STREET)
             .streetNo(UPDATED_STREET_NO);
-        // Add required entity
-        Device device;
-        if (TestUtil.findAll(em, Device.class).isEmpty()) {
-            device = DeviceResourceIT.createUpdatedEntity(em);
-            em.persist(device);
-            em.flush();
-        } else {
-            device = TestUtil.findAll(em, Device.class).get(0);
-        }
-        site.getDevices().add(device);
         // Add required entity
         User user = UserResourceIT.createEntity(em);
         em.persist(user);

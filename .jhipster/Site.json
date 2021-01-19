@@ -26,7 +26,6 @@
       "relationshipType": "one-to-many",
       "otherEntityName": "device",
       "otherEntityRelationshipName": "site",
-      "relationshipValidateRules": "required",
       "relationshipName": "device"
     },
     {

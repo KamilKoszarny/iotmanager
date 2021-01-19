@@ -12,7 +12,6 @@
       "relationshipType": "one-to-many",
       "otherEntityName": "deviceModel",
       "otherEntityRelationshipName": "producer",
-      "relationshipValidateRules": "required",
       "relationshipName": "model"
     }
   ],

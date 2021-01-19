@@ -10,7 +10,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import pl.kamilkoszarny.iotmanager.IotmanagerApp;
-import pl.kamilkoszarny.iotmanager.domain.Device;
 import pl.kamilkoszarny.iotmanager.domain.DeviceModel;
 import pl.kamilkoszarny.iotmanager.domain.DeviceProducer;
 import pl.kamilkoszarny.iotmanager.domain.DeviceType;
@@ -67,16 +66,6 @@ public class DeviceModelResourceIT {
         DeviceModel deviceModel = new DeviceModel()
             .name(DEFAULT_NAME);
         // Add required entity
-        Device device;
-        if (TestUtil.findAll(em, Device.class).isEmpty()) {
-            device = DeviceResourceIT.createEntity(em);
-            em.persist(device);
-            em.flush();
-        } else {
-            device = TestUtil.findAll(em, Device.class).get(0);
-        }
-        deviceModel.getModels().add(device);
-        // Add required entity
         DeviceProducer deviceProducer;
         if (TestUtil.findAll(em, DeviceProducer.class).isEmpty()) {
             deviceProducer = DeviceProducerResourceIT.createEntity(em);
@@ -107,16 +96,6 @@ public class DeviceModelResourceIT {
     public static DeviceModel createUpdatedEntity(EntityManager em) {
         DeviceModel deviceModel = new DeviceModel()
             .name(UPDATED_NAME);
-        // Add required entity
-        Device device;
-        if (TestUtil.findAll(em, Device.class).isEmpty()) {
-            device = DeviceResourceIT.createUpdatedEntity(em);
-            em.persist(device);
-            em.flush();
-        } else {
-            device = TestUtil.findAll(em, Device.class).get(0);
-        }
-        deviceModel.getModels().add(device);
         // Add required entity
         DeviceProducer deviceProducer;
         if (TestUtil.findAll(em, DeviceProducer.class).isEmpty()) {

@@ -12,7 +12,6 @@
       "relationshipType": "one-to-many",
       "otherEntityName": "device",
       "otherEntityRelationshipName": "model",
-      "relationshipValidateRules": "required",
       "relationshipName": "model"
     },
     {

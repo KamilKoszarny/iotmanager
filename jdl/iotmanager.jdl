@@ -32,19 +32,19 @@ entity Site {
 }
 
 relationship OneToMany {
-	DeviceProducer{model required} to DeviceModel{producer required}
+	DeviceProducer{model} to DeviceModel{producer required}
 }
 
 relationship OneToMany {
-	DeviceType{model required} to DeviceModel{type required}
+	DeviceType{model} to DeviceModel{type required}
 }
 
 relationship OneToMany {
-	DeviceModel{model required} to Device{model required}
+	DeviceModel{model} to Device{model required}
 }
 
 relationship OneToMany {
-	Site{device required} to Device{site required}
+	Site{device} to Device{site required}
 }
 
 relationship ManyToOne {
