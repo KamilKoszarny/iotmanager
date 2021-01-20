@@ -3,7 +3,9 @@ export interface IDevice {
   name?: string;
   serialNo?: string;
   modelId?: number;
+  modelName?: number;
   siteId?: number;
+  siteName?: number;
 }
 
 export class Device implements IDevice {

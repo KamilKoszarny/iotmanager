@@ -3,6 +3,7 @@
     "device": {
       "home": {
         "title": "Devices",
+        "userTitle": "My Devices",
         "createLabel": "Create a new Device",
         "createOrEditLabel": "Create or edit a Device",
         "notFound": "No Devices found"

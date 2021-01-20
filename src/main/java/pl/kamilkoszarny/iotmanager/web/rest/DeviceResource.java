@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.kamilkoszarny.iotmanager.service.DeviceService;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceDTO;
+import pl.kamilkoszarny.iotmanager.service.dto.DeviceFriendlyDTO;
 import pl.kamilkoszarny.iotmanager.web.rest.errors.BadRequestAlertException;
 
 import javax.validation.Valid;
@@ -92,6 +93,20 @@ public class DeviceResource {
     public ResponseEntity<List<DeviceDTO>> getAllDevices(Pageable pageable) {
         log.debug("REST request to get a page of Devices");
         Page<DeviceDTO> page = deviceService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /devices/user} : get all current user devices.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of devices in body.
+     */
+    @GetMapping("/devices/user")
+    public ResponseEntity<List<DeviceFriendlyDTO>> getAllCurrentUserDevices(Pageable pageable) {
+        log.debug("REST request to get a page of current user Devices");
+        Page<DeviceFriendlyDTO> page = deviceService.findAllByCurrentUser(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

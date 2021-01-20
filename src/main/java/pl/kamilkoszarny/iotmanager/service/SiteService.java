@@ -2,8 +2,11 @@ package pl.kamilkoszarny.iotmanager.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
+import pl.kamilkoszarny.iotmanager.domain.Site;
 import pl.kamilkoszarny.iotmanager.service.dto.SiteDTO;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -27,6 +30,9 @@ public interface SiteService {
      */
     Page<SiteDTO> findAll(Pageable pageable);
 
+
+    @Transactional(readOnly = true)
+    List<Site> findAllByCurrentUser();
 
     /**
      * Get the "id" site.

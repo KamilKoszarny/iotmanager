@@ -7,11 +7,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.kamilkoszarny.iotmanager.domain.Device;
+import pl.kamilkoszarny.iotmanager.domain.Site;
+import pl.kamilkoszarny.iotmanager.domain.User;
 import pl.kamilkoszarny.iotmanager.repository.DeviceRepository;
 import pl.kamilkoszarny.iotmanager.service.DeviceService;
+import pl.kamilkoszarny.iotmanager.service.SiteService;
+import pl.kamilkoszarny.iotmanager.service.UserService;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceDTO;
+import pl.kamilkoszarny.iotmanager.service.dto.DeviceFriendlyDTO;
 import pl.kamilkoszarny.iotmanager.service.mapper.DeviceMapper;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -27,9 +33,15 @@ public class DeviceServiceImpl implements DeviceService {
 
     private final DeviceMapper deviceMapper;
 
-    public DeviceServiceImpl(DeviceRepository deviceRepository, DeviceMapper deviceMapper) {
+    private final UserService userService;
+
+    private final SiteService siteService;
+
+    public DeviceServiceImpl(DeviceRepository deviceRepository, DeviceMapper deviceMapper, UserService userService, SiteService siteService) {
         this.deviceRepository = deviceRepository;
         this.deviceMapper = deviceMapper;
+        this.userService = userService;
+        this.siteService = siteService;
     }
 
     @Override
@@ -46,6 +58,19 @@ public class DeviceServiceImpl implements DeviceService {
         log.debug("Request to get all Devices");
         return deviceRepository.findAll(pageable)
             .map(deviceMapper::toDto);
+
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<DeviceFriendlyDTO> findAllByCurrentUser(Pageable pageable) {
+        // current user will be found as method is accessible only for legged users
+        // noinspection OptionalGetWithoutIsPresent
+        User user = userService.getCurrentUser().get();
+        log.debug("Request to get all Devices of user: " + user.getLogin());
+        List<Site> currentUserSites = siteService.findAllByCurrentUser();
+        return deviceRepository.findAllBySiteIn(pageable, currentUserSites)
+            .map(deviceMapper::toFriendlyDto);
     }
 
 

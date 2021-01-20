@@ -5,6 +5,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import pl.kamilkoszarny.iotmanager.domain.Device;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceDTO;
+import pl.kamilkoszarny.iotmanager.service.dto.DeviceFriendlyDTO;
 
 /**
  * Mapper for the entity {@link Device} and its DTO {@link DeviceDTO}.
@@ -15,6 +16,12 @@ public interface DeviceMapper extends EntityMapper<DeviceDTO, Device> {
     @Mapping(source = "model.id", target = "modelId")
     @Mapping(source = "site.id", target = "siteId")
     DeviceDTO toDto(Device device);
+
+    @Mapping(source = "model.id", target = "modelId")
+    @Mapping(source = "model.name", target = "modelName")
+    @Mapping(source = "site.id", target = "siteId")
+    @Mapping(source = "site.name", target = "siteName")
+    DeviceFriendlyDTO toFriendlyDto(Device device);
 
     @Mapping(source = "modelId", target = "model")
     @Mapping(source = "siteId", target = "site")

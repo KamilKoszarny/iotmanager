@@ -6,11 +6,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
+
 /**
  * A DTO for the {@link pl.kamilkoszarny.iotmanager.domain.Device} entity.
  */
 @Data
-public class DeviceDTO implements Serializable {
+public class DeviceFriendlyDTO implements Serializable {
 
     private Long id;
 
@@ -24,7 +25,11 @@ public class DeviceDTO implements Serializable {
 
     private Long modelId;
 
+    private String modelName;
+
     private Long siteId;
+
+    private String siteName;
 
     // prettier-ignore
     @Override

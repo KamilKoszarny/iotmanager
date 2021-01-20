@@ -25,8 +25,10 @@
                     <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="name"><span jhiTranslate="iotmanagerApp.device.name">Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="serialNo"><span jhiTranslate="iotmanagerApp.device.serialNo">Serial No</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="modelId"><span jhiTranslate="iotmanagerApp.device.model">Model</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="siteId"><span jhiTranslate="iotmanagerApp.device.site">Site</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th *ngIf="isAdmin" scope="col"  jhiSortBy="modelId"><span jhiTranslate="iotmanagerApp.device.model">Model</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th *ngIf="!isAdmin" scope="col"  jhiSortBy="modelName"><span jhiTranslate="iotmanagerApp.device.model">Model</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th *ngIf="isAdmin" scope="col"  jhiSortBy="siteId"><span jhiTranslate="iotmanagerApp.device.site">Site</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th *ngIf="!isAdmin" scope="col"  jhiSortBy="siteId"><span jhiTranslate="iotmanagerApp.device.site">Site</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -37,12 +39,14 @@
                     <td>{{ device.serialNo }}</td>
                     <td>
                         <div *ngIf="device.modelId">
-                            <a [routerLink]="['/device-model', device.modelId , 'view']" >{{ device.modelId }}</a>
+                            <a *ngIf="isAdmin" [routerLink]="['/device-model', device.modelId , 'view']" >{{ device.modelId }}</a>
+                            <a *ngIf="!isAdmin" [routerLink]="['/device-model', device.modelId , 'view']" >{{ device.modelName }}</a>
                         </div>
                     </td>
                     <td>
                         <div *ngIf="device.siteId">
-                            <a [routerLink]="['/site', device.siteId , 'view']" >{{ device.siteId }}</a>
+                            <a *ngIf="isAdmin" [routerLink]="['/site', device.siteId , 'view']" >{{ device.siteId }}</a>
+                            <a *ngIf="!isAdmin" [routerLink]="['/site', device.siteId , 'view']" >{{ device.siteName }}</a>
                         </div>
                     </td>
                     <td class="text-right">

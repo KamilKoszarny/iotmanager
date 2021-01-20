@@ -12,6 +12,7 @@ import pl.kamilkoszarny.iotmanager.service.SiteService;
 import pl.kamilkoszarny.iotmanager.service.dto.SiteDTO;
 import pl.kamilkoszarny.iotmanager.service.mapper.SiteMapper;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -46,6 +47,13 @@ public class SiteServiceImpl implements SiteService {
         log.debug("Request to get all Sites");
         return siteRepository.findAll(pageable)
             .map(siteMapper::toDto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Site> findAllByCurrentUser() {
+        log.debug("Request to get all Sites");
+        return siteRepository.findByUserIsCurrentUser();
     }
 
 

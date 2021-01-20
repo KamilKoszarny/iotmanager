@@ -1,16 +1,6 @@
 package pl.kamilkoszarny.iotmanager.service;
 
-import pl.kamilkoszarny.iotmanager.config.Constants;
-import pl.kamilkoszarny.iotmanager.domain.Authority;
-import pl.kamilkoszarny.iotmanager.domain.User;
-import pl.kamilkoszarny.iotmanager.repository.AuthorityRepository;
-import pl.kamilkoszarny.iotmanager.repository.UserRepository;
-import pl.kamilkoszarny.iotmanager.security.AuthoritiesConstants;
-import pl.kamilkoszarny.iotmanager.security.SecurityUtils;
-import pl.kamilkoszarny.iotmanager.service.dto.UserDTO;
-
 import io.github.jhipster.security.RandomUtil;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
@@ -20,6 +10,14 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.kamilkoszarny.iotmanager.config.Constants;
+import pl.kamilkoszarny.iotmanager.domain.Authority;
+import pl.kamilkoszarny.iotmanager.domain.User;
+import pl.kamilkoszarny.iotmanager.repository.AuthorityRepository;
+import pl.kamilkoszarny.iotmanager.repository.UserRepository;
+import pl.kamilkoszarny.iotmanager.security.AuthoritiesConstants;
+import pl.kamilkoszarny.iotmanager.security.SecurityUtils;
+import pl.kamilkoszarny.iotmanager.service.dto.UserDTO;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -267,6 +265,11 @@ public class UserService {
     @Transactional(readOnly = true)
     public Optional<User> getUserWithAuthorities() {
         return SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneWithAuthoritiesByLogin);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<User> getCurrentUser() {
+        return SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByLogin);
     }
 
     /**
