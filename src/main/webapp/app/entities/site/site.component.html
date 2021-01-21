@@ -2,7 +2,7 @@
     <h2 id="page-heading">
         <span jhiTranslate="iotmanagerApp.site.home.title">Sites</span>
 
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-site" [routerLink]="['/site/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-site" [routerLink]="isAdmin ? ['/site/new'] : ['/site/user/new']">
             <fa-icon icon="plus"></fa-icon>
             <span  jhiTranslate="iotmanagerApp.site.home.createLabel">
             Create a new Site

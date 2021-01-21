@@ -7,8 +7,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.kamilkoszarny.iotmanager.domain.Site;
+import pl.kamilkoszarny.iotmanager.domain.User;
 import pl.kamilkoszarny.iotmanager.repository.SiteRepository;
 import pl.kamilkoszarny.iotmanager.service.SiteService;
+import pl.kamilkoszarny.iotmanager.service.UserService;
 import pl.kamilkoszarny.iotmanager.service.dto.SiteDTO;
 import pl.kamilkoszarny.iotmanager.service.mapper.SiteMapper;
 
@@ -28,14 +30,23 @@ public class SiteServiceImpl implements SiteService {
 
     private final SiteMapper siteMapper;
 
-    public SiteServiceImpl(SiteRepository siteRepository, SiteMapper siteMapper) {
+    private final UserService userService;
+
+
+    public SiteServiceImpl(SiteRepository siteRepository, SiteMapper siteMapper, UserService userService) {
         this.siteRepository = siteRepository;
         this.siteMapper = siteMapper;
+        this.userService = userService;
     }
 
     @Override
     public SiteDTO save(SiteDTO siteDTO) {
         log.debug("Request to save Site : {}", siteDTO);
+        User currentUser = userService.getCurrentUser();
+        if (siteDTO.getUserId() == null) {
+            siteDTO.setUserId(currentUser.getId());
+        }
+
         Site site = siteMapper.toEntity(siteDTO);
         site = siteRepository.save(site);
         return siteMapper.toDto(site);

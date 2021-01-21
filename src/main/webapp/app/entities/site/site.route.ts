@@ -76,8 +76,22 @@ export const siteRoute: Routes = [
       site: SiteResolve,
     },
     data: {
+      authorities: [Authority.ADMIN],
+      pageTitle: 'iotmanagerApp.site.home.title',
+      isAdmin: true,
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'user/new',
+    component: SiteUpdateComponent,
+    resolve: {
+      site: SiteResolve,
+    },
+    data: {
       authorities: [Authority.USER],
       pageTitle: 'iotmanagerApp.site.home.title',
+      isAdmin: false,
     },
     canActivate: [UserRouteAccessService],
   },

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { ActivatedRoute, Data } from '@angular/router';
+import { combineLatest, Observable } from 'rxjs';
 
 import { ISite, Site } from 'app/shared/model/site.model';
 import { SiteService } from './site.service';
@@ -17,6 +17,8 @@ import { UserService } from 'app/core/user/user.service';
 export class SiteUpdateComponent implements OnInit {
   isSaving = false;
   users: IUser[] = [];
+  isCreateNew!: boolean;
+  isAdmin = false;
 
   editForm = this.fb.group({
     id: [],
@@ -24,7 +26,7 @@ export class SiteUpdateComponent implements OnInit {
     city: [null, [Validators.required, Validators.maxLength(50)]],
     street: [null, [Validators.maxLength(50)]],
     streetNo: [null, [Validators.required, Validators.maxLength(10)]],
-    userId: [null, Validators.required],
+    userId: [null],
   });
 
   constructor(
@@ -40,6 +42,9 @@ export class SiteUpdateComponent implements OnInit {
 
       this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
     });
+    combineLatest(this.activatedRoute.data, this.activatedRoute.queryParamMap, (data: Data) => {
+      this.isAdmin = data['isAdmin'];
+    }).subscribe();
   }
 
   updateForm(site: ISite): void {
@@ -51,6 +56,7 @@ export class SiteUpdateComponent implements OnInit {
       streetNo: site.streetNo,
       userId: site.userId,
     });
+    this.isCreateNew = !this.editForm.get('id')!.value;
   }
 
   previousState(): void {
@@ -60,6 +66,9 @@ export class SiteUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const site = this.createFromForm();
+    if (!this.isAdmin) {
+      site.userId = undefined;
+    }
     if (site.id !== undefined) {
       this.subscribeToSaveResponse(this.siteService.update(site));
     } else {

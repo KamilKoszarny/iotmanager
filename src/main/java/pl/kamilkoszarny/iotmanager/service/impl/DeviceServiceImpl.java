@@ -64,9 +64,7 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     @Transactional(readOnly = true)
     public Page<DeviceFriendlyDTO> findAllByCurrentUser(Pageable pageable) {
-        // current user will be found as method is accessible only for legged users
-        // noinspection OptionalGetWithoutIsPresent
-        User user = userService.getCurrentUser().get();
+        User user = userService.getCurrentUser();
         log.debug("Request to get all Devices of user: " + user.getLogin());
         List<Site> currentUserSites = siteService.findAllByCurrentUser();
         return deviceRepository.findAllBySiteIn(pageable, currentUserSites)
