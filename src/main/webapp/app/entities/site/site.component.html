@@ -27,7 +27,7 @@
                     <th scope="col"  jhiSortBy="city"><span jhiTranslate="iotmanagerApp.site.city">City</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="street"><span jhiTranslate="iotmanagerApp.site.street">Street</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="streetNo"><span jhiTranslate="iotmanagerApp.site.streetNo">Street No</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="userId"><span jhiTranslate="iotmanagerApp.site.user">User</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th *ngIf="isAdmin" scope="col"  jhiSortBy="userId"><span jhiTranslate="iotmanagerApp.site.user">User</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -38,9 +38,7 @@
                     <td>{{ site.city }}</td>
                     <td>{{ site.street }}</td>
                     <td>{{ site.streetNo }}</td>
-                    <td>
-                        {{ site.userId }}
-                    </td>
+                    <td *ngIf="isAdmin">{{ site.userId }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

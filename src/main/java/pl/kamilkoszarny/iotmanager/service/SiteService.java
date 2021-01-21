@@ -34,6 +34,9 @@ public interface SiteService {
     @Transactional(readOnly = true)
     List<Site> findAllByCurrentUser();
 
+    @Transactional(readOnly = true)
+    Page<SiteDTO> findAllByCurrentUser(Pageable pageable);
+
     /**
      * Get the "id" site.
      *

@@ -52,8 +52,16 @@ public class SiteServiceImpl implements SiteService {
     @Override
     @Transactional(readOnly = true)
     public List<Site> findAllByCurrentUser() {
-        log.debug("Request to get all Sites");
+        log.debug("Request to get all current user Sites");
         return siteRepository.findByUserIsCurrentUser();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<SiteDTO> findAllByCurrentUser(Pageable pageable) {
+        log.debug("Request to get all current user Sites");
+        return siteRepository.findByUserIsCurrentUser(pageable)
+            .map(siteMapper::toDto);
     }
 
 

@@ -97,6 +97,20 @@ public class SiteResource {
     }
 
     /**
+     * {@code GET  /sites/user} : get all current user sites.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of sites in body.
+     */
+    @GetMapping("/sites/user")
+    public ResponseEntity<List<SiteDTO>> getAllCurrentUserSites(Pageable pageable) {
+        log.debug("REST request to get a page of current user Sites");
+        Page<SiteDTO> page = siteService.findAllByCurrentUser(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
      * {@code GET  /sites/:id} : get the "id" site.
      *
      * @param id the id of the siteDTO to retrieve.

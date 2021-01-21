@@ -1,5 +1,7 @@
 package pl.kamilkoszarny.iotmanager.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,4 +18,7 @@ public interface SiteRepository extends JpaRepository<Site, Long> {
 
     @Query("select site from Site site where site.user.login = ?#{principal.username}")
     List<Site> findByUserIsCurrentUser();
+
+    @Query("select site from Site site where site.user.login = ?#{principal.username}")
+    Page<Site> findByUserIsCurrentUser(Pageable pageable);
 }

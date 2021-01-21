@@ -39,9 +39,21 @@ export const siteRoute: Routes = [
     path: '',
     component: SiteComponent,
     data: {
+      authorities: [Authority.ADMIN],
+      defaultSort: 'id,asc',
+      pageTitle: 'iotmanagerApp.site.home.title',
+      isAdmin: true,
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'user',
+    component: SiteComponent,
+    data: {
       authorities: [Authority.USER],
       defaultSort: 'id,asc',
       pageTitle: 'iotmanagerApp.site.home.title',
+      isAdmin: false,
     },
     canActivate: [UserRouteAccessService],
   },
