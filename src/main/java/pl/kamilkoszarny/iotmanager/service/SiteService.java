@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import pl.kamilkoszarny.iotmanager.domain.Site;
 import pl.kamilkoszarny.iotmanager.service.dto.SiteDTO;
+import pl.kamilkoszarny.iotmanager.service.exceptions.NotYourEntityException;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +21,7 @@ public interface SiteService {
      * @param siteDTO the entity to save.
      * @return the persisted entity.
      */
-    SiteDTO save(SiteDTO siteDTO);
+    SiteDTO save(SiteDTO siteDTO) throws NotYourEntityException;
 
     /**
      * Get all the sites.

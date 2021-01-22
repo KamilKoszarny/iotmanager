@@ -18,6 +18,9 @@ import pl.kamilkoszarny.iotmanager.repository.UserRepository;
 import pl.kamilkoszarny.iotmanager.security.AuthoritiesConstants;
 import pl.kamilkoszarny.iotmanager.security.SecurityUtils;
 import pl.kamilkoszarny.iotmanager.service.dto.UserDTO;
+import pl.kamilkoszarny.iotmanager.service.exceptions.EmailAlreadyUsedException;
+import pl.kamilkoszarny.iotmanager.service.exceptions.InvalidPasswordException;
+import pl.kamilkoszarny.iotmanager.service.exceptions.UsernameAlreadyUsedException;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;

@@ -1,4 +1,4 @@
-package pl.kamilkoszarny.iotmanager.service;
+package pl.kamilkoszarny.iotmanager.service.exceptions;
 
 public class EmailAlreadyUsedException extends RuntimeException {
 

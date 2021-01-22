@@ -9,9 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.kamilkoszarny.iotmanager.domain.Site;
 import pl.kamilkoszarny.iotmanager.domain.User;
 import pl.kamilkoszarny.iotmanager.repository.SiteRepository;
+import pl.kamilkoszarny.iotmanager.security.AuthoritiesConstants;
+import pl.kamilkoszarny.iotmanager.security.SecurityUtils;
 import pl.kamilkoszarny.iotmanager.service.SiteService;
 import pl.kamilkoszarny.iotmanager.service.UserService;
 import pl.kamilkoszarny.iotmanager.service.dto.SiteDTO;
+import pl.kamilkoszarny.iotmanager.service.exceptions.NotYourEntityException;
 import pl.kamilkoszarny.iotmanager.service.mapper.SiteMapper;
 
 import java.util.List;
@@ -40,11 +43,13 @@ public class SiteServiceImpl implements SiteService {
     }
 
     @Override
-    public SiteDTO save(SiteDTO siteDTO) {
+    public SiteDTO save(SiteDTO siteDTO) throws NotYourEntityException {
         log.debug("Request to save Site : {}", siteDTO);
         User currentUser = userService.getCurrentUser();
         if (siteDTO.getUserId() == null) {
             siteDTO.setUserId(currentUser.getId());
+        } else if (!siteDTO.getUserId().equals(currentUser.getId()) && !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
+            throw new NotYourEntityException(currentUser.getId(), "Site", siteDTO.getId());
         }
 
         Site site = siteMapper.toEntity(siteDTO);

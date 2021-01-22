@@ -66,7 +66,7 @@ export class SiteUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const site = this.createFromForm();
-    if (!this.isAdmin) {
+    if (!this.isAdmin && this.isCreateNew) {
       site.userId = undefined;
     }
     if (site.id !== undefined) {

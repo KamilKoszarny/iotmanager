@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
-import { JhiEventManager, JhiAlert, JhiAlertService, JhiEventWithContent } from 'ng-jhipster';
+import { JhiAlert, JhiAlertService, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 
 import { AlertError } from './alert-error.model';
@@ -56,7 +56,7 @@ export class AlertErrorComponent implements OnDestroy {
                 fieldError.message = 'Size';
               }
               // convert 'something[14].other[4].id' to 'something[].other[].id' so translations can be written to it
-              const convertedField = fieldError.field.replace(/\[\d*\]/g, '[]');
+              const convertedField = fieldError.field.replace(/\[\d*]/g, '[]');
               const fieldName = translateService.instant('iotmanagerApp.' + fieldError.objectName + '.' + convertedField);
               this.addErrorAlert('Error on field "' + fieldName + '"', 'error.' + fieldError.message, { fieldName });
             }
@@ -100,13 +100,13 @@ export class AlertErrorComponent implements OnDestroy {
   }
 
   addErrorAlert(message: string, key?: string, data?: any): void {
-    message = key && key !== null ? key : message;
+    message = key ? key : message;
 
     const newAlert: JhiAlert = {
       type: 'danger',
       msg: message,
       params: data,
-      timeout: 5000,
+      timeout: 10000,
       toast: this.alertService.isToast(),
       scoped: true,
     };

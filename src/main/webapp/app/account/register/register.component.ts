@@ -1,9 +1,9 @@
-import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { JhiLanguageService } from 'ng-jhipster';
 
-import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from 'app/shared/constants/error.constants';
+import { LOGIN_ALREADY_USED_TYPE } from 'app/shared/constants/error.constants';
 import { LoginModalService } from 'app/core/login/login-modal.service';
 import { RegisterService } from './register.service';
 
@@ -16,8 +16,6 @@ export class RegisterComponent implements AfterViewInit {
   login?: ElementRef;
 
   doNotMatch = false;
-  error = false;
-  errorEmailExists = false;
   errorUserExists = false;
   success = false;
 
@@ -51,8 +49,6 @@ export class RegisterComponent implements AfterViewInit {
 
   register(): void {
     this.doNotMatch = false;
-    this.error = false;
-    this.errorEmailExists = false;
     this.errorUserExists = false;
 
     const password = this.registerForm.get(['password'])!.value;
@@ -75,10 +71,6 @@ export class RegisterComponent implements AfterViewInit {
   private processError(response: HttpErrorResponse): void {
     if (response.status === 400 && response.error.type === LOGIN_ALREADY_USED_TYPE) {
       this.errorUserExists = true;
-    } else if (response.status === 400 && response.error.type === EMAIL_ALREADY_USED_TYPE) {
-      this.errorEmailExists = true;
-    } else {
-      this.error = true;
     }
   }
 }

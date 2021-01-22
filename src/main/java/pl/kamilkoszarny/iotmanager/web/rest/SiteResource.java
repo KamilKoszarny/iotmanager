@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.kamilkoszarny.iotmanager.service.SiteService;
 import pl.kamilkoszarny.iotmanager.service.dto.SiteDTO;
+import pl.kamilkoszarny.iotmanager.service.exceptions.NotYourEntityException;
 import pl.kamilkoszarny.iotmanager.web.rest.errors.BadRequestAlertException;
 
 import javax.validation.Valid;
@@ -71,7 +72,7 @@ public class SiteResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/sites")
-    public ResponseEntity<SiteDTO> updateSite(@Valid @RequestBody SiteDTO siteDTO) throws URISyntaxException {
+    public ResponseEntity<SiteDTO> updateSite(@Valid @RequestBody SiteDTO siteDTO) throws URISyntaxException, NotYourEntityException {
         log.debug("REST request to update Site : {}", siteDTO);
         if (siteDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
