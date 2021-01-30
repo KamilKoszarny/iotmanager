@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Data } from '@angular/router';
-import { combineLatest, Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 
 import { ISite, Site } from 'app/shared/model/site.model';
 import { SiteService } from './site.service';
@@ -37,14 +37,12 @@ export class SiteUpdateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ site }) => {
+    this.activatedRoute.data.subscribe(({ site, isAdmin }) => {
+      this.isAdmin = isAdmin;
       this.updateForm(site);
 
       this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
     });
-    combineLatest(this.activatedRoute.data, this.activatedRoute.queryParamMap, (data: Data) => {
-      this.isAdmin = data['isAdmin'];
-    }).subscribe();
   }
 
   updateForm(site: ISite): void {

@@ -4,6 +4,7 @@
 
 - fix: "You are not authorized to access this page." on "Create or edit a Device"
 - add a Device: comboboxes values
+- fix: Site require User
 
 ##Versions history
 

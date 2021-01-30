@@ -2,7 +2,7 @@
     <h2 id="page-heading">
         <span jhiTranslate="iotmanagerApp.device.home.title">Devices</span>
 
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-device" [routerLink]="['/device/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-device" [routerLink]="isAdmin ? ['/device/new'] : ['/device/user/new']">
             <fa-icon icon="plus"></fa-icon>
             <span  jhiTranslate="iotmanagerApp.device.home.createLabel">
             Create a new Device

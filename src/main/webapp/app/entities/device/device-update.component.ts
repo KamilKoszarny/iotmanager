@@ -22,6 +22,8 @@ export class DeviceUpdateComponent implements OnInit {
   isSaving = false;
   devicemodels: IDeviceModel[] = [];
   sites: ISite[] = [];
+  isCreateNew!: boolean;
+  isAdmin = false;
 
   editForm = this.fb.group({
     id: [],
@@ -40,12 +42,12 @@ export class DeviceUpdateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ device }) => {
+    this.activatedRoute.data.subscribe(({ device, isAdmin }) => {
       this.updateForm(device);
+      this.isAdmin = isAdmin;
 
       this.deviceModelService.query().subscribe((res: HttpResponse<IDeviceModel[]>) => (this.devicemodels = res.body || []));
-
-      this.siteService.query().subscribe((res: HttpResponse<ISite[]>) => (this.sites = res.body || []));
+      this.siteService.queryByCurrentUser().subscribe((res: HttpResponse<ISite[]>) => (this.sites = res.body || []));
     });
   }
 
@@ -57,6 +59,7 @@ export class DeviceUpdateComponent implements OnInit {
       modelId: device.modelId,
       siteId: device.siteId,
     });
+    this.isCreateNew = !this.editForm.get('id')!.value;
   }
 
   previousState(): void {

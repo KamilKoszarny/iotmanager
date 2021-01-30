@@ -76,8 +76,22 @@ export const deviceRoute: Routes = [
       device: DeviceResolve,
     },
     data: {
+      authorities: [Authority.ADMIN],
+      pageTitle: 'iotmanagerApp.device.home.title',
+      isAdmin: true,
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'user/new',
+    component: DeviceUpdateComponent,
+    resolve: {
+      device: DeviceResolve,
+    },
+    data: {
       authorities: [Authority.USER],
       pageTitle: 'iotmanagerApp.device.home.title',
+      isAdmin: false,
     },
     canActivate: [UserRouteAccessService],
   },

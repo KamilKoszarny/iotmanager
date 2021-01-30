@@ -1,12 +1,13 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-device-heading" jhiTranslate="iotmanagerApp.device.home.createOrEditLabel">Create or edit a Device</h2>
+            <h2 *ngIf="isCreateNew" id="jhi-device-heading-new" jhiTranslate="iotmanagerApp.device.home.createLabel">Create a Device</h2>
+            <h2 *ngIf="!isCreateNew" id="jhi-device-heading-edit" jhiTranslate="iotmanagerApp.device.home.editLabel">Edit a Device</h2>
 
             <div>
                 <jhi-alert-error></jhi-alert-error>
 
-                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                <div class="form-group" [hidden]="isCreateNew">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
                 </div>
@@ -47,7 +48,7 @@
                     <label class="form-control-label" jhiTranslate="iotmanagerApp.device.model" for="field_model">Model</label>
                     <select class="form-control" id="field_model" name="model" formControlName="modelId">
                         <option *ngIf="!editForm.get('modelId')!.value" [ngValue]="null" selected></option>
-                        <option [ngValue]="deviceModelOption.id" *ngFor="let deviceModelOption of devicemodels; trackBy: trackById">{{ deviceModelOption.id }}</option>
+                        <option [ngValue]="deviceModelOption.id" *ngFor="let deviceModelOption of devicemodels; trackBy: trackById">{{ deviceModelOption.name }}</option>
                     </select>
                 </div>
                 <div *ngIf="editForm.get('modelId')!.invalid && (editForm.get('modelId')!.dirty || editForm.get('modelId')!.touched)">
@@ -61,7 +62,7 @@
                     <label class="form-control-label" jhiTranslate="iotmanagerApp.device.site" for="field_site">Site</label>
                     <select class="form-control" id="field_site" name="site" formControlName="siteId">
                         <option *ngIf="!editForm.get('siteId')!.value" [ngValue]="null" selected></option>
-                        <option [ngValue]="siteOption.id" *ngFor="let siteOption of sites; trackBy: trackById">{{ siteOption.id }}</option>
+                        <option [ngValue]="siteOption.id" *ngFor="let siteOption of sites; trackBy: trackById">{{ siteOption.name }}</option>
                     </select>
                 </div>
                 <div *ngIf="editForm.get('siteId')!.invalid && (editForm.get('siteId')!.dirty || editForm.get('siteId')!.touched)">
