@@ -37,13 +37,16 @@
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
                     <span>
                         <fa-icon icon="th-list"></fa-icon>
-                        <span jhiTranslate="global.menu.entities.main">
+                        <span *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiTranslate="global.menu.entities.main">
                             Entities
+                        </span>
+                        <span *jhiHasNotAuthority="'ROLE_ADMIN'" jhiTranslate="global.menu.entities.browse">
+                            Browse
                         </span>
                     </span>
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
-                    <li>
+                    <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
                         <a class="dropdown-item" routerLink="device" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.device">Device</span>
@@ -67,7 +70,7 @@
                             <span jhiTranslate="global.menu.entities.deviceProducer">Device Producer</span>
                         </a>
                     </li>
-                    <li>
+                    <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
                         <a class="dropdown-item" routerLink="site" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.site">Site</span>

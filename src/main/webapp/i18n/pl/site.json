@@ -2,26 +2,26 @@
   "iotmanagerApp": {
     "site": {
       "home": {
-        "title": "Site",
-        "createLabel": "Dodaj Site",
-        "createOrEditLabel": "Dodaj lub edytuj: Site",
-        "notFound": "No Sites found"
+        "title": "Lokalizacja",
+        "createLabel": "Dodaj lokalizację",
+        "editLabel": "Edytuj lokalizację",
+        "notFound": "Nie znaleziono lokalizacji"
       },
-      "created": "Utworzono nowy obiekt typu Site z identyfikatorem {{ param }}",
-      "updated": "Uaktualniono obiekt typu Site z identyfikatorem {{ param }}",
-      "deleted": "Usunięto obiekt typu Site z identyfikatorem {{ param }}",
+      "created": "Utworzono nową lokalizację z identyfikatorem {{ param }}",
+      "updated": "Uaktualniono lokalizację z identyfikatorem {{ param }}",
+      "deleted": "Usunięto lokalizację z identyfikatorem {{ param }}",
       "delete": {
-        "question": "Czy na pewno chcesz usunąć Site {{ id }}?"
+        "question": "Czy na pewno chcesz usunąć lokalizację {{ id }}?"
       },
       "detail": {
-        "title": "Site"
+        "title": "Lokalizacja"
       },
-      "name": "Name",
-      "city": "City",
-      "street": "Street",
-      "streetNo": "Street No",
-      "device": "Device",
-      "user": "User"
+      "name": "Nazwa",
+      "city": "Miejscowość",
+      "street": "Ulica",
+      "streetNo": "Numer",
+      "device": "Urządzenie",
+      "user": "Użytkownik"
     }
   }
 }

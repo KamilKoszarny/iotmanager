@@ -2,24 +2,24 @@
   "iotmanagerApp": {
     "device": {
       "home": {
-        "title": "Device",
-        "createLabel": "Dodaj Device",
-        "createOrEditLabel": "Dodaj lub edytuj: Device",
-        "notFound": "No Devices found"
+        "title": "Urządzenie",
+        "createLabel": "Dodaj urządzenie",
+        "editLabel": "Edytuj urządzenie",
+        "notFound": "Nie znaleziono urządzeń"
       },
-      "created": "Utworzono nowy obiekt typu Device z identyfikatorem {{ param }}",
-      "updated": "Uaktualniono obiekt typu Device z identyfikatorem {{ param }}",
-      "deleted": "Usunięto obiekt typu Device z identyfikatorem {{ param }}",
+      "created": "Utworzono nowe urządzenie z identyfikatorem {{ param }}",
+      "updated": "Uaktualniono urządzenie z identyfikatorem {{ param }}",
+      "deleted": "Usunięto urządzenie z identyfikatorem {{ param }}",
       "delete": {
-        "question": "Czy na pewno chcesz usunąć Device {{ id }}?"
+        "question": "Czy na pewno chcesz usunąć urządzenie {{ id }}?"
       },
       "detail": {
-        "title": "Device"
+        "title": "Urządzenie"
       },
-      "name": "Name",
-      "serialNo": "Serial No",
+      "name": "Nazwa",
+      "serialNo": "Numer seryjny",
       "model": "Model",
-      "site": "Site"
+      "site": "Lokalizacja"
     }
   }
 }

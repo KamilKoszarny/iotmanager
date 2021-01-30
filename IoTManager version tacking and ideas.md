@@ -1,12 +1,23 @@
 ##Ideas
 
+- fix: routing of User after deletion of Site/Device
+- fix: Site require User
+- proposing new DeviceModel, DeviceType, Producer by Users for Admin approval
+- Device Faults: reporting, fixing, managing
+- Producer role
+- Fixer role
+- deleting: foreign key constrains errors: "You cannot delete a Site where are devices" OR "Site deletion will delete those Devices: "
+
 ####In next version
 
-- fix: "You are not authorized to access this page." on "Create or edit a Device"
-- add a Device: comboboxes values
-- fix: Site require User
+- User limited to viewing for: DeviceProducer, DeviceType, DeviceModel
+- add a Device: filtering DeviceModels by Producer and DeviceType
 
 ##Versions history
+
+####0.1.7 (30.01.2021)
+
+- add a Device by User, with correct comboboxes values, including fix of access message
 
 ####0.1.6 (22.01.2021)
 

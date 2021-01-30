@@ -9,6 +9,7 @@
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entities",
+        "browse": "Browse",
         "device": "Device",
         "deviceType": "Device Type",
         "deviceModel": "Device Model",

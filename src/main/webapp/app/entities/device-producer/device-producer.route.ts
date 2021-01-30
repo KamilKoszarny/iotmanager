@@ -64,7 +64,7 @@ export const deviceProducerRoute: Routes = [
       deviceProducer: DeviceProducerResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN],
       pageTitle: 'iotmanagerApp.deviceProducer.home.title',
     },
     canActivate: [UserRouteAccessService],
@@ -76,7 +76,7 @@ export const deviceProducerRoute: Routes = [
       deviceProducer: DeviceProducerResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN],
       pageTitle: 'iotmanagerApp.deviceProducer.home.title',
     },
     canActivate: [UserRouteAccessService],
