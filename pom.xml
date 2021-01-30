@@ -5,7 +5,7 @@
 
     <groupId>pl.kamilkoszarny.iotmanager</groupId>
     <artifactId>iotmanager</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1.6</version>
     <packaging>jar</packaging>
     <name>Iotmanager</name>
 
@@ -923,7 +923,7 @@
                                 <configuration>
                                     <arguments>run webpack:build</arguments>
                                     <environmentVariables>
-                                        <APP_VERSION>${project.version}</APP_VERSION>
+                                        <APP_VERSION>aaa</APP_VERSION>
                                     </environmentVariables>
                                     <npmInheritsProxyConfigFromMaven>false</npmInheritsProxyConfigFromMaven>
                                 </configuration>
