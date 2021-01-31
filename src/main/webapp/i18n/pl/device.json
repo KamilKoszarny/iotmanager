@@ -18,8 +18,14 @@
       },
       "name": "Nazwa",
       "serialNo": "Numer seryjny",
+      "type": "Typ",
+      "producer": "Producent",
       "model": "Model",
-      "site": "Lokalizacja"
+      "site": "Lokalizacja",
+      "hints": {
+        "filterModels": "- użyj by ograniczyć wyszukane modele",
+        "noModelsFound": "Nie znaloziono modeli. Spróbuj zmienić typ lub producenta."
+      }
     }
   }
 }

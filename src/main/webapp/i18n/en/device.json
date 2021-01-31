@@ -19,8 +19,14 @@
       },
       "name": "Name",
       "serialNo": "Serial No",
+      "type": "Type",
+      "producer": "Producer",
       "model": "Model",
-      "site": "Site"
+      "site": "Site",
+      "hints": {
+        "filterModels": "- use to filter Device Models",
+        "noModelsFound": "No models found. Try to change type or producer."
+      }
     }
   }
 }

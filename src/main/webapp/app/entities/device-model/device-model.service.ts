@@ -32,6 +32,17 @@ export class DeviceModelService {
     return this.http.get<IDeviceModel[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
+  queryByTypeAndProducer(req?: any): Observable<EntityArrayResponseType> {
+    let options = createRequestOption(req);
+    if (req && req.typeId === undefined) {
+      options = options.delete('typeId');
+    }
+    if (req && req.producerId === undefined) {
+      options = options.delete('producerId');
+    }
+    return this.http.get<IDeviceModel[]>(`${this.resourceUrl}/filter`, { params: options, observe: 'response' });
+  }
+
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }

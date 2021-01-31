@@ -97,6 +97,21 @@ public class DeviceModelResource {
     }
 
     /**
+     * {@code GET  /device-models} : get deviceModels by Type and Producer.
+     *
+     * @param typeId typeId
+     * @param producerId producerId
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of deviceModels in body.
+     */
+    @GetMapping(value = "/device-models/filter")
+    public ResponseEntity<List<DeviceModelDTO>> getDeviceModelsByTypeAndProducer(@RequestParam(value = "typeId", required = false) Long typeId,
+                                                                                 @RequestParam(value = "producerId",required = false) Long producerId) {
+        log.debug("REST request to get a list of DeviceModels by TypeId: {} and ProducerId: {}", typeId, producerId);
+        List<DeviceModelDTO> list = deviceModelService.findAllByTypeAndProducer(typeId, producerId);
+        return ResponseEntity.ok().body(list);
+    }
+
+    /**
      * {@code GET  /device-models/:id} : get the "id" deviceModel.
      *
      * @param id the id of the deviceModelDTO to retrieve.

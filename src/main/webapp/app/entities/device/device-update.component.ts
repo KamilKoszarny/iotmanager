@@ -7,10 +7,14 @@ import { Observable } from 'rxjs';
 
 import { Device, IDevice } from 'app/shared/model/device.model';
 import { DeviceService } from './device.service';
-import { IDeviceModel } from 'app/shared/model/device-model.model';
+import { DeviceModel, IDeviceModel } from 'app/shared/model/device-model.model';
 import { DeviceModelService } from 'app/entities/device-model/device-model.service';
-import { ISite } from 'app/shared/model/site.model';
+import { ISite, Site } from 'app/shared/model/site.model';
 import { SiteService } from 'app/entities/site/site.service';
+import { DeviceType, IDeviceType } from '../../shared/model/device-type.model';
+import { DeviceProducer, IDeviceProducer } from '../../shared/model/device-producer.model';
+import { DeviceProducerService } from '../device-producer/device-producer.service';
+import { DeviceTypeService } from '../device-type/device-type.service';
 
 type SelectableEntity = IDeviceModel | ISite;
 
@@ -20,21 +24,30 @@ type SelectableEntity = IDeviceModel | ISite;
 })
 export class DeviceUpdateComponent implements OnInit {
   isSaving = false;
-  devicemodels: IDeviceModel[] = [];
+  deviceTypes: IDeviceType[] = [];
+  deviceTypeId!: number;
+  deviceProducers: IDeviceProducer[] = [];
+  deviceProducerId!: number;
+  deviceModels: IDeviceModel[] = [];
   sites: ISite[] = [];
   isCreateNew!: boolean;
   isAdmin = false;
+  isNewForm!: boolean;
 
   editForm = this.fb.group({
     id: [],
     name: [null, [Validators.required, Validators.maxLength(50)]],
     serialNo: [null, [Validators.required, Validators.maxLength(80)]],
+    typeId: [null],
+    producerId: [null],
     modelId: [null, Validators.required],
     siteId: [null, Validators.required],
   });
 
   constructor(
     protected deviceService: DeviceService,
+    protected deviceTypeService: DeviceTypeService,
+    protected deviceProducerService: DeviceProducerService,
     protected deviceModelService: DeviceModelService,
     protected siteService: SiteService,
     protected activatedRoute: ActivatedRoute,
@@ -46,8 +59,22 @@ export class DeviceUpdateComponent implements OnInit {
       this.updateForm(device);
       this.isAdmin = isAdmin;
 
-      this.deviceModelService.query().subscribe((res: HttpResponse<IDeviceModel[]>) => (this.devicemodels = res.body || []));
-      this.siteService.queryByCurrentUser().subscribe((res: HttpResponse<ISite[]>) => (this.sites = res.body || []));
+      this.deviceTypeService.query().subscribe((res: HttpResponse<IDeviceType[]>) => {
+        this.deviceTypes = res.body || [];
+        this.deviceTypes.unshift(new DeviceType());
+      });
+      this.deviceProducerService.query().subscribe((res: HttpResponse<IDeviceProducer[]>) => {
+        this.deviceProducers = res.body || [];
+        this.deviceProducers.unshift(new DeviceProducer());
+      });
+      this.deviceModelService.query().subscribe((res: HttpResponse<IDeviceModel[]>) => {
+        this.deviceModels = res.body || [];
+        this.deviceModels.unshift(new DeviceModel());
+      });
+      this.siteService.queryByCurrentUser().subscribe((res: HttpResponse<ISite[]>) => {
+        this.sites = res.body || [];
+        this.sites.unshift(new Site());
+      });
     });
   }
 
@@ -60,6 +87,19 @@ export class DeviceUpdateComponent implements OnInit {
       siteId: device.siteId,
     });
     this.isCreateNew = !this.editForm.get('id')!.value;
+    this.isNewForm = true;
+  }
+
+  filterDeviceModels(): void {
+    if (!this.isNewForm || this.deviceTypeId !== undefined || this.deviceProducerId !== undefined) {
+      this.deviceModelService
+        .queryByTypeAndProducer({ typeId: this.deviceTypeId, producerId: this.deviceProducerId })
+        .subscribe((res: HttpResponse<IDeviceModel[]>) => {
+          this.deviceModels = res.body || [];
+          this.deviceModels.unshift(new DeviceModel());
+        });
+      this.isNewForm = false;
+    }
   }
 
   previousState(): void {

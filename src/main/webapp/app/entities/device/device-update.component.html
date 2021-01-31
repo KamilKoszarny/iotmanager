@@ -17,13 +17,11 @@
                     <input type="text" class="form-control" name="name" id="field_name"
                            formControlName="name"/>
                     <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('name')?.errors?.required" jhiTranslate="entity.validation.required">
-                        This field is required.
+                        <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required" jhiTranslate="entity.validation.required">
+                            This field is required.
                         </small>
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('name')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 50 }">
-                        This field cannot be longer than 50 characters.
+                        <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 50 }">
+                            This field cannot be longer than 50 characters.
                         </small>
                     </div>
                 </div>
@@ -33,43 +31,56 @@
                     <input type="text" class="form-control" name="serialNo" id="field_serialNo"
                            formControlName="serialNo"/>
                     <div *ngIf="editForm.get('serialNo')!.invalid && (editForm.get('serialNo')!.dirty || editForm.get('serialNo')!.touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('serialNo')?.errors?.required" jhiTranslate="entity.validation.required">
-                        This field is required.
+                        <small class="form-text text-danger" *ngIf="editForm.get('serialNo')?.errors?.required" jhiTranslate="entity.validation.required">
+                            This field is required.
                         </small>
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('serialNo')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 80 }">
-                        This field cannot be longer than 80 characters.
+                        <small class="form-text text-danger" *ngIf="editForm.get('serialNo')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 80 }">
+                            This field cannot be longer than 80 characters.
                         </small>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="iotmanagerApp.device.model" for="field_model">Model</label>
-                    <select class="form-control" id="field_model" name="model" formControlName="modelId">
-                        <option *ngIf="!editForm.get('modelId')!.value" [ngValue]="null" selected></option>
-                        <option [ngValue]="deviceModelOption.id" *ngFor="let deviceModelOption of devicemodels; trackBy: trackById">{{ deviceModelOption.name }}</option>
+                    <label class="form-control-label" jhiTranslate="iotmanagerApp.device.type" for="field_type">Type</label>
+                    <span class="text-info" jhiTranslate="iotmanagerApp.device.hints.filterModels"> - use it to filter device models</span>
+                    <select class="form-control" id="field_type" name="type" formControlName="typeId" [(ngModel)]="deviceTypeId" (ngModelChange)="filterDeviceModels()">
+                        <option [ngValue]="deviceTypeOption.id" *ngFor="let deviceTypeOption of deviceTypes; trackBy: trackById" >{{ deviceTypeOption.name }}</option>
                     </select>
                 </div>
-                <div *ngIf="editForm.get('modelId')!.invalid && (editForm.get('modelId')!.dirty || editForm.get('modelId')!.touched)">
-                    <small class="form-text text-danger"
-                           *ngIf="editForm.get('modelId')?.errors?.required" jhiTranslate="entity.validation.required">
-                        This field is required.
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="iotmanagerApp.device.producer" for="field_producer">Producer</label>
+                    <span class="text-info" jhiTranslate="iotmanagerApp.device.hints.filterModels"> - use it to filter device models</span>
+                    <select class="form-control" id="field_producer" name="producer" formControlName="producerId" [(ngModel)]="deviceProducerId" (ngModelChange)="filterDeviceModels()">
+                        <option [ngValue]="deviceProducerOption.id" *ngFor="let deviceProducerOption of deviceProducers; trackBy: trackById">{{ deviceProducerOption.name }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="iotmanagerApp.device.model" for="field_model">Model</label>
+                    <select class="form-control" id="field_model" name="model" formControlName="modelId">
+                        <option [ngValue]="deviceModelOption.id" *ngFor="let deviceModelOption of deviceModels; trackBy: trackById">{{ deviceModelOption.name }}</option>
+                    </select>
+                    <div *ngIf="editForm.get('modelId')!.invalid && (editForm.get('modelId')!.dirty || editForm.get('modelId')!.touched)">
+                        <small class="form-text text-danger" *ngIf="editForm.get('modelId')?.errors?.required" jhiTranslate="entity.validation.required">
+                            This field is required.
+                        </small>
+                    </div>
+                    <small class="form-text text-danger" *ngIf="deviceModels.length == 1" jhiTranslate="iotmanagerApp.device.hints.noModelsFound">
+                        No models found. Try to change type or producer..
                     </small>
                 </div>
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="iotmanagerApp.device.site" for="field_site">Site</label>
                     <select class="form-control" id="field_site" name="site" formControlName="siteId">
-                        <option *ngIf="!editForm.get('siteId')!.value" [ngValue]="null" selected></option>
                         <option [ngValue]="siteOption.id" *ngFor="let siteOption of sites; trackBy: trackById">{{ siteOption.name }}</option>
                     </select>
-                </div>
-                <div *ngIf="editForm.get('siteId')!.invalid && (editForm.get('siteId')!.dirty || editForm.get('siteId')!.touched)">
-                    <small class="form-text text-danger"
-                           *ngIf="editForm.get('siteId')?.errors?.required" jhiTranslate="entity.validation.required">
-                        This field is required.
-                    </small>
+                    <div *ngIf="editForm.get('siteId')!.invalid && (editForm.get('siteId')!.dirty || editForm.get('siteId')!.touched)">
+                        <small class="form-text text-danger" *ngIf="editForm.get('siteId')?.errors?.required" jhiTranslate="entity.validation.required">
+                            This field is required.
+                        </small>
+                    </div>
                 </div>
             </div>
 

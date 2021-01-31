@@ -12,7 +12,9 @@ import pl.kamilkoszarny.iotmanager.service.DeviceModelService;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceModelDTO;
 import pl.kamilkoszarny.iotmanager.service.mapper.DeviceModelMapper;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link DeviceModel}.
@@ -46,6 +48,21 @@ public class DeviceModelServiceImpl implements DeviceModelService {
         log.debug("Request to get all DeviceModels");
         return deviceModelRepository.findAll(pageable)
             .map(deviceModelMapper::toDto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<DeviceModelDTO> findAllByTypeAndProducer(Long typeId, Long producerId) {
+        log.debug("Request to get all DeviceModels by typeId: {} and producerId: {}", typeId, producerId);
+        if (typeId != null && producerId != null) {
+            return deviceModelRepository.findAllByTypeIdAndProducerId(typeId, producerId).stream().map(deviceModelMapper::toDto).collect(Collectors.toList());
+        } else if (typeId != null) {
+            return deviceModelRepository.findAllByTypeId(typeId).stream().map(deviceModelMapper::toDto).collect(Collectors.toList());
+        } else if (producerId != null) {
+            return deviceModelRepository.findAllByProducerId(producerId).stream().map(deviceModelMapper::toDto).collect(Collectors.toList());
+        } else {
+            return deviceModelRepository.findAll().stream().map(deviceModelMapper::toDto).collect(Collectors.toList());
+        }
     }
 
 

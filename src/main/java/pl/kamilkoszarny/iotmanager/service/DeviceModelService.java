@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceModelDTO;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -26,6 +27,15 @@ public interface DeviceModelService {
      * @return the list of entities.
      */
     Page<DeviceModelDTO> findAll(Pageable pageable);
+
+    /**
+     * Get all the deviceModels by Type and Producer.
+     *
+     * @param typeId device type id.
+     * @param producerId device producer id.
+     * @return the list of entities.
+     */
+    List<DeviceModelDTO> findAllByTypeAndProducer(Long typeId, Long producerId);
 
 
     /**
