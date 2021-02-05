@@ -14,6 +14,7 @@ import pl.kamilkoszarny.iotmanager.domain.Device;
 import pl.kamilkoszarny.iotmanager.domain.DeviceModel;
 import pl.kamilkoszarny.iotmanager.domain.Site;
 import pl.kamilkoszarny.iotmanager.repository.DeviceRepository;
+import pl.kamilkoszarny.iotmanager.security.AuthoritiesConstants;
 import pl.kamilkoszarny.iotmanager.service.DeviceService;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceDTO;
 import pl.kamilkoszarny.iotmanager.service.mapper.DeviceMapper;
@@ -209,6 +210,18 @@ public class DeviceResourceIT {
 
     @Test
     @Transactional
+    public void getAllDevicesAsNoAdminThenForbidden() throws Exception {
+        // Initialize the database
+        deviceRepository.saveAndFlush(device);
+
+        // Get all the deviceList
+        restDeviceMockMvc.perform(get("/api/devices?sort=id,desc"))
+            .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     public void getAllDevices() throws Exception {
         // Initialize the database
         deviceRepository.saveAndFlush(device);

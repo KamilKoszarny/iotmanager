@@ -14,6 +14,7 @@ import pl.kamilkoszarny.iotmanager.domain.DeviceModel;
 import pl.kamilkoszarny.iotmanager.domain.DeviceProducer;
 import pl.kamilkoszarny.iotmanager.domain.DeviceType;
 import pl.kamilkoszarny.iotmanager.repository.DeviceModelRepository;
+import pl.kamilkoszarny.iotmanager.security.AuthoritiesConstants;
 import pl.kamilkoszarny.iotmanager.service.DeviceModelService;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceModelDTO;
 import pl.kamilkoszarny.iotmanager.service.mapper.DeviceModelMapper;
@@ -124,6 +125,17 @@ public class DeviceModelResourceIT {
 
     @Test
     @Transactional
+    public void createDeviceModelAsNoAdminThenForbidden() throws Exception {
+        DeviceModelDTO deviceModelDTO = deviceModelMapper.toDto(deviceModel);
+        restDeviceModelMockMvc.perform(post("/api/device-models")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(deviceModelDTO)))
+            .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     public void createDeviceModel() throws Exception {
         int databaseSizeBeforeCreate = deviceModelRepository.findAll().size();
         // Create the DeviceModel
@@ -142,7 +154,8 @@ public class DeviceModelResourceIT {
 
     @Test
     @Transactional
-    public void createDeviceModelWithExistingId() throws Exception {
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    public void createDeviceModelWithExistingIdThenBadRequest() throws Exception {
         int databaseSizeBeforeCreate = deviceModelRepository.findAll().size();
 
         // Create the DeviceModel with an existing ID
@@ -163,7 +176,8 @@ public class DeviceModelResourceIT {
 
     @Test
     @Transactional
-    public void checkNameIsRequired() throws Exception {
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    public void checkNameIsRequiredThenBadRequest() throws Exception {
         int databaseSizeBeforeTest = deviceModelRepository.findAll().size();
         // set the field null
         deviceModel.setName(null);
@@ -208,6 +222,7 @@ public class DeviceModelResourceIT {
             .andExpect(jsonPath("$.id").value(deviceModel.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME));
     }
+
     @Test
     @Transactional
     public void getNonExistingDeviceModel() throws Exception {
@@ -218,6 +233,29 @@ public class DeviceModelResourceIT {
 
     @Test
     @Transactional
+    public void updateDeviceModelAsNoAdminThenForbidden() throws Exception {
+        // Initialize the database
+        deviceModelRepository.saveAndFlush(deviceModel);
+
+        int databaseSizeBeforeUpdate = deviceModelRepository.findAll().size();
+
+        // Update the deviceModel
+        DeviceModel updatedDeviceModel = deviceModelRepository.findById(deviceModel.getId()).get();
+        // Disconnect from session so that the updates on updatedDeviceModel are not directly saved in db
+        em.detach(updatedDeviceModel);
+        updatedDeviceModel
+            .name(UPDATED_NAME);
+        DeviceModelDTO deviceModelDTO = deviceModelMapper.toDto(updatedDeviceModel);
+
+        restDeviceModelMockMvc.perform(put("/api/device-models")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(deviceModelDTO)))
+            .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     public void updateDeviceModel() throws Exception {
         // Initialize the database
         deviceModelRepository.saveAndFlush(deviceModel);
@@ -246,7 +284,8 @@ public class DeviceModelResourceIT {
 
     @Test
     @Transactional
-    public void updateNonExistingDeviceModel() throws Exception {
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    public void updateNonExistingDeviceModelThenBadRequest() throws Exception {
         int databaseSizeBeforeUpdate = deviceModelRepository.findAll().size();
 
         // Create the DeviceModel
@@ -265,6 +304,19 @@ public class DeviceModelResourceIT {
 
     @Test
     @Transactional
+    public void deleteDeviceModelAsNoAdminThenForbidden() throws Exception {
+        // Initialize the database
+        deviceModelRepository.saveAndFlush(deviceModel);
+
+        // Delete the deviceModel
+        restDeviceModelMockMvc.perform(delete("/api/device-models/{id}", deviceModel.getId())
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     public void deleteDeviceModel() throws Exception {
         // Initialize the database
         deviceModelRepository.saveAndFlush(deviceModel);

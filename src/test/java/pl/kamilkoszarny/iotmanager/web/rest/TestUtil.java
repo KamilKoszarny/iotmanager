@@ -9,19 +9,21 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
-
-import java.io.IOException;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeParseException;
-import java.util.List;
+import org.springframework.test.web.servlet.ResultActions;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeParseException;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 /**
  * Utility class for testing REST controllers.
@@ -43,7 +45,7 @@ public final class TestUtil {
      *
      * @param object the object to convert.
      * @return the JSON byte array.
-     * @throws IOException
+     * @throws IOException IOException
      */
     public static byte[] convertObjectToJsonBytes(Object object) throws IOException {
         return mapper.writeValueAsBytes(object);
@@ -151,6 +153,18 @@ public final class TestUtil {
         CriteriaQuery<T> all = cq.select(rootEntry);
         TypedQuery<T> allQuery = em.createQuery(all);
         return allQuery.getResultList();
+    }
+
+    public static void compareWithRawData(ResultActions result, List<String[]> rawData, String... fieldNames) throws Exception {
+        result.andExpect(jsonPath("$", hasSize(rawData.size())));
+        final int MAX_LINES_TO_COMPARE = 10;
+        for (int i = 0; i < Math.min(rawData.size(), MAX_LINES_TO_COMPARE); i++) {
+            String[] csvLine = rawData.get(i);
+            int fieldIndex = 0;
+            for (String fieldName: fieldNames) {
+                result.andExpect(jsonPath("$.[" + i + "]." + fieldName).value(csvLine[fieldIndex++]));
+            }
+        }
     }
 
     private TestUtil() {}

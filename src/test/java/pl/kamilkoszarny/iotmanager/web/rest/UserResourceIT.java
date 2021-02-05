@@ -1,13 +1,5 @@
 package pl.kamilkoszarny.iotmanager.web.rest;
 
-import pl.kamilkoszarny.iotmanager.IotmanagerApp;
-import pl.kamilkoszarny.iotmanager.domain.Authority;
-import pl.kamilkoszarny.iotmanager.domain.User;
-import pl.kamilkoszarny.iotmanager.repository.UserRepository;
-import pl.kamilkoszarny.iotmanager.security.AuthoritiesConstants;
-import pl.kamilkoszarny.iotmanager.service.dto.UserDTO;
-import pl.kamilkoszarny.iotmanager.service.mapper.UserMapper;
-import pl.kamilkoszarny.iotmanager.web.rest.vm.ManagedUserVM;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,15 +11,26 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import pl.kamilkoszarny.iotmanager.IotmanagerApp;
+import pl.kamilkoszarny.iotmanager.domain.Authority;
+import pl.kamilkoszarny.iotmanager.domain.User;
+import pl.kamilkoszarny.iotmanager.repository.UserRepository;
+import pl.kamilkoszarny.iotmanager.security.AuthoritiesConstants;
+import pl.kamilkoszarny.iotmanager.service.dto.UserDTO;
+import pl.kamilkoszarny.iotmanager.service.mapper.UserMapper;
+import pl.kamilkoszarny.iotmanager.web.rest.vm.ManagedUserVM;
 
 import javax.persistence.EntityManager;
 import java.time.Instant;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasItems;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -38,6 +41,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
 @SpringBootTest(classes = IotmanagerApp.class)
 public class UserResourceIT {
+
+    //todo: "user" user id should be get smarter here
+    public static final long CURRENT_USER_ID = 4L;
 
     private static final String DEFAULT_LOGIN = "johndoe";
     private static final String UPDATED_LOGIN = "jhipster";

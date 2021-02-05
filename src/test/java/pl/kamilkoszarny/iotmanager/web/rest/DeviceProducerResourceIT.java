@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.kamilkoszarny.iotmanager.IotmanagerApp;
 import pl.kamilkoszarny.iotmanager.domain.DeviceProducer;
 import pl.kamilkoszarny.iotmanager.repository.DeviceProducerRepository;
+import pl.kamilkoszarny.iotmanager.security.AuthoritiesConstants;
 import pl.kamilkoszarny.iotmanager.service.DeviceProducerService;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceProducerDTO;
 import pl.kamilkoszarny.iotmanager.service.mapper.DeviceProducerMapper;
@@ -82,6 +83,17 @@ public class DeviceProducerResourceIT {
 
     @Test
     @Transactional
+    public void createDeviceProducerAsNoAdminThenForbidden() throws Exception {
+        DeviceProducerDTO deviceProducerDTO = deviceProducerMapper.toDto(deviceProducer);
+        restDeviceProducerMockMvc.perform(post("/api/device-producers")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(deviceProducerDTO)))
+            .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     public void createDeviceProducer() throws Exception {
         int databaseSizeBeforeCreate = deviceProducerRepository.findAll().size();
         // Create the DeviceProducer
@@ -100,7 +112,8 @@ public class DeviceProducerResourceIT {
 
     @Test
     @Transactional
-    public void createDeviceProducerWithExistingId() throws Exception {
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    public void createDeviceProducerWithExistingIdThenBadRequest() throws Exception {
         int databaseSizeBeforeCreate = deviceProducerRepository.findAll().size();
 
         // Create the DeviceProducer with an existing ID
@@ -121,7 +134,8 @@ public class DeviceProducerResourceIT {
 
     @Test
     @Transactional
-    public void checkNameIsRequired() throws Exception {
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    public void checkNameIsRequiredThenBadRequest() throws Exception {
         int databaseSizeBeforeTest = deviceProducerRepository.findAll().size();
         // set the field null
         deviceProducer.setName(null);
@@ -176,6 +190,27 @@ public class DeviceProducerResourceIT {
 
     @Test
     @Transactional
+    public void updateDeviceProducerAsNoAdminThenForbidden() throws Exception {
+        // Initialize the database
+        deviceProducerRepository.saveAndFlush(deviceProducer);
+
+        // Update the deviceProducer
+        DeviceProducer updatedDeviceProducer = deviceProducerRepository.findById(deviceProducer.getId()).get();
+        // Disconnect from session so that the updates on updatedDeviceProducer are not directly saved in db
+        em.detach(updatedDeviceProducer);
+        updatedDeviceProducer
+            .name(UPDATED_NAME);
+        DeviceProducerDTO deviceProducerDTO = deviceProducerMapper.toDto(updatedDeviceProducer);
+
+        restDeviceProducerMockMvc.perform(put("/api/device-producers")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(deviceProducerDTO)))
+            .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     public void updateDeviceProducer() throws Exception {
         // Initialize the database
         deviceProducerRepository.saveAndFlush(deviceProducer);
@@ -204,7 +239,8 @@ public class DeviceProducerResourceIT {
 
     @Test
     @Transactional
-    public void updateNonExistingDeviceProducer() throws Exception {
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    public void updateNonExistingDeviceProducerThenBadRequest() throws Exception {
         int databaseSizeBeforeUpdate = deviceProducerRepository.findAll().size();
 
         // Create the DeviceProducer
@@ -221,8 +257,22 @@ public class DeviceProducerResourceIT {
         assertThat(deviceProducerList).hasSize(databaseSizeBeforeUpdate);
     }
 
+
     @Test
     @Transactional
+    public void deleteDeviceProducerAsNoAdminThenForbidden() throws Exception {
+        // Initialize the database
+        deviceProducerRepository.saveAndFlush(deviceProducer);
+
+        // Delete the deviceProducer
+        restDeviceProducerMockMvc.perform(delete("/api/device-producers/{id}", deviceProducer.getId())
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     public void deleteDeviceProducer() throws Exception {
         // Initialize the database
         deviceProducerRepository.saveAndFlush(deviceProducer);

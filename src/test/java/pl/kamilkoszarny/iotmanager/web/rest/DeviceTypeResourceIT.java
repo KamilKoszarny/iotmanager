@@ -13,6 +13,7 @@ import pl.kamilkoszarny.iotmanager.IotmanagerApp;
 import pl.kamilkoszarny.iotmanager.domain.DeviceType;
 import pl.kamilkoszarny.iotmanager.domain.enumeration.DeviceCategory;
 import pl.kamilkoszarny.iotmanager.repository.DeviceTypeRepository;
+import pl.kamilkoszarny.iotmanager.security.AuthoritiesConstants;
 import pl.kamilkoszarny.iotmanager.service.DeviceTypeService;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceTypeDTO;
 import pl.kamilkoszarny.iotmanager.service.mapper.DeviceTypeMapper;
@@ -85,9 +86,21 @@ public class DeviceTypeResourceIT {
         deviceType = createEntity(em);
     }
 
+
     @Test
     @Transactional
-    public void createDeviceType() throws Exception {
+    public void createDeviceTypeAsNoAdminThenForbidden() throws Exception {
+        DeviceTypeDTO deviceTypeDTO = deviceTypeMapper.toDto(deviceType);
+        restDeviceTypeMockMvc.perform(post("/api/device-types")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(deviceTypeDTO)))
+            .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    public void createDeviceTypeAsAdmin() throws Exception {
         int databaseSizeBeforeCreate = deviceTypeRepository.findAll().size();
         // Create the DeviceType
         DeviceTypeDTO deviceTypeDTO = deviceTypeMapper.toDto(deviceType);
@@ -106,7 +119,8 @@ public class DeviceTypeResourceIT {
 
     @Test
     @Transactional
-    public void createDeviceTypeWithExistingId() throws Exception {
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    public void createDeviceTypeWithExistingIdThenBadRequest() throws Exception {
         int databaseSizeBeforeCreate = deviceTypeRepository.findAll().size();
 
         // Create the DeviceType with an existing ID
@@ -127,7 +141,8 @@ public class DeviceTypeResourceIT {
 
     @Test
     @Transactional
-    public void checkNameIsRequired() throws Exception {
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    public void checkNameIsRequiredThenBadRequest() throws Exception {
         int databaseSizeBeforeTest = deviceTypeRepository.findAll().size();
         // set the field null
         deviceType.setName(null);
@@ -147,7 +162,8 @@ public class DeviceTypeResourceIT {
 
     @Test
     @Transactional
-    public void checkCategoryIsRequired() throws Exception {
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    public void checkCategoryIsRequiredThenBadRequest() throws Exception {
         int databaseSizeBeforeTest = deviceTypeRepository.findAll().size();
         // set the field null
         deviceType.setCategory(null);
@@ -204,6 +220,28 @@ public class DeviceTypeResourceIT {
 
     @Test
     @Transactional
+    public void updateDeviceTypeAsNoAdminThenForbidden() throws Exception {
+        // Initialize the database
+        deviceTypeRepository.saveAndFlush(deviceType);
+
+        // Update the deviceType
+        DeviceType updatedDeviceType = deviceTypeRepository.findById(deviceType.getId()).get();
+        // Disconnect from session so that the updates on updatedDeviceType are not directly saved in db
+        em.detach(updatedDeviceType);
+        updatedDeviceType
+            .name(UPDATED_NAME)
+            .category(UPDATED_CATEGORY);
+        DeviceTypeDTO deviceTypeDTO = deviceTypeMapper.toDto(updatedDeviceType);
+
+        restDeviceTypeMockMvc.perform(put("/api/device-types")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(deviceTypeDTO)))
+            .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     public void updateDeviceType() throws Exception {
         // Initialize the database
         deviceTypeRepository.saveAndFlush(deviceType);
@@ -234,7 +272,8 @@ public class DeviceTypeResourceIT {
 
     @Test
     @Transactional
-    public void updateNonExistingDeviceType() throws Exception {
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    public void updateNonExistingDeviceTypeThenBadRequest() throws Exception {
         int databaseSizeBeforeUpdate = deviceTypeRepository.findAll().size();
 
         // Create the DeviceType
@@ -253,6 +292,19 @@ public class DeviceTypeResourceIT {
 
     @Test
     @Transactional
+    public void deleteDeviceTypeAsNoAdminThenForbidden() throws Exception {
+        // Initialize the database
+        deviceTypeRepository.saveAndFlush(deviceType);
+
+        // Delete the deviceType
+        restDeviceTypeMockMvc.perform(delete("/api/device-types/{id}", deviceType.getId())
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     public void deleteDeviceType() throws Exception {
         // Initialize the database
         deviceTypeRepository.saveAndFlush(deviceType);

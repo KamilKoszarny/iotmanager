@@ -1,6 +1,8 @@
 package pl.kamilkoszarny.iotmanager.service.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -10,7 +12,9 @@ import java.io.Serializable;
 /**
  * A DTO for the {@link pl.kamilkoszarny.iotmanager.domain.Device} entity.
  */
-@Data
+@Getter
+@Setter
+@ToString
 public class DeviceFriendlyDTO implements Serializable {
 
     private Long id;
@@ -31,15 +35,20 @@ public class DeviceFriendlyDTO implements Serializable {
 
     private String siteName;
 
-    // prettier-ignore
     @Override
-    public String toString() {
-        return "DeviceDTO{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", serialNo='" + getSerialNo() + "'" +
-            ", modelId=" + getModelId() +
-            ", siteId=" + getSiteId() +
-            "}";
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof DeviceFriendlyDTO)) {
+            return false;
+        }
+
+        return id != null && id.equals(((DeviceFriendlyDTO) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 31;
     }
 }
