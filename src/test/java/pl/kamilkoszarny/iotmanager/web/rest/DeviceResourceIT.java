@@ -1,5 +1,6 @@
 package pl.kamilkoszarny.iotmanager.web.rest;
 
+import liquibase.util.csv.CSVReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 import pl.kamilkoszarny.iotmanager.IotmanagerApp;
 import pl.kamilkoszarny.iotmanager.domain.Device;
@@ -20,10 +23,11 @@ import pl.kamilkoszarny.iotmanager.service.dto.DeviceDTO;
 import pl.kamilkoszarny.iotmanager.service.mapper.DeviceMapper;
 
 import javax.persistence.EntityManager;
+import java.io.FileReader;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -222,17 +226,53 @@ public class DeviceResourceIT {
     @Test
     @Transactional
     @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    @Sql({"/config/liquibase/fake-data/sqlTestInserts/device_producer.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/device_type.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/device_model.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/site.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/device.sql",})
     public void getAllDevices() throws Exception {
-        // Initialize the database
-        deviceRepository.saveAndFlush(device);
+        // Database initialized by sql above
+
+        // Reading data directly from csv - it will be the same as in database
+        CSVReader csvReader = new CSVReader(new FileReader("src/main/resources/config/liquibase/fake-data/device.csv"), ';');
+        final List<String[]> csvData = csvReader.readAll();
+        csvData.remove(0); //remove header
 
         // Get all the deviceList
-        restDeviceMockMvc.perform(get("/api/devices?sort=id,desc"))
+        final ResultActions result = restDeviceMockMvc.perform(get("/api/devices?sort=id,asc"))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(device.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].serialNo").value(hasItem(DEFAULT_SERIAL_NO)));
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
+
+        TestUtil.compareWithRawData(result, csvData, "id", "name", "serialNo", "modelId", "siteId");
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    @Sql({"/config/liquibase/fake-data/sqlTestInserts/device_producer.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/device_type.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/device_model.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/site.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/device.sql",})
+    public void getAllUserDevices() throws Exception {
+        // Database initialized by sql above
+
+        // Reading data directly from csv - it will be the same as in database
+        CSVReader csvReader = new CSVReader(new FileReader("src/main/resources/config/liquibase/fake-data/device.csv"), ';');
+        final List<String[]> csvDataForCurrentUser = csvReader.readAll();
+        csvDataForCurrentUser.remove(0); //remove header
+        List<String[]> currentUserSites = SiteResourceIT.currentUserSites();
+        List<String> currentUserSitesIds = currentUserSites.stream().map(siteArray -> siteArray[0]).collect(Collectors.toList());
+        csvDataForCurrentUser.removeIf(strings -> !currentUserSitesIds.contains(strings[4])); //remove devices not in current user sites
+
+
+        // Get all the deviceList
+        final ResultActions result = restDeviceMockMvc.perform(get("/api/devices/user?sort=id,asc"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
+
+        TestUtil.compareWithRawData(result, csvDataForCurrentUser, "id", "name", "serialNo", "modelId", "siteId");
     }
 
     @Test

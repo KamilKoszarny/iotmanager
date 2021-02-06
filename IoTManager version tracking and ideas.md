@@ -12,6 +12,15 @@
 
 ##Versions history
 
+#####0.1.8.2 (06.02.2021)
+
+- <sub>Tests: filtering and User Entities -> 100% coverage of my lines
+
+#####0.1.8.1 (05.02.2021)
+
+- <sub>Tests: including Roles and userId (Forbidden, NotYourEntity), filling db with csv and comparing to csv
+- <sub>Lombok Getter Setter ToString for DTOs (instead of Data not compatible with EqualsVerifier tests)
+
 ####0.1.8 (31.01.2021)
 
 - add a Device: filtering DeviceModels by Producer and DeviceType

@@ -1,6 +1,7 @@
 package pl.kamilkoszarny.iotmanager.web.rest;
 
 import liquibase.util.csv.CSVReader;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import pl.kamilkoszarny.iotmanager.service.mapper.SiteMapper;
 
 import javax.persistence.EntityManager;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -286,7 +288,7 @@ public class SiteResourceIT {
     @Test
     @Transactional
     @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
-    @Sql("/config/liquibase/fake-data/site.sql")
+    @Sql("/config/liquibase/fake-data/sqlTestInserts/site.sql")
     public void getAllSites() throws Exception {
         // Database initialized by sql above
 
@@ -301,6 +303,32 @@ public class SiteResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
 
         TestUtil.compareWithRawData(result, csvData, "id", "name", "city", "street", "streetNo", "userId");
+    }
+
+    @Test
+    @Transactional
+    @Sql("/config/liquibase/fake-data/sqlTestInserts/site.sql")
+    public void getAllUserSites() throws Exception {
+        // Database initialized by sql above
+
+        // Reading data directly from csv - it will be the same as in database
+        final List<String[]> csvDataForCurrentUser = currentUserSites();
+
+        // Get all the siteList
+        final ResultActions result = restSiteMockMvc.perform(get("/api/sites/user?sort=id,asc"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
+
+        TestUtil.compareWithRawData(result, csvDataForCurrentUser, "id", "name", "city", "street", "streetNo", "userId");
+    }
+
+    @NotNull
+    public static List<String[]> currentUserSites() throws IOException {
+        CSVReader csvReader = new CSVReader(new FileReader("src/main/resources/config/liquibase/fake-data/site.csv"), ';');
+        final List<String[]> csvDataForCurrentUser = csvReader.readAll();
+        csvDataForCurrentUser.remove(0); //remove header
+        csvDataForCurrentUser.removeIf(strings -> !strings[5].equals(Long.toString(UserResourceIT.CURRENT_USER_ID))); //remove not current user sites
+        return csvDataForCurrentUser;
     }
 
     @Test

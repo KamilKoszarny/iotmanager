@@ -1,5 +1,6 @@
 package pl.kamilkoszarny.iotmanager.web.rest;
 
+import liquibase.util.csv.CSVReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 import pl.kamilkoszarny.iotmanager.IotmanagerApp;
 import pl.kamilkoszarny.iotmanager.domain.DeviceModel;
@@ -20,10 +23,10 @@ import pl.kamilkoszarny.iotmanager.service.dto.DeviceModelDTO;
 import pl.kamilkoszarny.iotmanager.service.mapper.DeviceModelMapper;
 
 import javax.persistence.EntityManager;
+import java.io.FileReader;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -197,16 +200,118 @@ public class DeviceModelResourceIT {
 
     @Test
     @Transactional
+    @Sql({"/config/liquibase/fake-data/sqlTestInserts/device_producer.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/device_type.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/device_model.sql"})
     public void getAllDeviceModels() throws Exception {
-        // Initialize the database
-        deviceModelRepository.saveAndFlush(deviceModel);
+        // Database initialized by sql above
+
+        // Reading data directly from csv - it will be the same as in database
+        CSVReader csvReader = new CSVReader(new FileReader("src/main/resources/config/liquibase/fake-data/device_model.csv"), ';');
+        final List<String[]> csvData = csvReader.readAll();
+        csvData.remove(0); //remove header
 
         // Get all the deviceModelList
-        restDeviceModelMockMvc.perform(get("/api/device-models?sort=id,desc"))
+        final ResultActions result = restDeviceModelMockMvc.perform(get("/api/device-models?sort=id,asc"))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(deviceModel.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)));
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
+
+        TestUtil.compareWithRawData(result, csvData, "id", "name", "producerId", "typeId");
+    }
+
+    @Test
+    @Transactional
+    @Sql({"/config/liquibase/fake-data/sqlTestInserts/device_producer.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/device_type.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/device_model.sql"})
+    public void getAllDeviceModelsByTypeAndProducer() throws Exception {
+        // Database initialized by sql above
+        final String PRODUCER_ID = "2";
+        final String TYPE_ID = "1";
+
+        // Reading data directly from csv - it will be the same as in database
+        CSVReader csvReader = new CSVReader(new FileReader("src/main/resources/config/liquibase/fake-data/device_model.csv"), ';');
+        final List<String[]> filteredCsvData = csvReader.readAll();
+        filteredCsvData.remove(0); //remove header
+        filteredCsvData.removeIf(strings -> !strings[2].equals(PRODUCER_ID) || !strings[3].equals(TYPE_ID));
+
+        // Get all the deviceModelList
+        final ResultActions result = restDeviceModelMockMvc.perform(get("/api/device-models/filter?sort=id,asc")
+            .param("typeId", TYPE_ID)
+            .param("producerId", PRODUCER_ID))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
+
+        TestUtil.compareWithRawData(result, filteredCsvData, "id", "name", "producerId", "typeId");
+    }
+
+    @Test
+    @Transactional
+    @Sql({"/config/liquibase/fake-data/sqlTestInserts/device_producer.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/device_type.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/device_model.sql"})
+    public void getAllDeviceModelsByType() throws Exception {
+        // Database initialized by sql above
+        final String TYPE_ID = "1";
+
+        // Reading data directly from csv - it will be the same as in database
+        CSVReader csvReader = new CSVReader(new FileReader("src/main/resources/config/liquibase/fake-data/device_model.csv"), ';');
+        final List<String[]> filteredCsvData = csvReader.readAll();
+        filteredCsvData.remove(0); //remove header
+        filteredCsvData.removeIf(strings -> !strings[3].equals(TYPE_ID));
+
+        // Get all the deviceModelList
+        final ResultActions result = restDeviceModelMockMvc.perform(get("/api/device-models/filter?sort=id,asc")
+            .param("typeId", TYPE_ID))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
+
+        TestUtil.compareWithRawData(result, filteredCsvData, "id", "name", "producerId", "typeId");
+    }
+
+    @Test
+    @Transactional
+    @Sql({"/config/liquibase/fake-data/sqlTestInserts/device_producer.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/device_type.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/device_model.sql"})
+    public void getAllDeviceModelsByProducer() throws Exception {
+        // Database initialized by sql above
+        final String PRODUCER_ID = "2";
+
+        // Reading data directly from csv - it will be the same as in database
+        CSVReader csvReader = new CSVReader(new FileReader("src/main/resources/config/liquibase/fake-data/device_model.csv"), ';');
+        final List<String[]> filteredCsvData = csvReader.readAll();
+        filteredCsvData.remove(0); //remove header
+        filteredCsvData.removeIf(strings -> !strings[2].equals(PRODUCER_ID));
+
+        // Get all the deviceModelList
+        final ResultActions result = restDeviceModelMockMvc.perform(get("/api/device-models/filter?sort=id,asc")
+            .param("producerId", PRODUCER_ID))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
+
+        TestUtil.compareWithRawData(result, filteredCsvData, "id", "name", "producerId", "typeId");
+    }
+
+    @Test
+    @Transactional
+    @Sql({"/config/liquibase/fake-data/sqlTestInserts/device_producer.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/device_type.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/device_model.sql"})
+    public void getAllDeviceWithEmptyFilter() throws Exception {
+        // Database initialized by sql above
+
+        // Reading data directly from csv - it will be the same as in database
+        CSVReader csvReader = new CSVReader(new FileReader("src/main/resources/config/liquibase/fake-data/device_model.csv"), ';');
+        final List<String[]> csvData = csvReader.readAll();
+        csvData.remove(0); //remove header
+
+        // Get all the deviceModelList
+        final ResultActions result = restDeviceModelMockMvc.perform(get("/api/device-models/filter?sort=id,asc"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
+
+        TestUtil.compareWithRawData(result, csvData, "id", "name", "producerId", "typeId");
     }
 
     @Test
