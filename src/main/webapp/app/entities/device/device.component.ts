@@ -115,7 +115,7 @@ export class DeviceComponent implements OnInit, OnDestroy {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
     if (navigate) {
-      this.router.navigate(['/device'], {
+      this.router.navigate(['/device' + (this.isAdmin ? '' : '/user')], {
         queryParams: {
           page: this.page,
           size: this.itemsPerPage,

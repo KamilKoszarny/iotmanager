@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
+import { conditionalValidator } from 'app/shared/validators/conditional-validator';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -26,7 +27,7 @@ export class SiteUpdateComponent implements OnInit {
     city: [null, [Validators.required, Validators.maxLength(50)]],
     street: [null, [Validators.maxLength(50)]],
     streetNo: [null, [Validators.required, Validators.maxLength(10)]],
-    userId: [null],
+    userId: [null, [conditionalValidator(() => this.isAdmin, Validators.required)]],
   });
 
   constructor(

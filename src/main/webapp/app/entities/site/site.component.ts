@@ -115,7 +115,7 @@ export class SiteComponent implements OnInit, OnDestroy {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
     if (navigate) {
-      this.router.navigate(['/site'], {
+      this.router.navigate(['/site' + (this.isAdmin ? '' : '/user')], {
         queryParams: {
           page: this.page,
           size: this.itemsPerPage,

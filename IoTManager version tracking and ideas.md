@@ -1,7 +1,5 @@
 ##Ideas
 
-- fix: routing of User after deletion of Site/Device
-- fix: Site require User
 - deleting: foreign key constrains errors: "You cannot delete a Site with Devices" OR "Site deletion will delete those Devices: "
 - proposing new DeviceModel, DeviceType, Producer by Users for Admin approval
 - Device Faults: reporting, fixing, managing
@@ -11,6 +9,11 @@
 ####In next version
 
 ##Versions history
+
+####0.1.9 (06.02.2021)
+
+- fix: routing of User after deletion/sorting of Site/Device
+- fix: Site require User
 
 #####0.1.8.2 (06.02.2021)
 
