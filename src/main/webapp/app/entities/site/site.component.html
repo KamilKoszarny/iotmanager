@@ -4,8 +4,11 @@
 
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-site" [routerLink]="isAdmin ? ['/site/new'] : ['/site/user/new']">
             <fa-icon icon="plus"></fa-icon>
-            <span  jhiTranslate="iotmanagerApp.site.home.createLabel">
+            <span *ngIf="isAdmin" jhiTranslate="iotmanagerApp.site.home.createLabel">
             Create a new Site
+            </span>
+            <span *ngIf="!isAdmin" jhiTranslate="iotmanagerApp.site.home.createOwnLabel">
+            Create your new Site
             </span>
         </button>
     </h2>

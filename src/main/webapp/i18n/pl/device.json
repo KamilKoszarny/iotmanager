@@ -4,7 +4,9 @@
       "home": {
         "title": "Urządzenie",
         "createLabel": "Dodaj urządzenie",
+        "createOwnLabel": "Dodaj Twoje urządzenie",
         "editLabel": "Edytuj urządzenie",
+        "editOwnLabel": "Edytuj Twoje urządzenie",
         "notFound": "Nie znaleziono urządzeń"
       },
       "created": "Utworzono nowe urządzenie z identyfikatorem {{ param }}",

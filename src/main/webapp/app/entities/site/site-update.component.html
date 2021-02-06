@@ -1,8 +1,10 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 *ngIf="isCreateNew" id="jhi-site-heading-new" jhiTranslate="iotmanagerApp.site.home.createLabel">Create a new Site</h2>
-            <h2 *ngIf="!isCreateNew" id="jhi-site-heading-edit" jhiTranslate="iotmanagerApp.site.home.editLabel">Edit a Site</h2>
+            <h2 *ngIf="isCreateNew && isAdmin" id="jhi-site-heading-new" jhiTranslate="iotmanagerApp.site.home.createLabel">Create a new Site</h2>
+            <h2 *ngIf="isCreateNew && !isAdmin" id="jhi-site-heading-new-own" jhiTranslate="iotmanagerApp.site.home.createOwnLabel">Create your new Site</h2>
+            <h2 *ngIf="!isCreateNew && isAdmin" id="jhi-site-heading-edit" jhiTranslate="iotmanagerApp.site.home.editLabel">Edit a Site</h2>
+            <h2 *ngIf="!isCreateNew && !isAdmin" id="jhi-site-heading-edit-own" jhiTranslate="iotmanagerApp.site.home.editOwnLabel">Edit your Site</h2>
 
             <div>
                 <jhi-alert-error></jhi-alert-error>

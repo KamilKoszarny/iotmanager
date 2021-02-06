@@ -4,7 +4,9 @@
       "home": {
         "title": "Sites",
         "createLabel": "Create a new Site",
+        "createOwnLabel": "Create your new Site",
         "editLabel": "Edit a Site",
+        "editOwnLabel": "Edit your Site",
         "notFound": "No Sites found"
       },
       "created": "A new Site is created with identifier {{ param }}",

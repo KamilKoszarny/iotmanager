@@ -4,7 +4,9 @@
       "home": {
         "title": "Lokalizacja",
         "createLabel": "Dodaj lokalizację",
+        "createOwnLabel": "Dodaj Twoją lokalizację",
         "editLabel": "Edytuj lokalizację",
+        "editOwnLabel": "Edytuj Twoją lokalizację",
         "notFound": "Nie znaleziono lokalizacji"
       },
       "created": "Utworzono nową lokalizację z identyfikatorem {{ param }}",

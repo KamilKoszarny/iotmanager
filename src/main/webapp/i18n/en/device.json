@@ -5,7 +5,9 @@
         "title": "Devices",
         "userTitle": "My Devices",
         "createLabel": "Create a new Device",
+        "createOwnLabel": "Create your new Device",
         "editLabel": "Edit a Device",
+        "editOwnLabel": "Edit your Device",
         "notFound": "No Devices found"
       },
       "created": "A new Device is created with identifier {{ param }}",
