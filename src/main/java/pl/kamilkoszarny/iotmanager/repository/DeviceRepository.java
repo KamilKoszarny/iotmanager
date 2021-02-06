@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import pl.kamilkoszarny.iotmanager.domain.Device;
 import pl.kamilkoszarny.iotmanager.domain.Site;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -16,5 +17,7 @@ import java.util.List;
 @Repository
 public interface DeviceRepository extends JpaRepository<Device, Long> {
 
-    Page<Device> findAllBySiteIn(Pageable pageable, List<Site> sites);
+    List<Device> findBySiteId(Long siteId);
+
+    Page<Device> findAllBySiteIn(Pageable pageable, Collection<Site> sites);
 }

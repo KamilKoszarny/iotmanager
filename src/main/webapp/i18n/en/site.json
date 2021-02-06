@@ -11,7 +11,8 @@
       "updated": "A Site is updated with identifier {{ param }}",
       "deleted": "A Site is deleted with identifier {{ param }}",
       "delete": {
-        "question": "Are you sure you want to delete Site {{ id }}?"
+        "question": "Are you sure you want to delete Site {{ name }} and all Devices in it?",
+        "listOfDevices": "Devices it this Site:"
       },
       "detail": {
         "title": "Site"

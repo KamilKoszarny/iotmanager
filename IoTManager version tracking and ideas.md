@@ -1,10 +1,11 @@
 ##Ideas
 
-- deleting: foreign key constrains errors: "You cannot delete a Site with Devices" OR "Site deletion will delete those Devices: "
+- adding device to any site for admin
 - proposing new DeviceModel, DeviceType, Producer by Users for Admin approval
 - Device Faults: reporting, fixing, managing
 - Producer role
 - Fixer role
+- deleting: behaviour like Site for other entities
 
 ####In next version
 
@@ -14,6 +15,7 @@
 
 - fix: routing of User after deletion/sorting of Site/Device
 - fix: Site require User
+- deleting Site with Devices (shown on confirm dialog)
 
 #####0.1.8.2 (06.02.2021)
 

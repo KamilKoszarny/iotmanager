@@ -11,7 +11,8 @@
       "updated": "Uaktualniono lokalizację z identyfikatorem {{ param }}",
       "deleted": "Usunięto lokalizację z identyfikatorem {{ param }}",
       "delete": {
-        "question": "Czy na pewno chcesz usunąć lokalizację {{ id }}?"
+        "question": "Czy na pewno chcesz usunąć lokalizację {{ name }} i wszystkie urządzenia które zawiera?",
+        "listOfDevices": "Lista urządzeń w tej lokalizacji:"
       },
       "detail": {
         "title": "Lokalizacja"

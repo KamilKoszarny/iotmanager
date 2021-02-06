@@ -112,6 +112,18 @@ public class DeviceResource {
     }
 
     /**
+     * {@code GET  /devices/user} : get devices by site id.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of devices in body.
+     */
+    @GetMapping("/devices/site/{siteId}")
+    public ResponseEntity<List<DeviceFriendlyDTO>> getAllDevicesBySite(@PathVariable Long siteId) {
+        log.debug("REST request to get a list of Devices by SiteId");
+        List<DeviceFriendlyDTO> list = deviceService.findAllBySiteId(siteId);
+        return ResponseEntity.ok().body(list);
+    }
+
+    /**
      * {@code GET  /devices/:id} : get the "id" device.
      *
      * @param id the id of the deviceDTO to retrieve.

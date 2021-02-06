@@ -38,12 +38,7 @@ public interface SiteService {
     @Transactional(readOnly = true)
     Page<SiteDTO> findAllByCurrentUser(Pageable pageable);
 
-    /**
-     * Get the "id" site.
-     *
-     * @param id the id of the entity.
-     * @return the entity.
-     */
+    @Transactional(readOnly = true)
     Optional<SiteDTO> findOne(Long id);
 
     /**

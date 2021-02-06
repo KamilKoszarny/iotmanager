@@ -19,6 +19,7 @@ import pl.kamilkoszarny.iotmanager.service.mapper.DeviceMapper;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link Device}.
@@ -69,6 +70,14 @@ public class DeviceServiceImpl implements DeviceService {
         List<Site> currentUserSites = siteService.findAllByCurrentUser();
         return deviceRepository.findAllBySiteIn(pageable, currentUserSites)
             .map(deviceMapper::toFriendlyDto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<DeviceFriendlyDTO> findAllBySiteId(Long siteId) {
+        log.debug("Request to get Devices of by siteId: " + siteId);
+        return deviceRepository.findBySiteId(siteId).stream()
+            .map(deviceMapper::toFriendlyDto).collect(Collectors.toList());
     }
 
 

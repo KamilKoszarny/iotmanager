@@ -277,6 +277,33 @@ public class DeviceResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    @Sql({"/config/liquibase/fake-data/sqlTestInserts/device_producer.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/device_type.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/device_model.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/site.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/device.sql",})
+    public void getAllDevicesBySiteId() throws Exception {
+        // Database initialized by sql above
+        final String SITE_ID = "1";
+
+        // Reading data directly from csv - it will be the same as in database
+        CSVReader csvReader = new CSVReader(new FileReader("src/main/resources/config/liquibase/fake-data/device.csv"), ';');
+        final List<String[]> csvDataForCurrentUser = csvReader.readAll();
+        csvDataForCurrentUser.remove(0); //remove header
+        csvDataForCurrentUser.removeIf(strings -> !strings[4].equals(SITE_ID)); //remove devices not in site
+
+
+        // Get all the deviceList
+        final ResultActions result = restDeviceMockMvc.perform(get("/api/devices/site/" + SITE_ID + "?sort=id,asc"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
+
+        TestUtil.compareWithRawData(result, csvDataForCurrentUser, "id", "name", "serialNo", "modelId", "siteId");
+    }
+
+    @Test
+    @Transactional
     public void getDevice() throws Exception {
         // Initialize the database
         deviceRepository.saveAndFlush(device);

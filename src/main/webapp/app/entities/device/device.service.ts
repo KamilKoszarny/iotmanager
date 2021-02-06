@@ -37,6 +37,10 @@ export class DeviceService {
     return this.http.get<IDevice[]>(`${this.resourceUrl}/user`, { params: options, observe: 'response' });
   }
 
+  queryBySiteId(siteId?: number): Observable<EntityArrayResponseType> {
+    return this.http.get<IDevice[]>(`${this.resourceUrl}/site/${siteId}`, { observe: 'response' });
+  }
+
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }

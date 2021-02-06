@@ -45,7 +45,7 @@ public class Site implements Serializable {
     @Column(name = "street_no", length = 10, nullable = false)
     private String streetNo;
 
-    @OneToMany(mappedBy = "site")
+    @OneToMany(mappedBy = "site", orphanRemoval = true)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Device> devices = new HashSet<>();
 

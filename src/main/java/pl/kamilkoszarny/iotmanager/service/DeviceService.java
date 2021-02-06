@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceDTO;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceFriendlyDTO;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -32,6 +33,9 @@ public interface DeviceService {
 
     @Transactional(readOnly = true)
     Page<DeviceFriendlyDTO> findAllByCurrentUser(Pageable pageable);
+
+    @Transactional(readOnly = true)
+    List<DeviceFriendlyDTO> findAllBySiteId(Long siteId);
 
     /**
      * Get the "id" device.
