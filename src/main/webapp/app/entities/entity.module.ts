@@ -24,6 +24,10 @@ import { RouterModule } from '@angular/router';
         path: 'site',
         loadChildren: () => import('./site/site.module').then(m => m.IotmanagerSiteModule),
       },
+      {
+        path: 'device-fault',
+        loadChildren: () => import('./device-fault/device-fault.module').then(m => m.IotmanagerDeviceFaultModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

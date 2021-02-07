@@ -20,7 +20,7 @@
 
 #####0.1.8.2 (06.02.2021)
 
-- <sub>Tests: filtering and User Entities -> 100% coverage of my lines
+- <sub>Tests: filtering and User Entities -> 100% coverage of mine Resource and Service lines
 
 #####0.1.8.1 (05.02.2021)
 

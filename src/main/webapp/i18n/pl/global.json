@@ -14,6 +14,7 @@
         "deviceType": "Typy urządzeń",
         "deviceModel": "Modele urządzeń",
         "deviceProducer": "Producenci urządzeń",
+        "deviceFault": "Usterka urządzenia",
         "site": "Lokalizacje",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
