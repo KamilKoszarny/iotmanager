@@ -84,10 +84,14 @@ public class SiteServiceImpl implements SiteService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<SiteWithDevicesDTO> findOne(Long id) {
+    public Optional<SiteWithDevicesDTO> findOne(Long id) throws NotYourEntityException {
         log.debug("Request to get Site : {}", id);
-        return siteRepository.findById(id)
-            .map(siteMapper::toWithDevicesDto);
+        final Site site = siteRepository.findById(id).orElse(null);
+        User currentUser = userService.getCurrentUser();
+        if (site != null && !site.getUser().getId().equals(currentUser.getId()) && !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
+            throw new NotYourEntityException(currentUser.getId(), "Site", site.getId());
+        }
+        return Optional.ofNullable(siteMapper.toWithDevicesDto(site));
     }
 
     @Override

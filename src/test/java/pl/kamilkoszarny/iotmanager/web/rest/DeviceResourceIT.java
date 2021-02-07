@@ -16,7 +16,9 @@ import pl.kamilkoszarny.iotmanager.IotmanagerApp;
 import pl.kamilkoszarny.iotmanager.domain.Device;
 import pl.kamilkoszarny.iotmanager.domain.DeviceModel;
 import pl.kamilkoszarny.iotmanager.domain.Site;
+import pl.kamilkoszarny.iotmanager.domain.User;
 import pl.kamilkoszarny.iotmanager.repository.DeviceRepository;
+import pl.kamilkoszarny.iotmanager.repository.UserRepository;
 import pl.kamilkoszarny.iotmanager.security.AuthoritiesConstants;
 import pl.kamilkoszarny.iotmanager.service.DeviceService;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceDTO;
@@ -49,6 +51,9 @@ public class DeviceResourceIT {
     private DeviceRepository deviceRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private DeviceMapper deviceMapper;
 
     @Autowired
@@ -61,6 +66,7 @@ public class DeviceResourceIT {
     private MockMvc restDeviceMockMvc;
 
     private Device device;
+    private Device currentUserDevice;
 
     /**
      * Create an entity for this test.
@@ -126,10 +132,41 @@ public class DeviceResourceIT {
         device.setSite(site);
         return device;
     }
+    /**
+     * Create an entity for this test.
+     *
+     * This is a static method, as tests for other entities might also need it,
+     * if they test an entity which requires the current entity.
+     */
+    public Device createEntityForCurrentUser(EntityManager em) {
+        Device device = new Device()
+            .name(DEFAULT_NAME)
+            .serialNo(DEFAULT_SERIAL_NO);
+        // Add required entity
+        DeviceModel deviceModel;
+        if (TestUtil.findAll(em, DeviceModel.class).isEmpty()) {
+            deviceModel = DeviceModelResourceIT.createEntity(em);
+            em.persist(deviceModel);
+            em.flush();
+        } else {
+            deviceModel = TestUtil.findAll(em, DeviceModel.class).get(0);
+        }
+        device.setModel(deviceModel);
+        // Add required entity
+        Site site = SiteResourceIT.createEntity(em);
+        User currentUser = userRepository.getOne(UserResourceIT.CURRENT_USER_ID);
+        site.setUser(currentUser);
+        em.persist(site);
+        em.flush();
+
+        device.setSite(site);
+        return device;
+    }
 
     @BeforeEach
     public void initTest() {
         device = createEntity(em);
+        currentUserDevice = createEntityForCurrentUser(em);
     }
 
     @Test
@@ -306,13 +343,13 @@ public class DeviceResourceIT {
     @Transactional
     public void getDevice() throws Exception {
         // Initialize the database
-        deviceRepository.saveAndFlush(device);
+        deviceRepository.saveAndFlush(currentUserDevice);
 
         // Get the device
-        restDeviceMockMvc.perform(get("/api/devices/{id}", device.getId()))
+        restDeviceMockMvc.perform(get("/api/devices/{id}", currentUserDevice.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(device.getId().intValue()))
+            .andExpect(jsonPath("$.id").value(currentUserDevice.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.serialNo").value(DEFAULT_SERIAL_NO));
     }
@@ -323,6 +360,20 @@ public class DeviceResourceIT {
         restDeviceMockMvc.perform(get("/api/devices/{id}", Long.MAX_VALUE))
             .andExpect(status().isNotFound());
     }
+
+    @Test
+    @Transactional
+    public void getDeviceOfOtherUserThenNotYourEntityException() throws Exception {
+        // Initialize the database
+        deviceRepository.saveAndFlush(device);
+
+        // Get the device
+        restDeviceMockMvc.perform(get("/api/devices/{id}", device.getId()))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON))
+            .andExpect(jsonPath("message").value("error.notYourEntity"));
+    }
+
 
     @Test
     @Transactional

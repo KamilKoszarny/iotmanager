@@ -43,7 +43,7 @@ public interface DeviceService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<DeviceDTO> findOne(Long id);
+    Optional<DeviceFriendlyDTO> findOne(Long id);
 
     /**
      * Delete the "id" device.

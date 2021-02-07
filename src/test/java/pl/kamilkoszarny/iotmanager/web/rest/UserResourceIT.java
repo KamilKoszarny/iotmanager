@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cache.CacheManager;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,6 @@ import pl.kamilkoszarny.iotmanager.service.dto.UserDTO;
 import pl.kamilkoszarny.iotmanager.service.mapper.UserMapper;
 import pl.kamilkoszarny.iotmanager.web.rest.vm.ManagedUserVM;
 
-import javax.persistence.EntityManager;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.HashSet;
@@ -45,7 +45,8 @@ public class UserResourceIT {
     //todo: "user" user id should be get smarter here
     public static final long CURRENT_USER_ID = 4L;
 
-    private static final String DEFAULT_LOGIN = "johndoe";
+    public static final String DEFAULT_LOGIN = "johndoe";
+
     private static final String UPDATED_LOGIN = "jhipster";
 
     private static final Long DEFAULT_ID = 1L;
@@ -75,13 +76,13 @@ public class UserResourceIT {
     private UserMapper userMapper;
 
     @Autowired
-    private EntityManager em;
-
-    @Autowired
     private CacheManager cacheManager;
 
     @Autowired
     private MockMvc restUserMockMvc;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private User user;
 
@@ -97,7 +98,7 @@ public class UserResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which has a required relationship to the User entity.
      */
-    public static User createEntity(EntityManager em) {
+    public static User createEntity() {
         User user = new User();
         user.setLogin(DEFAULT_LOGIN + RandomStringUtils.randomAlphabetic(5));
         user.setPassword(RandomStringUtils.random(60));
@@ -110,9 +111,28 @@ public class UserResourceIT {
         return user;
     }
 
+    /**
+     * Create a User.
+     *
+     * This is a static method, as tests for other entities might also need it,
+     * if they test an entity which has a required relationship to the User entity.
+     */
+    public static User createDefaultUser() {
+        User user = new User();
+        user.setLogin(DEFAULT_LOGIN);
+        user.setPassword(RandomStringUtils.random(60));
+        user.setActivated(true);
+        user.setEmail(DEFAULT_EMAIL);
+        user.setFirstName(DEFAULT_FIRSTNAME);
+        user.setLastName(DEFAULT_LASTNAME);
+        user.setImageUrl(DEFAULT_IMAGEURL);
+        user.setLangKey(DEFAULT_LANGKEY);
+        return user;
+    }
+
     @BeforeEach
     public void initTest() {
-        user = createEntity(em);
+        user = createEntity();
         user.setLogin(DEFAULT_LOGIN);
         user.setEmail(DEFAULT_EMAIL);
     }

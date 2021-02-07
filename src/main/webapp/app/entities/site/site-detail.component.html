@@ -31,7 +31,7 @@
             </dl>
 
             <dt id="jhi-delete-site-devices" jhiTranslate="iotmanagerApp.site.listOfDevices">Devices in this Site:</dt>
-            <table *ngIf="site.devices.length > 0" class="table table-striped" aria-describedby="page-heading">
+            <table *ngIf="site.devices && site.devices.length > 0" class="table table-striped" aria-describedby="page-heading">
                 <thead>
                 <tr>
                     <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
@@ -50,7 +50,7 @@
                 </tr>
                 </tbody>
             </table>
-            <div *ngIf="site.devices.length === 0" class="alert alert-warning" id="no-result">
+            <div *ngIf="!site.devices || site.devices.length === 0" class="alert alert-warning" id="no-result">
                 <span jhiTranslate="iotmanagerApp.device.home.notFound">No devices found</span>
             </div>
 

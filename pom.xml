@@ -5,7 +5,7 @@
 
     <groupId>pl.kamilkoszarny.iotmanager</groupId>
     <artifactId>iotmanager</artifactId>
-    <version>0.1.8.2</version>
+    <version>0.2.1</version>
     <packaging>jar</packaging>
     <name>Iotmanager</name>
 

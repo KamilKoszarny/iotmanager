@@ -10,11 +10,14 @@ import pl.kamilkoszarny.iotmanager.domain.Device;
 import pl.kamilkoszarny.iotmanager.domain.Site;
 import pl.kamilkoszarny.iotmanager.domain.User;
 import pl.kamilkoszarny.iotmanager.repository.DeviceRepository;
+import pl.kamilkoszarny.iotmanager.security.AuthoritiesConstants;
+import pl.kamilkoszarny.iotmanager.security.SecurityUtils;
 import pl.kamilkoszarny.iotmanager.service.DeviceService;
 import pl.kamilkoszarny.iotmanager.service.SiteService;
 import pl.kamilkoszarny.iotmanager.service.UserService;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceDTO;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceFriendlyDTO;
+import pl.kamilkoszarny.iotmanager.service.exceptions.NotYourEntityException;
 import pl.kamilkoszarny.iotmanager.service.mapper.DeviceMapper;
 
 import java.util.List;
@@ -83,10 +86,14 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<DeviceDTO> findOne(Long id) {
+    public Optional<DeviceFriendlyDTO> findOne(Long id) {
         log.debug("Request to get Device : {}", id);
-        return deviceRepository.findById(id)
-            .map(deviceMapper::toDto);
+        final Device device = deviceRepository.findById(id).orElse(null);
+        User currentUser = userService.getCurrentUser();
+        if (device != null && !device.getSite().getUser().getId().equals(currentUser.getId()) && !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
+            throw new NotYourEntityException(currentUser.getId(), "Device", device.getId());
+        }
+        return Optional.ofNullable(deviceMapper.toFriendlyDto(device));
     }
 
     @Override

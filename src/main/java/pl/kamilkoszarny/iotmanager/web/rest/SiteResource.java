@@ -119,7 +119,7 @@ public class SiteResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the siteDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/sites/{id}")
-    public ResponseEntity<SiteWithDevicesDTO> getSite(@PathVariable Long id) {
+    public ResponseEntity<SiteWithDevicesDTO> getSite(@PathVariable Long id) throws NotYourEntityException {
         log.debug("REST request to get Site : {}", id);
         Optional<SiteWithDevicesDTO> siteWithDevicesDTO = siteService.findOne(id);
         return ResponseUtil.wrapOrNotFound(siteWithDevicesDTO);

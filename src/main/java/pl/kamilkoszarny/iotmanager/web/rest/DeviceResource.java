@@ -130,10 +130,10 @@ public class DeviceResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the deviceDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/devices/{id}")
-    public ResponseEntity<DeviceDTO> getDevice(@PathVariable Long id) {
+    public ResponseEntity<DeviceFriendlyDTO> getDevice(@PathVariable Long id) {
         log.debug("REST request to get Device : {}", id);
-        Optional<DeviceDTO> deviceDTO = deviceService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(deviceDTO);
+        Optional<DeviceFriendlyDTO> deviceFriendlyDTO = deviceService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(deviceFriendlyDTO);
     }
 
     /**

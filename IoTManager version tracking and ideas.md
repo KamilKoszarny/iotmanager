@@ -1,6 +1,5 @@
 ##Ideas
 
-- fix/extent: NotYourEntityException: preventing users from seeing/modifying not owned entities
 - show faults in Device view
 - Device Faults: reporting, fixing, managing, statistics
 - statuses of entities: ACTIVE, DELETED, PROPOSED
@@ -15,10 +14,11 @@
 
 ##Versions history
 
-###0.2.1
+###0.2.1 (07.02.2021)
 
 - Device Faults: CRUD
 - show devices in Site view
+- extend: NotYourEntityException: preventing users from seeing/modifying not owned entities
 
 ####0.1.9 (06.02.2021)
 

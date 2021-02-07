@@ -71,6 +71,7 @@ public class SiteResourceIT {
     private MockMvc restSiteMockMvc;
 
     private Site site;
+    private Site currentUserSite;
 
     /**
      * Create an entity for this test.
@@ -85,7 +86,7 @@ public class SiteResourceIT {
             .street(DEFAULT_STREET)
             .streetNo(DEFAULT_STREET_NO);
         // Add required entity
-        User user = UserResourceIT.createEntity(em);
+        User user = UserResourceIT.createEntity();
         em.persist(user);
         em.flush();
         site.setUser(user);
@@ -104,8 +105,8 @@ public class SiteResourceIT {
             .street(DEFAULT_STREET)
             .streetNo(DEFAULT_STREET_NO);
         // Add required entity
-        User user = userRepository.getOne(UserResourceIT.CURRENT_USER_ID);
-        site.setUser(user);
+        User currentUser = userRepository.getOne(UserResourceIT.CURRENT_USER_ID);
+        site.setUser(currentUser);
         return site;
     }
     /**
@@ -121,7 +122,7 @@ public class SiteResourceIT {
             .street(UPDATED_STREET)
             .streetNo(UPDATED_STREET_NO);
         // Add required entity
-        User user = UserResourceIT.createEntity(em);
+        User user = UserResourceIT.createEntity();
         em.persist(user);
         em.flush();
         site.setUser(user);
@@ -131,6 +132,7 @@ public class SiteResourceIT {
     @BeforeEach
     public void initTest() {
         site = createEntity(em);
+        currentUserSite = createEntityForCurrentUser();
     }
 
     @Test
@@ -335,18 +337,19 @@ public class SiteResourceIT {
     @Transactional
     public void getSite() throws Exception {
         // Initialize the database
-        siteRepository.saveAndFlush(site);
+        siteRepository.saveAndFlush(currentUserSite);
 
         // Get the site
-        restSiteMockMvc.perform(get("/api/sites/{id}", site.getId()))
+        restSiteMockMvc.perform(get("/api/sites/{id}", currentUserSite.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(site.getId().intValue()))
+            .andExpect(jsonPath("$.id").value(currentUserSite.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.city").value(DEFAULT_CITY))
             .andExpect(jsonPath("$.street").value(DEFAULT_STREET))
             .andExpect(jsonPath("$.streetNo").value(DEFAULT_STREET_NO));
     }
+
     @Test
     @Transactional
     public void getNonExistingSite() throws Exception {
@@ -357,9 +360,21 @@ public class SiteResourceIT {
 
     @Test
     @Transactional
+    public void getSiteOfOtherUserThenNotYourEntityException() throws Exception {
+        // Initialize the database
+        siteRepository.saveAndFlush(site);
+
+        // Get the site
+        restSiteMockMvc.perform(get("/api/sites/{id}", site.getId()))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON))
+            .andExpect(jsonPath("message").value("error.notYourEntity"));
+    }
+
+    @Test
+    @Transactional
     public void updateSite() throws Exception {
         // Initialize the database
-        Site currentUserSite = createEntityForCurrentUser();
         siteRepository.saveAndFlush(currentUserSite);
 
         int databaseSizeBeforeUpdate = siteRepository.findAll().size();
