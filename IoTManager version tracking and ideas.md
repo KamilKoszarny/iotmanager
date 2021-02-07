@@ -1,7 +1,7 @@
 ##Ideas
 
+- Device Faults: reporting, fixing, managing, statistics
 - proposing new DeviceModel, DeviceType, Producer by Users for Admin approval
-- Device Faults: reporting, fixing, managing
 - Producer role
 - Fixer role
 - deleting: behaviour like Site for other entities

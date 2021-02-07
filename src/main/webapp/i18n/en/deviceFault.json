@@ -1,0 +1,25 @@
+{
+  "iotmanagerApp": {
+    "deviceFault": {
+      "home": {
+        "title": "Device Faults",
+        "createLabel": "Create a new Device Fault",
+        "createOrEditLabel": "Create or edit a Device Fault",
+        "notFound": "No Device Faults found"
+      },
+      "created": "A new Device Fault is created with identifier {{ param }}",
+      "updated": "A Device Fault is updated with identifier {{ param }}",
+      "deleted": "A Device Fault is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Device Fault {{ id }}?"
+      },
+      "detail": {
+        "title": "Device Fault"
+      },
+      "name": "Name",
+      "description": "Description",
+      "urgency": "Urgency",
+      "device": "Device"
+    }
+  }
+}

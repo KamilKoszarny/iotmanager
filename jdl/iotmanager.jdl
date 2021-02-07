@@ -1,4 +1,3 @@
-
 entity Device {
 	name String required maxlength(50)
 	serialNo String required maxlength(80)
@@ -51,9 +50,16 @@ relationship ManyToOne {
 	Site{user required} to User
 }
 
+entity DeviceFault {
+	name String required maxlength(50)
+    description String required maxlength(1000)
+    urgency Integer min(1) max(10)
+}
+relationship OneToMany {
+	Device{fault} to DeviceFault{device required}
+}
+
+
 service * with serviceImpl
 dto * with mapstruct
 paginate * with pagination
-
-
-

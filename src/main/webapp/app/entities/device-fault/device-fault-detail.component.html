@@ -1,0 +1,44 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="deviceFault">
+            <h2><span jhiTranslate="iotmanagerApp.deviceFault.detail.title">Device Fault</span> {{ deviceFault.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="iotmanagerApp.deviceFault.name">Name</span></dt>
+                <dd>
+                    <span>{{ deviceFault.name }}</span>
+                </dd>
+                <dt><span jhiTranslate="iotmanagerApp.deviceFault.description">Description</span></dt>
+                <dd>
+                    <span>{{ deviceFault.description }}</span>
+                </dd>
+                <dt><span jhiTranslate="iotmanagerApp.deviceFault.urgency">Urgency</span></dt>
+                <dd>
+                    <span>{{ deviceFault.urgency }}</span>
+                </dd>
+                <dt><span jhiTranslate="iotmanagerApp.deviceFault.device">Device</span></dt>
+                <dd>
+                    <div *ngIf="deviceFault.deviceId">
+                        <a [routerLink]="['/device', deviceFault.deviceId, 'view']">{{ deviceFault.deviceId }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/device-fault', deviceFault.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
