@@ -13,8 +13,7 @@
       "updated": "A Site is updated with identifier {{ param }}",
       "deleted": "A Site is deleted with identifier {{ param }}",
       "delete": {
-        "question": "Are you sure you want to delete Site {{ name }} and all Devices in it?",
-        "listOfDevices": "Devices it this Site:"
+        "question": "Are you sure you want to delete Site {{ name }} and all Devices in it?"
       },
       "detail": {
         "title": "Site"
@@ -24,7 +23,8 @@
       "street": "Street",
       "streetNo": "Street No",
       "device": "Device",
-      "user": "User"
+      "user": "User",
+      "listOfDevices": "Devices it this Site:"
     }
   }
 }

@@ -1,7 +1,12 @@
 ##Ideas
 
+- fix/extent: NotYourEntityException: preventing users from seeing/modifying not owned entities
+- show faults in Device view
 - Device Faults: reporting, fixing, managing, statistics
+- statuses of entities: ACTIVE, DELETED, PROPOSED
+- condition of Devices: PERFECT, IMPERFECT, BROKEN, IN_REPAIR
 - proposing new DeviceModel, DeviceType, Producer by Users for Admin approval
+- generic AuditedEntity: creationTime, createdBy, modificationTime, modifiedBy to be extended by Entities
 - Producer role
 - Fixer role
 - deleting: behaviour like Site for other entities
@@ -9,6 +14,11 @@
 ####In next version
 
 ##Versions history
+
+###0.2.1
+
+- Device Faults: CRUD
+- show devices in Site view
 
 ####0.1.9 (06.02.2021)
 
@@ -61,7 +71,7 @@
 - added backend services to all entities
 - homepage customization
 
-####0.1.1 (16.01.2021)
+###0.1.1 (16.01.2021)
 
 - Initial build by JHipster
 - configuration, database connections

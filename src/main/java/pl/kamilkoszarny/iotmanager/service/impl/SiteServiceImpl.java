@@ -14,6 +14,7 @@ import pl.kamilkoszarny.iotmanager.security.SecurityUtils;
 import pl.kamilkoszarny.iotmanager.service.SiteService;
 import pl.kamilkoszarny.iotmanager.service.UserService;
 import pl.kamilkoszarny.iotmanager.service.dto.SiteDTO;
+import pl.kamilkoszarny.iotmanager.service.dto.SiteWithDevicesDTO;
 import pl.kamilkoszarny.iotmanager.service.exceptions.NotYourEntityException;
 import pl.kamilkoszarny.iotmanager.service.mapper.SiteMapper;
 
@@ -83,10 +84,10 @@ public class SiteServiceImpl implements SiteService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<SiteDTO> findOne(Long id) {
+    public Optional<SiteWithDevicesDTO> findOne(Long id) {
         log.debug("Request to get Site : {}", id);
         return siteRepository.findById(id)
-            .map(siteMapper::toDto);
+            .map(siteMapper::toWithDevicesDto);
     }
 
     @Override

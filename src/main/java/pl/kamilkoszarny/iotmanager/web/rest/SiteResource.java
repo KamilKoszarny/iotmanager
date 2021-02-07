@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.kamilkoszarny.iotmanager.service.SiteService;
 import pl.kamilkoszarny.iotmanager.service.dto.SiteDTO;
+import pl.kamilkoszarny.iotmanager.service.dto.SiteWithDevicesDTO;
 import pl.kamilkoszarny.iotmanager.service.exceptions.NotYourEntityException;
 import pl.kamilkoszarny.iotmanager.web.rest.errors.BadRequestAlertException;
 
@@ -114,14 +115,14 @@ public class SiteResource {
     /**
      * {@code GET  /sites/:id} : get the "id" site.
      *
-     * @param id the id of the siteDTO to retrieve.
+     * @param id the id of the siteWithDevicesDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the siteDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/sites/{id}")
-    public ResponseEntity<SiteDTO> getSite(@PathVariable Long id) {
+    public ResponseEntity<SiteWithDevicesDTO> getSite(@PathVariable Long id) {
         log.debug("REST request to get Site : {}", id);
-        Optional<SiteDTO> siteDTO = siteService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(siteDTO);
+        Optional<SiteWithDevicesDTO> siteWithDevicesDTO = siteService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(siteWithDevicesDTO);
     }
 
     /**

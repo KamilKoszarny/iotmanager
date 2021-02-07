@@ -24,11 +24,35 @@
                 <dd>
                     <span>{{ site.streetNo }}</span>
                 </dd>
-                <dt><span jhiTranslate="iotmanagerApp.site.user">User</span></dt>
-                <dd>
+                <dt *jhiHasAnyAuthority="'ROLE_ADMIN'"><span jhiTranslate="iotmanagerApp.site.user">User</span></dt>
+                <dd *jhiHasAnyAuthority="'ROLE_ADMIN'">
                     {{ site.userId }}
                 </dd>
             </dl>
+
+            <dt id="jhi-delete-site-devices" jhiTranslate="iotmanagerApp.site.listOfDevices">Devices in this Site:</dt>
+            <table *ngIf="site.devices.length > 0" class="table table-striped" aria-describedby="page-heading">
+                <thead>
+                <tr>
+                    <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+                    <th scope="col"><span jhiTranslate="iotmanagerApp.device.name">Name</span></th>
+                    <th scope="col"><span jhiTranslate="iotmanagerApp.device.serialNo">Serial No</span></th>
+                    <th scope="col"><span jhiTranslate="iotmanagerApp.device.model">Model</span></th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let device of site.devices">
+                    <td><a [routerLink]="['/device', device.id, 'view']">{{ device.id }}</a></td>
+                    <td>{{ device.name }}</td>
+                    <td>{{ device.serialNo }}</td>
+                    <td>{{ device.modelName }}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div *ngIf="site.devices.length === 0" class="alert alert-warning" id="no-result">
+                <span jhiTranslate="iotmanagerApp.device.home.notFound">No devices found</span>
+            </div>
 
             <button type="submit"
                     (click)="previousState()"

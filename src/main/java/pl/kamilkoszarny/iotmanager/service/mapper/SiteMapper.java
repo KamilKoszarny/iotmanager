@@ -5,15 +5,19 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import pl.kamilkoszarny.iotmanager.domain.Site;
 import pl.kamilkoszarny.iotmanager.service.dto.SiteDTO;
+import pl.kamilkoszarny.iotmanager.service.dto.SiteWithDevicesDTO;
 
 /**
  * Mapper for the entity {@link Site} and its DTO {@link SiteDTO}.
  */
-@Mapper(componentModel = "spring", uses = {UserMapper.class})
+@Mapper(componentModel = "spring", uses = {UserMapper.class, DeviceMapper.class})
 public interface SiteMapper extends EntityMapper<SiteDTO, Site> {
 
     @Mapping(source = "user.id", target = "userId")
     SiteDTO toDto(Site site);
+
+    @Mapping(source = "user.id", target = "userId")
+    SiteWithDevicesDTO toWithDevicesDto(Site site);
 
     @Mapping(target = "devices", ignore = true)
     @Mapping(target = "removeDevice", ignore = true)

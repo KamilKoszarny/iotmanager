@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import pl.kamilkoszarny.iotmanager.domain.Site;
 import pl.kamilkoszarny.iotmanager.service.dto.SiteDTO;
+import pl.kamilkoszarny.iotmanager.service.dto.SiteWithDevicesDTO;
 import pl.kamilkoszarny.iotmanager.service.exceptions.NotYourEntityException;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public interface SiteService {
     Page<SiteDTO> findAllByCurrentUser(Pageable pageable);
 
     @Transactional(readOnly = true)
-    Optional<SiteDTO> findOne(Long id);
+    Optional<SiteWithDevicesDTO> findOne(Long id);
 
     /**
      * Delete the "id" site.
