@@ -30,7 +30,7 @@
                 </dd>
             </dl>
 
-            <dt id="jhi-delete-site-devices" jhiTranslate="iotmanagerApp.site.listOfDevices">Devices in this Site:</dt>
+            <dt id="jhi-site-devices" jhiTranslate="iotmanagerApp.site.listOfDevices">Devices in this Site:</dt>
             <table *ngIf="site.devices && site.devices.length > 0" class="table table-striped" aria-describedby="page-heading">
                 <thead>
                 <tr>
@@ -38,7 +38,6 @@
                     <th scope="col"><span jhiTranslate="iotmanagerApp.device.name">Name</span></th>
                     <th scope="col"><span jhiTranslate="iotmanagerApp.device.serialNo">Serial No</span></th>
                     <th scope="col"><span jhiTranslate="iotmanagerApp.device.model">Model</span></th>
-                    <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>

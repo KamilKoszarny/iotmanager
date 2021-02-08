@@ -1,6 +1,5 @@
 ##Ideas
 
-- show faults in Device view
 - Device Faults: reporting, fixing, managing, statistics
 - statuses of entities: ACTIVE, DELETED, PROPOSED
 - condition of Devices: PERFECT, IMPERFECT, BROKEN, IN_REPAIR
@@ -11,6 +10,8 @@
 - deleting: behaviour like Site for other entities
 
 ####In next version
+
+- show faults in Device view
 
 ##Versions history
 

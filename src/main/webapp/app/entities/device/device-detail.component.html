@@ -1,13 +1,17 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="device">
-            <h2><span jhiTranslate="iotmanagerApp.device.detail.title">Device</span> {{ device.id }}</h2>
+            <h2><span jhiTranslate="iotmanagerApp.device.detail.title">Device</span>: {{ device.name }}</h2>
 
             <hr>
 
             <jhi-alert-error></jhi-alert-error>
 
             <dl class="row-md jh-entity-details">
+                <dt>Id</dt>
+                <dd>
+                    <span>{{ device.id }}</span>
+                </dd>
                 <dt><span jhiTranslate="iotmanagerApp.device.name">Name</span></dt>
                 <dd>
                     <span>{{ device.name }}</span>
@@ -18,17 +22,40 @@
                 </dd>
                 <dt><span jhiTranslate="iotmanagerApp.device.model">Model</span></dt>
                 <dd>
-                    <div *ngIf="device.modelId">
-                        <a [routerLink]="['/device-model', device.modelId, 'view']">{{ device.modelId }}</a>
+                    <div *ngIf="device.modelName">
+                        <a [routerLink]="['/device-model', device.modelId, 'view']">{{ device.modelName }}</a>
                     </div>
                 </dd>
                 <dt><span jhiTranslate="iotmanagerApp.device.site">Site</span></dt>
                 <dd>
-                    <div *ngIf="device.siteId">
-                        <a [routerLink]="['/site', device.siteId, 'view']">{{ device.siteId }}</a>
+                    <div *ngIf="device.siteName">
+                        <a [routerLink]="['/site', device.siteId, 'view']">{{ device.siteName }}</a>
                     </div>
                 </dd>
             </dl>
+
+            <dt id="jhi-device-faults" jhiTranslate="iotmanagerApp.device.listOfFaults">Faults of this Device:</dt>
+            <table *ngIf="device.faults && device.faults.length > 0" class="table table-striped" aria-describedby="page-heading">
+                <thead>
+                <tr>
+                    <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+                    <th scope="col"><span jhiTranslate="iotmanagerApp.deviceFault.name">Name</span></th>
+                    <th scope="col"><span jhiTranslate="iotmanagerApp.deviceFault.description">Description</span></th>
+                    <th scope="col"><span jhiTranslate="iotmanagerApp.deviceFault.urgency">Urgency</span></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let fault of device.faults">
+                    <td><a [routerLink]="['/device', fault.id, 'view']">{{ fault.id }}</a></td>
+                    <td>{{ fault.name }}</td>
+                    <td>{{ fault.description }}</td>
+                    <td>{{ fault.urgency }}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div *ngIf="!device.faults || device.faults.length === 0" class="alert alert-info" id="no-result">
+                <span jhiTranslate="iotmanagerApp.deviceFault.home.notFound">No faults found</span>
+            </div>
 
             <button type="submit"
                     (click)="previousState()"

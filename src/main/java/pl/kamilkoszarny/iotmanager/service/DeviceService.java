@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceDTO;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceFriendlyDTO;
+import pl.kamilkoszarny.iotmanager.service.dto.DeviceFriendlyWithFaultsDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,7 +44,7 @@ public interface DeviceService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<DeviceFriendlyDTO> findOne(Long id);
+    Optional<DeviceFriendlyWithFaultsDTO> findOne(Long id);
 
     /**
      * Delete the "id" device.

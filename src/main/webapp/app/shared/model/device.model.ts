@@ -1,3 +1,5 @@
+import { DeviceFault } from './device-fault.model';
+
 export interface IDevice {
   id?: number;
   name?: string;
@@ -6,6 +8,7 @@ export interface IDevice {
   modelName?: number;
   siteId?: number;
   siteName?: number;
+  faults?: DeviceFault[];
 }
 
 export class Device implements IDevice {

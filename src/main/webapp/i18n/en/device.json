@@ -28,7 +28,8 @@
       "hints": {
         "filterModels": "- use to filter Device Models",
         "noModelsFound": "No models found. Try to change type or producer."
-      }
+      },
+      "listOfFaults": "Faults of this Device:"
     }
   }
 }

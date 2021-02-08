@@ -15,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.kamilkoszarny.iotmanager.service.DeviceService;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceDTO;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceFriendlyDTO;
+import pl.kamilkoszarny.iotmanager.service.dto.DeviceFriendlyWithFaultsDTO;
 import pl.kamilkoszarny.iotmanager.web.rest.errors.BadRequestAlertException;
 
 import javax.validation.Valid;
@@ -130,10 +131,10 @@ public class DeviceResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the deviceDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/devices/{id}")
-    public ResponseEntity<DeviceFriendlyDTO> getDevice(@PathVariable Long id) {
+    public ResponseEntity<DeviceFriendlyWithFaultsDTO> getDevice(@PathVariable Long id) {
         log.debug("REST request to get Device : {}", id);
-        Optional<DeviceFriendlyDTO> deviceFriendlyDTO = deviceService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(deviceFriendlyDTO);
+        Optional<DeviceFriendlyWithFaultsDTO> deviceFriendlyWithFaultsDTO = deviceService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(deviceFriendlyWithFaultsDTO);
     }
 
     /**

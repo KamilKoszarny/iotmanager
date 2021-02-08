@@ -17,6 +17,7 @@ import pl.kamilkoszarny.iotmanager.service.SiteService;
 import pl.kamilkoszarny.iotmanager.service.UserService;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceDTO;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceFriendlyDTO;
+import pl.kamilkoszarny.iotmanager.service.dto.DeviceFriendlyWithFaultsDTO;
 import pl.kamilkoszarny.iotmanager.service.exceptions.NotYourEntityException;
 import pl.kamilkoszarny.iotmanager.service.mapper.DeviceMapper;
 
@@ -86,14 +87,14 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<DeviceFriendlyDTO> findOne(Long id) {
+    public Optional<DeviceFriendlyWithFaultsDTO> findOne(Long id) {
         log.debug("Request to get Device : {}", id);
         final Device device = deviceRepository.findById(id).orElse(null);
         User currentUser = userService.getCurrentUser();
         if (device != null && !device.getSite().getUser().getId().equals(currentUser.getId()) && !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
             throw new NotYourEntityException(currentUser.getId(), "Device", device.getId());
         }
-        return Optional.ofNullable(deviceMapper.toFriendlyDto(device));
+        return Optional.ofNullable(deviceMapper.toFriendlyWithFaultsDto(device));
     }
 
     @Override

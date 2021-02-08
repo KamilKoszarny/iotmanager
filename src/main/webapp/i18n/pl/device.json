@@ -27,7 +27,8 @@
       "hints": {
         "filterModels": "- użyj by ograniczyć wyszukane modele",
         "noModelsFound": "Nie znaloziono modeli. Spróbuj zmienić typ lub producenta."
-      }
+      },
+      "listOfFaults": "Usterki tego urządzenia:"
     }
   }
 }
