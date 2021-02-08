@@ -3,6 +3,7 @@
     "deviceFault": {
       "home": {
         "title": "Device Faults",
+        "titleUser": "Faults of my Devices",
         "createLabel": "Create a new Device Fault",
         "createOrEditLabel": "Create or edit a Device Fault",
         "notFound": "No Device Faults found"

@@ -2,6 +2,7 @@ package pl.kamilkoszarny.iotmanager.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceFaultDTO;
 
 import java.util.Optional;
@@ -27,6 +28,9 @@ public interface DeviceFaultService {
      */
     Page<DeviceFaultDTO> findAll(Pageable pageable);
 
+
+    @Transactional(readOnly = true)
+    Page<DeviceFaultDTO> findAllByCurrentUser(Pageable pageable);
 
     /**
      * Get the "id" deviceFault.

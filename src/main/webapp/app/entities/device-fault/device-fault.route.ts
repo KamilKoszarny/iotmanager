@@ -42,6 +42,18 @@ export const deviceFaultRoute: Routes = [
       authorities: [Authority.USER],
       defaultSort: 'id,asc',
       pageTitle: 'iotmanagerApp.deviceFault.home.title',
+      isAdmin: true,
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'user',
+    component: DeviceFaultComponent,
+    data: {
+      authorities: [Authority.USER],
+      defaultSort: 'id,asc',
+      pageTitle: 'iotmanagerApp.deviceFault.home.userTitle',
+      isAdmin: false,
     },
     canActivate: [UserRouteAccessService],
   },
@@ -66,6 +78,20 @@ export const deviceFaultRoute: Routes = [
     data: {
       authorities: [Authority.USER],
       pageTitle: 'iotmanagerApp.deviceFault.home.title',
+      isAdmin: true,
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'user/new',
+    component: DeviceFaultUpdateComponent,
+    resolve: {
+      deviceFault: DeviceFaultResolve,
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'iotmanagerApp.deviceFault.home.title',
+      isAdmin: false,
     },
     canActivate: [UserRouteAccessService],
   },

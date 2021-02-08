@@ -3,6 +3,7 @@ package pl.kamilkoszarny.iotmanager.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
+import pl.kamilkoszarny.iotmanager.domain.Device;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceDTO;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceFriendlyDTO;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceFriendlyWithFaultsDTO;
@@ -34,6 +35,9 @@ public interface DeviceService {
 
     @Transactional(readOnly = true)
     Page<DeviceFriendlyDTO> findAllByCurrentUser(Pageable pageable);
+    @Transactional(readOnly = true)
+    List<Device> findAllByCurrentUser();
+
 
     @Transactional(readOnly = true)
     List<DeviceFriendlyDTO> findAllBySiteId(Long siteId);

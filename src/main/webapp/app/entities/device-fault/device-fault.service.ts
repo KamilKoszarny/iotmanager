@@ -27,9 +27,10 @@ export class DeviceFaultService {
     return this.http.get<IDeviceFault>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-  query(req?: any): Observable<EntityArrayResponseType> {
+  query(isAdmin?: boolean, req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
-    return this.http.get<IDeviceFault[]>(this.resourceUrl, { params: options, observe: 'response' });
+    const url = this.resourceUrl + (isAdmin ? '' : '/user');
+    return this.http.get<IDeviceFault[]>(url, { params: options, observe: 'response' });
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {

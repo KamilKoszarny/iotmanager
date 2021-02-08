@@ -76,6 +76,11 @@ public class DeviceServiceImpl implements DeviceService {
             .map(deviceMapper::toFriendlyDto);
     }
 
+    public List<Device> findAllByCurrentUser() {
+        List<Site> currentUserSites = siteService.findAllByCurrentUser();
+        return deviceRepository.findAllBySiteIn(currentUserSites);
+    }
+
     @Override
     @Transactional(readOnly = true)
     public List<DeviceFriendlyDTO> findAllBySiteId(Long siteId) {

@@ -46,7 +46,7 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let fault of device.faults">
-                    <td><a [routerLink]="['/device', fault.id, 'view']">{{ fault.id }}</a></td>
+                    <td><a [routerLink]="['/device-fault', fault.id, 'view']">{{ fault.id }}</a></td>
                     <td>{{ fault.name }}</td>
                     <td>{{ fault.description }}</td>
                     <td>{{ fault.urgency }}</td>

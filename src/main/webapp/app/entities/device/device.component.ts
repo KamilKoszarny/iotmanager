@@ -37,29 +37,16 @@ export class DeviceComponent implements OnInit, OnDestroy {
   loadPage(page?: number, dontNavigate?: boolean): void {
     const pageToLoad: number = page || this.page || 1;
 
-    if (this.isAdmin) {
-      this.deviceService
-        .query({
-          page: pageToLoad - 1,
-          size: this.itemsPerPage,
-          sort: this.sort(),
-        })
-        .subscribe(
-          (res: HttpResponse<IDevice[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
-          () => this.onError()
-        );
-    } else {
-      this.deviceService
-        .queryByCurrentUser({
-          page: pageToLoad - 1,
-          size: this.itemsPerPage,
-          sort: this.sort(),
-        })
-        .subscribe(
-          (res: HttpResponse<IDevice[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
-          () => this.onError()
-        );
-    }
+    this.deviceService
+      .query(this.isAdmin, {
+        page: pageToLoad - 1,
+        size: this.itemsPerPage,
+        sort: this.sort(),
+      })
+      .subscribe(
+        (res: HttpResponse<IDevice[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
+        () => this.onError()
+      );
   }
 
   ngOnInit(): void {

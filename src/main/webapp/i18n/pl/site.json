@@ -2,7 +2,7 @@
   "iotmanagerApp": {
     "site": {
       "home": {
-        "title": "Lokalizacja",
+        "title": "Lokalizacje",
         "createLabel": "Dodaj lokalizację",
         "createOwnLabel": "Dodaj Twoją lokalizację",
         "editLabel": "Edytuj lokalizację",

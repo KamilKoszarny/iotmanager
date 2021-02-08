@@ -6,6 +6,7 @@
       "home": "Strona domowa",
       "mySites": "Moje lokalizacje",
       "myDevices": "Moje urządzenia",
+      "myFaults": "Moje usterki",
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Encje",
@@ -138,6 +139,7 @@
     "emailexists": "Użytkownik z takim adresem email już istnieje!",
     "idexists": "Nowy {{entityName}} nie może jeszcze mieć przypisanego ID",
     "idnull": "Błędne ID",
+    "notYourEntity": "Brak dostępu do nie swoich obiektów",
     "file": {
       "could.not.extract": "Could not extract file",
       "not.image": "File was expected to be an image but was found to be \"{{ fileType }}\""

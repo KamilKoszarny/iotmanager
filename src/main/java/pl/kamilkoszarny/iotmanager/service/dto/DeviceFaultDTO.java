@@ -1,5 +1,9 @@
 package pl.kamilkoszarny.iotmanager.service.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -9,6 +13,9 @@ import java.io.Serializable;
 /**
  * A DTO for the {@link pl.kamilkoszarny.iotmanager.domain.DeviceFault} entity.
  */
+@Getter
+@Setter
+@ToString
 public class DeviceFaultDTO implements Serializable {
 
     private Long id;
@@ -28,45 +35,8 @@ public class DeviceFaultDTO implements Serializable {
 
     private Long deviceId;
 
-    public Long getId() {
-        return id;
-    }
+    private String deviceName;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getUrgency() {
-        return urgency;
-    }
-
-    public void setUrgency(Integer urgency) {
-        this.urgency = urgency;
-    }
-
-    public Long getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(Long deviceId) {
-        this.deviceId = deviceId;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -83,17 +53,5 @@ public class DeviceFaultDTO implements Serializable {
     @Override
     public int hashCode() {
         return 31;
-    }
-
-    // prettier-ignore
-    @Override
-    public String toString() {
-        return "DeviceFaultDTO{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", description='" + getDescription() + "'" +
-            ", urgency=" + getUrgency() +
-            ", deviceId=" + getDeviceId() +
-            "}";
     }
 }

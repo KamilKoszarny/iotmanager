@@ -2,7 +2,7 @@
   "iotmanagerApp": {
     "device": {
       "home": {
-        "title": "Urządzenie",
+        "title": "Urządzenia",
         "createLabel": "Dodaj urządzenie",
         "createOwnLabel": "Dodaj Twoje urządzenie",
         "editLabel": "Edytuj urządzenie",

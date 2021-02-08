@@ -24,6 +24,7 @@ export class DeviceFaultComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  isAdmin = false;
 
   constructor(
     protected deviceFaultService: DeviceFaultService,
@@ -37,7 +38,7 @@ export class DeviceFaultComponent implements OnInit, OnDestroy {
     const pageToLoad: number = page || this.page || 1;
 
     this.deviceFaultService
-      .query({
+      .query(this.isAdmin, {
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
@@ -60,6 +61,7 @@ export class DeviceFaultComponent implements OnInit, OnDestroy {
       const sort = (params.get('sort') ?? data['defaultSort']).split(',');
       const predicate = sort[0];
       const ascending = sort[1] === 'asc';
+      this.isAdmin = data['isAdmin'];
       if (pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) {
         this.predicate = predicate;
         this.ascending = ascending;
@@ -100,7 +102,7 @@ export class DeviceFaultComponent implements OnInit, OnDestroy {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
     if (navigate) {
-      this.router.navigate(['/device-fault'], {
+      this.router.navigate(['/device-fault' + (this.isAdmin ? '' : '/user')], {
         queryParams: {
           page: this.page,
           size: this.itemsPerPage,

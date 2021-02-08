@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="deviceFault">
-            <h2><span jhiTranslate="iotmanagerApp.deviceFault.detail.title">Device Fault</span> {{ deviceFault.id }}</h2>
+            <h2><span jhiTranslate="iotmanagerApp.deviceFault.detail.title">Device Fault</span>: {{ deviceFault.name }}</h2>
 
             <hr>
 
@@ -22,8 +22,8 @@
                 </dd>
                 <dt><span jhiTranslate="iotmanagerApp.deviceFault.device">Device</span></dt>
                 <dd>
-                    <div *ngIf="deviceFault.deviceId">
-                        <a [routerLink]="['/device', deviceFault.deviceId, 'view']">{{ deviceFault.deviceId }}</a>
+                    <div *ngIf="deviceFault.deviceName">
+                        <a [routerLink]="['/device', deviceFault.deviceId, 'view']">{{ deviceFault.deviceName }}</a>
                     </div>
                 </dd>
             </dl>

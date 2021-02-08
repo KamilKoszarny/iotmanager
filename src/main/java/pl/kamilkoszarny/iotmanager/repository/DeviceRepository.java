@@ -19,5 +19,6 @@ public interface DeviceRepository extends JpaRepository<Device, Long> {
 
     List<Device> findBySiteId(Long siteId);
 
+    List<Device> findAllBySiteIn(Collection<Site> sites);
     Page<Device> findAllBySiteIn(Pageable pageable, Collection<Site> sites);
 }

@@ -97,6 +97,20 @@ public class DeviceFaultResource {
     }
 
     /**
+     * {@code GET  /device-faults} : get all current user deviceFaults.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of deviceFaults in body.
+     */
+    @GetMapping("/device-faults/user")
+    public ResponseEntity<List<DeviceFaultDTO>> getAllCurrentUserDeviceFaults(Pageable pageable) {
+        log.debug("REST request to get a page of current user DeviceFaults");
+        Page<DeviceFaultDTO> page = deviceFaultService.findAllByCurrentUser(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
      * {@code GET  /device-faults/:id} : get the "id" deviceFault.
      *
      * @param id the id of the deviceFaultDTO to retrieve.

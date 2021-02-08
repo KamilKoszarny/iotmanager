@@ -4,6 +4,7 @@ export interface IDeviceFault {
   description?: string;
   urgency?: number;
   deviceId?: number;
+  deviceName?: number;
 }
 
 export class DeviceFault implements IDeviceFault {

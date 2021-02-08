@@ -71,17 +71,10 @@ export class DeviceUpdateComponent implements OnInit {
         this.deviceModels = res.body || [];
         this.deviceModels.unshift(new DeviceModel());
       });
-      if (this.isAdmin) {
-        this.siteService.query().subscribe((res: HttpResponse<ISite[]>) => {
-          this.sites = res.body || [];
-          this.sites.unshift(new Site());
-        });
-      } else {
-        this.siteService.queryByCurrentUser().subscribe((res: HttpResponse<ISite[]>) => {
-          this.sites = res.body || [];
-          this.sites.unshift(new Site());
-        });
-      }
+      this.siteService.query(this.isAdmin).subscribe((res: HttpResponse<ISite[]>) => {
+        this.sites = res.body || [];
+        this.sites.unshift(new Site());
+      });
     });
   }
 

@@ -12,8 +12,14 @@
 ####In next version
 
 - show faults in Device view
+- faults user access
 
 ##Versions history
+
+####0.2.2 (08.02.2021)
+
+- show Faults in Device view
+- Faults user access
 
 ###0.2.1 (07.02.2021)
 

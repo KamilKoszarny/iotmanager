@@ -13,6 +13,7 @@ import pl.kamilkoszarny.iotmanager.service.dto.DeviceFaultDTO;
 public interface DeviceFaultMapper extends EntityMapper<DeviceFaultDTO, DeviceFault> {
 
     @Mapping(source = "device.id", target = "deviceId")
+    @Mapping(source = "device.name", target = "deviceName")
     DeviceFaultDTO toDto(DeviceFault deviceFault);
 
     @Mapping(source = "deviceId", target = "device")

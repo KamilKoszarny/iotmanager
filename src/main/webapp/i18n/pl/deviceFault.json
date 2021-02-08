@@ -2,7 +2,8 @@
   "iotmanagerApp": {
     "deviceFault": {
       "home": {
-        "title": "Usterka urządzenia",
+        "title": "Usterki urządzeń",
+        "titleUser": "Usterki moich urządzeń",
         "createLabel": "Dodaj usterkę",
         "createOrEditLabel": "Dodaj lub edytuj usterkę",
         "notFound": "Nie znaleziono usterek"
@@ -14,7 +15,7 @@
         "question": "Czy na pewno chcesz usunąć usterkę {{ id }}?"
       },
       "detail": {
-        "title": "Usterka urządzenia"
+        "title": "Usterka"
       },
       "name": "Nazwa",
       "description": "Opis",
