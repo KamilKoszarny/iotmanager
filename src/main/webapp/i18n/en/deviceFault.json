@@ -5,7 +5,9 @@
         "title": "Device Faults",
         "titleUser": "Faults of my Devices",
         "createLabel": "Create a new Device Fault",
-        "createOrEditLabel": "Create or edit a Device Fault",
+        "createOwnLabel": "Create your new Device Fault",
+        "editLabel": "Edit a Device Fault",
+        "editOwnLabel": "Edit your Device Fault",
         "notFound": "No Device Faults found"
       },
       "created": "A new Device Fault is created with identifier {{ param }}",

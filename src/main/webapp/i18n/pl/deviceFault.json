@@ -5,7 +5,9 @@
         "title": "Usterki urządzeń",
         "titleUser": "Usterki moich urządzeń",
         "createLabel": "Dodaj usterkę",
-        "createOrEditLabel": "Dodaj lub edytuj usterkę",
+        "createOwnLabel": "Dodaj swoją usterkę",
+        "editLabel": "Edytuj usterkę",
+        "editOwnLabel": "Edytuj swoją usterkę",
         "notFound": "Nie znaleziono usterek"
       },
       "created": "Utworzono nową usterkę z identyfikatorem {{ param }}",

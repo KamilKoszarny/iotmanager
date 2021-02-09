@@ -1,12 +1,15 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-device-fault-heading" jhiTranslate="iotmanagerApp.deviceFault.home.createOrEditLabel">Create or edit a Device Fault</h2>
+            <h2 *ngIf="isCreateNew && isAdmin" id="jhi-device-fault-heading-new" jhiTranslate="iotmanagerApp.deviceFault.home.createLabel">Create a Device Fault</h2>
+            <h2 *ngIf="isCreateNew && !isAdmin" id="jhi-device-fault-heading-new-own" jhiTranslate="iotmanagerApp.deviceFault.home.createOwnLabel">Create your Device Fault</h2>
+            <h2 *ngIf="!isCreateNew && isAdmin" id="jhi-device-fault-heading-edit" jhiTranslate="iotmanagerApp.deviceFault.home.createLabel">Create a Device Fault</h2>
+            <h2 *ngIf="!isCreateNew && !isAdmin" id="jhi-device-fault-heading-edit-own" jhiTranslate="iotmanagerApp.deviceFault.home.editOwnLabel">Edit your Device Fault</h2>
 
             <div>
                 <jhi-alert-error></jhi-alert-error>
 
-                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                <div class="form-group" [hidden]="isCreateNew">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
                 </div>
@@ -45,7 +48,7 @@
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="iotmanagerApp.deviceFault.urgency" for="field_urgency">Urgency</label>
-                    <input type="number" class="form-control" name="urgency" id="field_urgency"
+                    <input type="number" class="form-control" name="urgency" id="field_urgency" [ngStyle]="urgencyStyle()"
                            formControlName="urgency"/>
                     <div *ngIf="editForm.get('urgency')!.invalid && (editForm.get('urgency')!.dirty || editForm.get('urgency')!.touched)">
                         <small class="form-text text-danger"
@@ -67,7 +70,7 @@
                     <label class="form-control-label" jhiTranslate="iotmanagerApp.deviceFault.device" for="field_device">Device</label>
                     <select class="form-control" id="field_device" name="device" formControlName="deviceId">
                         <option *ngIf="!editForm.get('deviceId')!.value" [ngValue]="null" selected></option>
-                        <option [ngValue]="deviceOption.id" *ngFor="let deviceOption of devices; trackBy: trackById">{{ deviceOption.id }}</option>
+                        <option [ngValue]="deviceOption.id" *ngFor="let deviceOption of devices; trackBy: trackById">{{ deviceOption.name }}</option>
                     </select>
                 </div>
                 <div *ngIf="editForm.get('deviceId')!.invalid && (editForm.get('deviceId')!.dirty || editForm.get('deviceId')!.touched)">

@@ -17,6 +17,8 @@ import { DeviceService } from 'app/entities/device/device.service';
 export class DeviceFaultUpdateComponent implements OnInit {
   isSaving = false;
   devices: IDevice[] = [];
+  isCreateNew!: boolean;
+  isAdmin = false;
 
   editForm = this.fb.group({
     id: [],
@@ -34,10 +36,11 @@ export class DeviceFaultUpdateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ deviceFault }) => {
+    this.activatedRoute.data.subscribe(({ deviceFault, isAdmin }) => {
       this.updateForm(deviceFault);
+      this.isAdmin = isAdmin;
 
-      this.deviceService.query().subscribe((res: HttpResponse<IDevice[]>) => (this.devices = res.body || []));
+      this.deviceService.query(this.isAdmin).subscribe((res: HttpResponse<IDevice[]>) => (this.devices = res.body || []));
     });
   }
 
@@ -49,6 +52,7 @@ export class DeviceFaultUpdateComponent implements OnInit {
       urgency: deviceFault.urgency,
       deviceId: deviceFault.deviceId,
     });
+    this.isCreateNew = !this.editForm.get('id')!.value;
   }
 
   previousState(): void {
@@ -94,5 +98,11 @@ export class DeviceFaultUpdateComponent implements OnInit {
 
   trackById(index: number, item: IDevice): any {
     return item.id;
+  }
+
+  urgencyStyle(): { [p: string]: any } | null {
+    const red = this.editForm.get('urgency')?.value * 25;
+    const green = (10 - this.editForm.get('urgency')?.value) * 25;
+    return { backgroundColor: `rgb(${red}, ${green}, 0)` };
   }
 }
