@@ -15,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.kamilkoszarny.iotmanager.service.DeviceFaultService;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceFaultDTO;
 import pl.kamilkoszarny.iotmanager.web.rest.errors.BadRequestAlertException;
+import pl.kamilkoszarny.iotmanager.web.rest.errors.NotYourEntityException;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -117,7 +118,7 @@ public class DeviceFaultResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the deviceFaultDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/device-faults/{id}")
-    public ResponseEntity<DeviceFaultDTO> getDeviceFault(@PathVariable Long id) {
+    public ResponseEntity<DeviceFaultDTO> getDeviceFault(@PathVariable Long id) throws NotYourEntityException {
         log.debug("REST request to get DeviceFault : {}", id);
         Optional<DeviceFaultDTO> deviceFaultDTO = deviceFaultService.findOne(id);
         return ResponseUtil.wrapOrNotFound(deviceFaultDTO);

@@ -96,10 +96,15 @@ public class DeviceServiceImpl implements DeviceService {
         log.debug("Request to get Device : {}", id);
         final Device device = deviceRepository.findById(id).orElse(null);
         User currentUser = userService.getCurrentUser();
-        if (device != null && !device.getSite().getUser().getId().equals(currentUser.getId()) && !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
+        if (device != null && isNotDeviceOfUser(device, currentUser) && !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
             throw new NotYourEntityException(currentUser.getId(), "Device", device.getId());
         }
         return Optional.ofNullable(deviceMapper.toFriendlyWithFaultsDto(device));
+    }
+
+    @Override
+    public boolean isNotDeviceOfUser(Device device, User currentUser) {
+        return !device.getSite().getUser().getId().equals(currentUser.getId());
     }
 
     @Override

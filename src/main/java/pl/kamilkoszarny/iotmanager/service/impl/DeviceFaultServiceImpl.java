@@ -10,10 +10,13 @@ import pl.kamilkoszarny.iotmanager.domain.Device;
 import pl.kamilkoszarny.iotmanager.domain.DeviceFault;
 import pl.kamilkoszarny.iotmanager.domain.User;
 import pl.kamilkoszarny.iotmanager.repository.DeviceFaultRepository;
+import pl.kamilkoszarny.iotmanager.security.AuthoritiesConstants;
+import pl.kamilkoszarny.iotmanager.security.SecurityUtils;
 import pl.kamilkoszarny.iotmanager.service.DeviceFaultService;
 import pl.kamilkoszarny.iotmanager.service.DeviceService;
 import pl.kamilkoszarny.iotmanager.service.UserService;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceFaultDTO;
+import pl.kamilkoszarny.iotmanager.service.exceptions.NotYourEntityException;
 import pl.kamilkoszarny.iotmanager.service.mapper.DeviceFaultMapper;
 
 import java.util.List;
@@ -72,10 +75,19 @@ public class DeviceFaultServiceImpl implements DeviceFaultService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<DeviceFaultDTO> findOne(Long id) {
+    public Optional<DeviceFaultDTO> findOne(Long id) throws NotYourEntityException {
         log.debug("Request to get DeviceFault : {}", id);
+        final DeviceFault deviceFault = deviceFaultRepository.findById(id).orElse(null);
+        User currentUser = userService.getCurrentUser();
+        if (deviceFault != null && isNotDeviceFaultOfUser(deviceFault, currentUser) && !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
+            throw new NotYourEntityException(currentUser.getId(), "DeviceFault", deviceFault.getId());
+        }
         return deviceFaultRepository.findById(id)
             .map(deviceFaultMapper::toDto);
+    }
+
+    private boolean isNotDeviceFaultOfUser(DeviceFault deviceFault, User currentUser) {
+        return deviceService.isNotDeviceOfUser(deviceFault.getDevice(), currentUser);
     }
 
     @Override

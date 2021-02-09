@@ -314,7 +314,7 @@ public class SiteResourceIT {
         // Database initialized by sql above
 
         // Reading data directly from csv - it will be the same as in database
-        final List<String[]> csvDataForCurrentUser = currentUserSites();
+        final List<String[]> csvDataForCurrentUser = currentUserSitesCsv();
 
         // Get all the siteList
         final ResultActions result = restSiteMockMvc.perform(get("/api/sites/user?sort=id,asc"))
@@ -325,12 +325,12 @@ public class SiteResourceIT {
     }
 
     @NotNull
-    public static List<String[]> currentUserSites() throws IOException {
+    public static List<String[]> currentUserSitesCsv() throws IOException {
         CSVReader csvReader = new CSVReader(new FileReader("src/main/resources/config/liquibase/fake-data/site.csv"), ';');
-        final List<String[]> csvDataForCurrentUser = csvReader.readAll();
-        csvDataForCurrentUser.remove(0); //remove header
-        csvDataForCurrentUser.removeIf(strings -> !strings[5].equals(Long.toString(UserResourceIT.CURRENT_USER_ID))); //remove not current user sites
-        return csvDataForCurrentUser;
+        final List<String[]> csvData = csvReader.readAll();
+        csvData.remove(0); //remove header
+        csvData.removeIf(strings -> !strings[5].equals(Long.toString(UserResourceIT.CURRENT_USER_ID))); //remove not current user sites
+        return csvData;
     }
 
     @Test

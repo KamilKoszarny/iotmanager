@@ -15,7 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.kamilkoszarny.iotmanager.IotmanagerApp;
 import pl.kamilkoszarny.iotmanager.domain.Device;
 import pl.kamilkoszarny.iotmanager.domain.DeviceFault;
+import pl.kamilkoszarny.iotmanager.domain.User;
 import pl.kamilkoszarny.iotmanager.repository.DeviceFaultRepository;
+import pl.kamilkoszarny.iotmanager.repository.UserRepository;
 import pl.kamilkoszarny.iotmanager.security.AuthoritiesConstants;
 import pl.kamilkoszarny.iotmanager.service.DeviceFaultService;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceFaultDTO;
@@ -23,7 +25,9 @@ import pl.kamilkoszarny.iotmanager.service.mapper.DeviceFaultMapper;
 
 import javax.persistence.EntityManager;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -48,6 +52,9 @@ public class DeviceFaultResourceIT {
 
     @Autowired
     private DeviceFaultRepository deviceFaultRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private DeviceFaultMapper deviceFaultMapper;
@@ -106,6 +113,27 @@ public class DeviceFaultResourceIT {
         } else {
             device = TestUtil.findAll(em, Device.class).get(0);
         }
+        deviceFault.setDevice(device);
+        return deviceFault;
+    }
+    /**
+     * Create an entity for this test.
+     *
+     * This is a static method, as tests for other entities might also need it,
+     * if they test an entity which requires the current entity.
+     */
+    public DeviceFault createEntityForCurrentUser(EntityManager em) {
+        DeviceFault deviceFault = new DeviceFault()
+            .name(DEFAULT_NAME)
+            .description(DEFAULT_DESCRIPTION)
+            .urgency(DEFAULT_URGENCY);
+        // Add required entity
+        Device device;
+        device = DeviceResourceIT.createEntity(em);
+        User currentUser = userRepository.getOne(UserResourceIT.CURRENT_USER_ID);
+        device.getSite().setUser(currentUser);
+        em.persist(device);
+        em.flush();
         deviceFault.setDevice(device);
         return deviceFault;
     }
@@ -223,15 +251,49 @@ public class DeviceFaultResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    @Sql({"/config/liquibase/fake-data/sqlTestInserts/device_producer.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/device_type.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/device_model.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/site.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/device.sql",
+        "/config/liquibase/fake-data/sqlTestInserts/device_fault.sql",})
+    public void getAllDeviceFaultsOfCurrentUser() throws Exception {
+        // Database initialized by sql above
+
+        // Reading data directly from csv - it will be the same as in database
+        final List<String[]> csvDataForCurrentUser = currentUserDeviceFaultsCsv();
+
+        // Get all the deviceFaultList
+        final ResultActions result = restDeviceFaultMockMvc.perform(get("/api/device-faults/user?sort=id,asc"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
+
+        TestUtil.compareWithRawData(result, csvDataForCurrentUser, "id", "name", "description", "urgency", "deviceId");
+    }
+
+    public static List<String[]> currentUserDeviceFaultsCsv() throws IOException {
+        CSVReader csvReader = new CSVReader(new FileReader("src/main/resources/config/liquibase/fake-data/device_fault.csv"), ';');
+        final List<String[]> csvData = csvReader.readAll();
+        csvData.remove(0); //remove header
+        List<String[]> currentUserDevices = DeviceResourceIT.currentUserDevicesCsv();
+        List<String> currentUserDevicesIds = currentUserDevices.stream().map(siteArray -> siteArray[0]).collect(Collectors.toList());
+        csvData.removeIf(strings -> !currentUserDevicesIds.contains(strings[4])); //remove devices faults not for current user devices
+        return csvData;
+    }
+
+    @Test
+    @Transactional
     public void getDeviceFault() throws Exception {
         // Initialize the database
-        deviceFaultRepository.saveAndFlush(deviceFault);
+        DeviceFault currentUserDeviceFault = createEntityForCurrentUser(em);
+        deviceFaultRepository.saveAndFlush(currentUserDeviceFault);
 
         // Get the deviceFault
-        restDeviceFaultMockMvc.perform(get("/api/device-faults/{id}", deviceFault.getId()))
+        restDeviceFaultMockMvc.perform(get("/api/device-faults/{id}", currentUserDeviceFault.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(deviceFault.getId().intValue()))
+            .andExpect(jsonPath("$.id").value(currentUserDeviceFault.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.urgency").value(DEFAULT_URGENCY));
@@ -242,6 +304,18 @@ public class DeviceFaultResourceIT {
         // Get the deviceFault
         restDeviceFaultMockMvc.perform(get("/api/device-faults/{id}", Long.MAX_VALUE))
             .andExpect(status().isNotFound());
+    }
+    @Test
+    @Transactional
+    public void getDeviceFaultOfOtherUserThenNotYourEntityException() throws Exception {
+        // Initialize the database
+        deviceFaultRepository.saveAndFlush(deviceFault);
+
+        // Get the device
+        restDeviceFaultMockMvc.perform(get("/api/device-faults/{id}", deviceFault.getId()))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON))
+            .andExpect(jsonPath("message").value("error.notYourEntity"));
     }
 
     @Test

@@ -26,6 +26,7 @@ import pl.kamilkoszarny.iotmanager.service.mapper.DeviceMapper;
 
 import javax.persistence.EntityManager;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,7 +67,6 @@ public class DeviceResourceIT {
     private MockMvc restDeviceMockMvc;
 
     private Device device;
-    private Device currentUserDevice;
 
     /**
      * Create an entity for this test.
@@ -166,7 +166,6 @@ public class DeviceResourceIT {
     @BeforeEach
     public void initTest() {
         device = createEntity(em);
-        currentUserDevice = createEntityForCurrentUser(em);
     }
 
     @Test
@@ -251,17 +250,6 @@ public class DeviceResourceIT {
 
     @Test
     @Transactional
-    public void getAllDevicesAsNoAdminThenForbidden() throws Exception {
-        // Initialize the database
-        deviceRepository.saveAndFlush(device);
-
-        // Get all the deviceList
-        restDeviceMockMvc.perform(get("/api/devices?sort=id,desc"))
-            .andExpect(status().isForbidden());
-    }
-
-    @Test
-    @Transactional
     @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     @Sql({"/config/liquibase/fake-data/sqlTestInserts/device_producer.sql",
         "/config/liquibase/fake-data/sqlTestInserts/device_type.sql",
@@ -286,22 +274,28 @@ public class DeviceResourceIT {
 
     @Test
     @Transactional
+    public void getAllDevicesAsNoAdminThenForbidden() throws Exception {
+        // Initialize the database
+        deviceRepository.saveAndFlush(device);
+
+        // Get all the deviceList
+        restDeviceMockMvc.perform(get("/api/devices?sort=id,desc"))
+            .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @Transactional
     @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     @Sql({"/config/liquibase/fake-data/sqlTestInserts/device_producer.sql",
         "/config/liquibase/fake-data/sqlTestInserts/device_type.sql",
         "/config/liquibase/fake-data/sqlTestInserts/device_model.sql",
         "/config/liquibase/fake-data/sqlTestInserts/site.sql",
         "/config/liquibase/fake-data/sqlTestInserts/device.sql",})
-    public void getAllUserDevices() throws Exception {
+    public void getAllDevicesOfCurrentUser() throws Exception {
         // Database initialized by sql above
 
         // Reading data directly from csv - it will be the same as in database
-        CSVReader csvReader = new CSVReader(new FileReader("src/main/resources/config/liquibase/fake-data/device.csv"), ';');
-        final List<String[]> csvDataForCurrentUser = csvReader.readAll();
-        csvDataForCurrentUser.remove(0); //remove header
-        List<String[]> currentUserSites = SiteResourceIT.currentUserSites();
-        List<String> currentUserSitesIds = currentUserSites.stream().map(siteArray -> siteArray[0]).collect(Collectors.toList());
-        csvDataForCurrentUser.removeIf(strings -> !currentUserSitesIds.contains(strings[4])); //remove devices not in current user sites
+        final List<String[]> csvDataForCurrentUser = currentUserDevicesCsv();
 
 
         // Get all the deviceList
@@ -310,6 +304,16 @@ public class DeviceResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
 
         TestUtil.compareWithRawData(result, csvDataForCurrentUser, "id", "name", "serialNo", "modelId", "siteId");
+    }
+
+    public static List<String[]> currentUserDevicesCsv() throws IOException {
+        CSVReader csvReader = new CSVReader(new FileReader("src/main/resources/config/liquibase/fake-data/device.csv"), ';');
+        final List<String[]> csvData = csvReader.readAll();
+        csvData.remove(0); //remove header
+        List<String[]> currentUserSites = SiteResourceIT.currentUserSitesCsv();
+        List<String> currentUserSitesIds = currentUserSites.stream().map(siteArray -> siteArray[0]).collect(Collectors.toList());
+        csvData.removeIf(strings -> !currentUserSitesIds.contains(strings[4])); //remove devices not in current user sites
+        return csvData;
     }
 
     @Test
@@ -343,6 +347,7 @@ public class DeviceResourceIT {
     @Transactional
     public void getDevice() throws Exception {
         // Initialize the database
+        Device currentUserDevice = createEntityForCurrentUser(em);
         deviceRepository.saveAndFlush(currentUserDevice);
 
         // Get the device

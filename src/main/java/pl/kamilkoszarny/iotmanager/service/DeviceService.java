@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import pl.kamilkoszarny.iotmanager.domain.Device;
+import pl.kamilkoszarny.iotmanager.domain.User;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceDTO;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceFriendlyDTO;
 import pl.kamilkoszarny.iotmanager.service.dto.DeviceFriendlyWithFaultsDTO;
@@ -49,6 +50,8 @@ public interface DeviceService {
      * @return the entity.
      */
     Optional<DeviceFriendlyWithFaultsDTO> findOne(Long id);
+
+    boolean isNotDeviceOfUser(Device device, User currentUser);
 
     /**
      * Delete the "id" device.
