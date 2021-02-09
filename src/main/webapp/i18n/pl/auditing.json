@@ -1,0 +1,9 @@
+{
+  "auditing": {
+    "createdBy": "Utworzony przez",
+    "createdDate": "Data utworzenia",
+    "lastModifiedBy": "Zmodyfikowany przez",
+    "lastModifiedDate": "Data modyfikacji",
+    "noModifications": "Nie znaleziono modyfikacji"
+  }
+}

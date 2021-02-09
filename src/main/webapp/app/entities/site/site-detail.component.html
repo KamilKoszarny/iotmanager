@@ -32,6 +32,21 @@
                 <dd *jhiHasAnyAuthority="'ROLE_ADMIN'">
                     {{ site.userId }}
                 </dd>
+                <dt><span jhiTranslate="auditing.createdBy">Created By</span></dt>
+                <dd>{{ site.createdBy }}</dd>
+
+                <dt><span jhiTranslate="auditing.createdDate">Created Date</span></dt>
+                <dd>{{ site.createdDate | date:'dd/MM/yy HH:mm' }}</dd>
+
+                <div *ngIf="site.lastModifiedBy || site.lastModifiedDate">
+                    <dt><span jhiTranslate="auditing.lastModifiedBy">Last Modified By</span></dt>
+                    <dd>{{ site.lastModifiedBy }}</dd>
+
+                    <dt><span jhiTranslate="auditing.lastModifiedDate">Last Modified Date</span></dt>
+                    <dd>{{ site.lastModifiedDate | date:'dd/MM/yy HH:mm' }}</dd>
+                </div>
+                <dd *ngIf="!site.lastModifiedBy && !site.lastModifiedDate"><span jhiTranslate="auditing.noModifications">No modifications found</span></dd>
+
             </dl>
             <button type="submit"
                     (click)="previousState()"

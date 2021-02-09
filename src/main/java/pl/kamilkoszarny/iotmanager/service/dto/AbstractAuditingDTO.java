@@ -9,11 +9,11 @@ import java.time.Instant;
 @Setter
 public class AbstractAuditingDTO {
 
-    private String createdBy;
+    protected String createdBy;
 
-    private Instant createdDate;
+    protected Instant createdDate;
 
-    private String lastModifiedBy;
+    protected String lastModifiedBy;
 
-    private Instant lastModifiedDate;
+    protected Instant lastModifiedDate;
 }

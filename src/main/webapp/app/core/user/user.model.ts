@@ -1,4 +1,6 @@
-export interface IUser {
+import { AbstractAuditing, IAbstractAuditing } from '../../shared/model/abstract-auditing.model';
+
+export interface IUser extends IAbstractAuditing {
   id?: any;
   login?: string;
   firstName?: string;
@@ -7,14 +9,10 @@ export interface IUser {
   activated?: boolean;
   langKey?: string;
   authorities?: string[];
-  createdBy?: string;
-  createdDate?: Date;
-  lastModifiedBy?: string;
-  lastModifiedDate?: Date;
   password?: string;
 }
 
-export class User implements IUser {
+export class User extends AbstractAuditing implements IUser {
   constructor(
     public id?: any,
     public login?: string,
@@ -24,10 +22,8 @@ export class User implements IUser {
     public activated?: boolean,
     public langKey?: string,
     public authorities?: string[],
-    public createdBy?: string,
-    public createdDate?: Date,
-    public lastModifiedBy?: string,
-    public lastModifiedDate?: Date,
     public password?: string
-  ) {}
+  ) {
+    super();
+  }
 }

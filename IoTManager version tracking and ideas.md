@@ -1,5 +1,6 @@
 ##Ideas
 
+- fix: created info disappears after modification (front only)
 - Device Faults: reporting, fixing, managing, statistics
 - statuses of entities: ACTIVE, DELETED, PROPOSED
 - condition of Devices: PERFECT, IMPERFECT, BROKEN, IN_REPAIR
@@ -11,13 +12,14 @@
 
 ####In next version
 
+##Versions history
+
+####0.2.3 (09.02.2021)
+
 - show faults in Device view
 - faults user access
 - add buttons: Device in Site view, Fault in Device view
-
 - audit extend: Site, Device, Fault
-
-##Versions history
 
 ####0.2.2 (08.02.2021)
 

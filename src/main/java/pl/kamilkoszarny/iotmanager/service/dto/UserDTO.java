@@ -11,7 +11,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.time.Instant;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -21,7 +20,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @ToString
-public class UserDTO {
+public class UserDTO extends AbstractAuditingDTO {
 
     private Long id;
 
@@ -47,14 +46,6 @@ public class UserDTO {
 
     @Size(min = 2, max = 10)
     private String langKey;
-
-    private String createdBy;
-
-    private Instant createdDate;
-
-    private String lastModifiedBy;
-
-    private Instant lastModifiedDate;
 
     private Set<String> authorities;
 

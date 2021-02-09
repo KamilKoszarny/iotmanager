@@ -1,6 +1,7 @@
 import { DeviceFault } from './device-fault.model';
+import { AbstractAuditing, IAbstractAuditing } from './abstract-auditing.model';
 
-export interface IDevice {
+export interface IDevice extends IAbstractAuditing {
   id?: number;
   name?: string;
   serialNo?: string;
@@ -11,6 +12,8 @@ export interface IDevice {
   faults?: DeviceFault[];
 }
 
-export class Device implements IDevice {
-  constructor(public id?: number, public name?: string, public serialNo?: string, public modelId?: number, public siteId?: number) {}
+export class Device extends AbstractAuditing implements IDevice {
+  constructor(public id?: number, public name?: string, public serialNo?: string, public modelId?: number, public siteId?: number) {
+    super();
+  }
 }

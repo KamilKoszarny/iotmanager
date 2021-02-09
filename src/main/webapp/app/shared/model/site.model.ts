@@ -1,6 +1,7 @@
 import { IDevice } from 'app/shared/model/device.model';
+import { AbstractAuditing, IAbstractAuditing } from './abstract-auditing.model';
 
-export interface ISite {
+export interface ISite extends IAbstractAuditing {
   id?: number;
   name?: string;
   city?: string;
@@ -10,7 +11,7 @@ export interface ISite {
   userId?: number;
 }
 
-export class Site implements ISite {
+export class Site extends AbstractAuditing implements ISite {
   constructor(
     public id?: number,
     public name?: string,
@@ -19,5 +20,7 @@ export class Site implements ISite {
     public streetNo?: string,
     public devices?: IDevice[],
     public userId?: number
-  ) {}
+  ) {
+    super();
+  }
 }
