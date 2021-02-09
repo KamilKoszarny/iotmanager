@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class DeviceFaultDTO implements Serializable {
+public class DeviceFaultDTO extends AbstractAuditingDTO implements Serializable {
 
     private Long id;
 

@@ -251,11 +251,11 @@ public class DeviceResourceIT {
     @Test
     @Transactional
     @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
-    @Sql({"/config/liquibase/fake-data/sqlTestInserts/device_producer.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device_type.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device_model.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/site.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device.sql",})
+    @Sql({"/config/liquibase/fake-data/sql-for-tests/device_producer.sql",
+        "/config/liquibase/fake-data/sql-for-tests/device_type.sql",
+        "/config/liquibase/fake-data/sql-for-tests/device_model.sql",
+        "/config/liquibase/fake-data/sql-for-tests/site.sql",
+        "/config/liquibase/fake-data/sql-for-tests/device.sql",})
     public void getAllDevices() throws Exception {
         // Database initialized by sql above
 
@@ -269,7 +269,7 @@ public class DeviceResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
 
-        TestUtil.compareWithRawData(result, csvData, "id", "name", "serialNo", "modelId", "siteId");
+        TestUtil.compareWithRawData(result, csvData, "id", "name", "serialNo", "modelId", "siteId", "createdBy");
     }
 
     @Test
@@ -286,11 +286,11 @@ public class DeviceResourceIT {
     @Test
     @Transactional
     @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
-    @Sql({"/config/liquibase/fake-data/sqlTestInserts/device_producer.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device_type.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device_model.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/site.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device.sql",})
+    @Sql({"/config/liquibase/fake-data/sql-for-tests/device_producer.sql",
+        "/config/liquibase/fake-data/sql-for-tests/device_type.sql",
+        "/config/liquibase/fake-data/sql-for-tests/device_model.sql",
+        "/config/liquibase/fake-data/sql-for-tests/site.sql",
+        "/config/liquibase/fake-data/sql-for-tests/device.sql",})
     public void getAllDevicesOfCurrentUser() throws Exception {
         // Database initialized by sql above
 
@@ -303,7 +303,7 @@ public class DeviceResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
 
-        TestUtil.compareWithRawData(result, csvDataForCurrentUser, "id", "name", "serialNo", "modelId", "siteId");
+        TestUtil.compareWithRawData(result, csvDataForCurrentUser, "id", "name", "serialNo", "modelId", "siteId", "createdBy");
     }
 
     public static List<String[]> currentUserDevicesCsv() throws IOException {
@@ -319,11 +319,11 @@ public class DeviceResourceIT {
     @Test
     @Transactional
     @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
-    @Sql({"/config/liquibase/fake-data/sqlTestInserts/device_producer.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device_type.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device_model.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/site.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device.sql",})
+    @Sql({"/config/liquibase/fake-data/sql-for-tests/device_producer.sql",
+        "/config/liquibase/fake-data/sql-for-tests/device_type.sql",
+        "/config/liquibase/fake-data/sql-for-tests/device_model.sql",
+        "/config/liquibase/fake-data/sql-for-tests/site.sql",
+        "/config/liquibase/fake-data/sql-for-tests/device.sql",})
     public void getAllDevicesBySiteId() throws Exception {
         // Database initialized by sql above
         final String SITE_ID = "1";
@@ -340,7 +340,7 @@ public class DeviceResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
 
-        TestUtil.compareWithRawData(result, csvDataForCurrentUser, "id", "name", "serialNo", "modelId", "siteId");
+        TestUtil.compareWithRawData(result, csvDataForCurrentUser, "id", "name", "serialNo", "modelId", "siteId", "createdBy");
     }
 
     @Test

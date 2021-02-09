@@ -1,11 +1,11 @@
-id;name;serial_no;model_id;site_id
-1;Darek's laptop;NCV566.3412;1;1
-2;TV kitchen;A54MN2L00QP;2;2
-3;fridge;233015233;3;3
-4;air-conditioner;HV20200405.54;4;4
-5;zero defect Ergonomic controller;A110-FG-34;5;5
-6;robot nr 4;R4;6;6
-7;Project 5;XXXXXX;7;7
-8;nanobot;NB000042;8;8
-9;thermometer garden;21-45-224;9;9
-10;fridge;176949542;10;10
+id;name;serial_no;model_id;site_id;created_by;created_date;last_modified_by;last_modified_date
+1;Darek's laptop;NCV566.3412;1;1;system;now;null;null
+2;TV kitchen;A54MN2L00QP;2;2;system;now;null;null
+3;fridge;233015233;3;3;system;now;null;null
+4;air-conditioner;HV20200405.54;4;4;system;now;null;null
+5;zero defect Ergonomic controller;A110-FG-34;5;5;system;now;null;null
+6;robot nr 4;R4;6;6;system;now;null;null
+7;Project 5;XXXXXX;7;7;system;now;null;null
+8;nanobot;NB000042;8;8;system;now;null;null
+9;thermometer garden;21-45-224;9;9;system;now;null;null
+10;fridge;176949542;10;10;system;now;null;null

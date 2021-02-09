@@ -227,12 +227,12 @@ public class DeviceFaultResourceIT {
     @Test
     @Transactional
     @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
-    @Sql({"/config/liquibase/fake-data/sqlTestInserts/device_producer.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device_type.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device_model.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/site.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device_fault.sql",})
+    @Sql({"/config/liquibase/fake-data/sql-for-tests/device_producer.sql",
+        "/config/liquibase/fake-data/sql-for-tests/device_type.sql",
+        "/config/liquibase/fake-data/sql-for-tests/device_model.sql",
+        "/config/liquibase/fake-data/sql-for-tests/site.sql",
+        "/config/liquibase/fake-data/sql-for-tests/device.sql",
+        "/config/liquibase/fake-data/sql-for-tests/device_fault.sql",})
     public void getAllDeviceFaults() throws Exception {
         // Database initialized by sql above
 
@@ -246,18 +246,18 @@ public class DeviceFaultResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
 
-        TestUtil.compareWithRawData(result, csvData, "id", "name", "description", "urgency", "deviceId");
+        TestUtil.compareWithRawData(result, csvData, "id", "name", "description", "urgency", "deviceId", "createdBy");
     }
 
     @Test
     @Transactional
     @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
-    @Sql({"/config/liquibase/fake-data/sqlTestInserts/device_producer.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device_type.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device_model.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/site.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device_fault.sql",})
+    @Sql({"/config/liquibase/fake-data/sql-for-tests/device_producer.sql",
+        "/config/liquibase/fake-data/sql-for-tests/device_type.sql",
+        "/config/liquibase/fake-data/sql-for-tests/device_model.sql",
+        "/config/liquibase/fake-data/sql-for-tests/site.sql",
+        "/config/liquibase/fake-data/sql-for-tests/device.sql",
+        "/config/liquibase/fake-data/sql-for-tests/device_fault.sql",})
     public void getAllDeviceFaultsOfCurrentUser() throws Exception {
         // Database initialized by sql above
 
@@ -269,7 +269,7 @@ public class DeviceFaultResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
 
-        TestUtil.compareWithRawData(result, csvDataForCurrentUser, "id", "name", "description", "urgency", "deviceId");
+        TestUtil.compareWithRawData(result, csvDataForCurrentUser, "id", "name", "description", "urgency", "deviceId", "createdBy");
     }
 
     public static List<String[]> currentUserDeviceFaultsCsv() throws IOException {

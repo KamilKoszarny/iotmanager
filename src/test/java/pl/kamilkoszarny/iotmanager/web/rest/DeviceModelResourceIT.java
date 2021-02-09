@@ -202,9 +202,9 @@ public class DeviceModelResourceIT {
 
     @Test
     @Transactional
-    @Sql({"/config/liquibase/fake-data/sqlTestInserts/device_producer.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device_type.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device_model.sql"})
+    @Sql({"/config/liquibase/fake-data/sql-for-tests/device_producer.sql",
+            "/config/liquibase/fake-data/sql-for-tests/device_type.sql",
+            "/config/liquibase/fake-data/sql-for-tests/device_model.sql"})
     public void getAllDeviceModels() throws Exception {
         // Database initialized by sql above
 
@@ -223,9 +223,9 @@ public class DeviceModelResourceIT {
 
     @Test
     @Transactional
-    @Sql({"/config/liquibase/fake-data/sqlTestInserts/device_producer.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device_type.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device_model.sql"})
+    @Sql({"/config/liquibase/fake-data/sql-for-tests/device_producer.sql",
+            "/config/liquibase/fake-data/sql-for-tests/device_type.sql",
+            "/config/liquibase/fake-data/sql-for-tests/device_model.sql"})
     public void getAllDeviceModelsByTypeAndProducer() throws Exception {
         // Database initialized by sql above
         final String PRODUCER_ID = "2";
@@ -249,9 +249,9 @@ public class DeviceModelResourceIT {
 
     @Test
     @Transactional
-    @Sql({"/config/liquibase/fake-data/sqlTestInserts/device_producer.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device_type.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device_model.sql"})
+    @Sql({"/config/liquibase/fake-data/sql-for-tests/device_producer.sql",
+            "/config/liquibase/fake-data/sql-for-tests/device_type.sql",
+            "/config/liquibase/fake-data/sql-for-tests/device_model.sql"})
     public void getAllDeviceModelsByType() throws Exception {
         // Database initialized by sql above
         final String TYPE_ID = "1";
@@ -273,9 +273,9 @@ public class DeviceModelResourceIT {
 
     @Test
     @Transactional
-    @Sql({"/config/liquibase/fake-data/sqlTestInserts/device_producer.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device_type.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device_model.sql"})
+    @Sql({"/config/liquibase/fake-data/sql-for-tests/device_producer.sql",
+            "/config/liquibase/fake-data/sql-for-tests/device_type.sql",
+            "/config/liquibase/fake-data/sql-for-tests/device_model.sql"})
     public void getAllDeviceModelsByProducer() throws Exception {
         // Database initialized by sql above
         final String PRODUCER_ID = "2";
@@ -297,9 +297,9 @@ public class DeviceModelResourceIT {
 
     @Test
     @Transactional
-    @Sql({"/config/liquibase/fake-data/sqlTestInserts/device_producer.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device_type.sql",
-        "/config/liquibase/fake-data/sqlTestInserts/device_model.sql"})
+    @Sql({"/config/liquibase/fake-data/sql-for-tests/device_producer.sql",
+            "/config/liquibase/fake-data/sql-for-tests/device_type.sql",
+            "/config/liquibase/fake-data/sql-for-tests/device_model.sql"})
     public void getAllDeviceWithEmptyFilter() throws Exception {
         // Database initialized by sql above
 

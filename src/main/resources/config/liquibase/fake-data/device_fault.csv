@@ -1,6 +1,6 @@
-id;name;description;urgency;device_id
-1;freezer too cold;freezer temperature below -20 degrees for 6 consecutive hours;8;3
-2;no light;light not working;2;3
-3;too loud;fridge is making a weirdCsvTokenType.COMMA loud sound;4;3
-4;not rotating;fan stopped rotating 02.02.2021;2;4
-5;not working;cause not known;4;5
+id;name;description;urgency;device_id;created_by;created_date;last_modified_by;last_modified_date
+1;freezer too cold;freezer temperature below -20 degrees for 6 consecutive hours;8;3;system;now;null;null
+2;no light;light not working;2;3;system;now;null;null
+3;too loud;fridge is making a weirdCsvTokenType.COMMA loud sound;4;3;system;now;null;null
+4;not rotating;fan stopped rotating 02.02.2021;2;4;system;now;null;null
+5;not working;cause not known;4;5;system;now;null;null

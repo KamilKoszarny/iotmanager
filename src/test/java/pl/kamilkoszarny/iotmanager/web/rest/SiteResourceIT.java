@@ -290,7 +290,7 @@ public class SiteResourceIT {
     @Test
     @Transactional
     @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
-    @Sql("/config/liquibase/fake-data/sqlTestInserts/site.sql")
+    @Sql("/config/liquibase/fake-data/sql-for-tests/site.sql")
     public void getAllSites() throws Exception {
         // Database initialized by sql above
 
@@ -304,12 +304,12 @@ public class SiteResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
 
-        TestUtil.compareWithRawData(result, csvData, "id", "name", "city", "street", "streetNo", "userId");
+        TestUtil.compareWithRawData(result, csvData, "id", "name", "city", "street", "streetNo", "userId", "createdBy");
     }
 
     @Test
     @Transactional
-    @Sql("/config/liquibase/fake-data/sqlTestInserts/site.sql")
+    @Sql("/config/liquibase/fake-data/sql-for-tests/site.sql")
     public void getAllUserSites() throws Exception {
         // Database initialized by sql above
 
@@ -321,7 +321,7 @@ public class SiteResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
 
-        TestUtil.compareWithRawData(result, csvDataForCurrentUser, "id", "name", "city", "street", "streetNo", "userId");
+        TestUtil.compareWithRawData(result, csvDataForCurrentUser, "id", "name", "city", "street", "streetNo", "userId", "createdBy");
     }
 
     @NotNull

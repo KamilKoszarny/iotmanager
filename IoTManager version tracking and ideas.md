@@ -15,6 +15,8 @@
 - faults user access
 - add buttons: Device in Site view, Fault in Device view
 
+- audit extend: Site, Device, Fault
+
 ##Versions history
 
 ####0.2.2 (08.02.2021)

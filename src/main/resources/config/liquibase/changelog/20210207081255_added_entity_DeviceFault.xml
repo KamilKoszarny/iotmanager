@@ -29,6 +29,18 @@
         </createTable>
     </changeSet>
 
+
+    <changeSet id="20210207081255-audit" author="kkoszarn">
+        <addColumn tableName="device_fault">
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="varchar(50)"/>
+            <column name="last_modified_date" type="timestamp"/>
+        </addColumn>
+    </changeSet>
+
     <changeSet id="20210207081255-1-relations" author="jhipster">
 
     </changeSet>
@@ -52,6 +64,10 @@
             <column name="description" type="string"/>
             <column name="urgency" type="numeric"/>
             <column name="device_id" type="numeric"/>
+            <column name="created_by" type="string"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="string"/>
+            <column name="last_modified_date" type="timestamp"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

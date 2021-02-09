@@ -1,6 +1,7 @@
 package pl.kamilkoszarny.iotmanager.service.mapper;
 
 
+import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import pl.kamilkoszarny.iotmanager.domain.Device;
@@ -12,16 +13,18 @@ import pl.kamilkoszarny.iotmanager.service.dto.DeviceFriendlyWithFaultsDTO;
  * Mapper for the entity {@link Device} and its DTO {@link DeviceDTO}.
  */
 @Mapper(componentModel = "spring", uses = {DeviceModelMapper.class, SiteMapper.class, DeviceFaultMapper.class})
-public interface DeviceMapper extends EntityMapper<DeviceDTO, Device> {
+public interface DeviceMapper {
 
     @Mapping(source = "model.id", target = "modelId")
     @Mapping(source = "site.id", target = "siteId")
+    @IterableMapping(elementTargetType = DeviceDTO.class)
     DeviceDTO toDto(Device device);
 
     @Mapping(source = "model.id", target = "modelId")
     @Mapping(source = "model.name", target = "modelName")
     @Mapping(source = "site.id", target = "siteId")
     @Mapping(source = "site.name", target = "siteName")
+    @IterableMapping(elementTargetType = DeviceFriendlyDTO.class)
     DeviceFriendlyDTO toFriendlyDto(Device device);
 
     @Mapping(source = "model.id", target = "modelId")

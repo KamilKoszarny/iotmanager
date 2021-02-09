@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class SiteDTO implements Serializable {
+public class SiteDTO extends AbstractAuditingDTO implements Serializable {
 
     private Long id;
 

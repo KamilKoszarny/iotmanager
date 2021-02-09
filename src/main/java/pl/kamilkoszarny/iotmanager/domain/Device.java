@@ -23,7 +23,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Device implements Serializable {
+public class Device extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
