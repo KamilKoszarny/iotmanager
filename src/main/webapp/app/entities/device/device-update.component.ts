@@ -74,6 +74,10 @@ export class DeviceUpdateComponent implements OnInit {
       this.siteService.query(this.isAdmin).subscribe((res: HttpResponse<ISite[]>) => {
         this.sites = res.body || [];
         this.sites.unshift(new Site());
+        const passedSiteId = this.activatedRoute.snapshot.queryParamMap.get('siteId');
+        if (passedSiteId) {
+          this.editForm.controls['siteId'].setValue(+passedSiteId, { onlySelf: true });
+        }
       });
     });
   }

@@ -16,8 +16,8 @@ public interface DeviceModelMapper extends EntityMapper<DeviceModelDTO, DeviceMo
     @Mapping(source = "type.id", target = "typeId")
     DeviceModelDTO toDto(DeviceModel deviceModel);
 
-    @Mapping(target = "models", ignore = true)
-    @Mapping(target = "removeModel", ignore = true)
+    @Mapping(target = "devices", ignore = true)
+    @Mapping(target = "removeDevice", ignore = true)
     @Mapping(source = "producerId", target = "producer")
     @Mapping(source = "typeId", target = "type")
     DeviceModel toEntity(DeviceModelDTO deviceModelDTO);

@@ -57,9 +57,9 @@ public class CacheConfiguration {
             createCache(cm, pl.kamilkoszarny.iotmanager.domain.DeviceProducer.class.getName() + ".deviceModels");
             createCache(cm, pl.kamilkoszarny.iotmanager.domain.Site.class.getName());
             createCache(cm, pl.kamilkoszarny.iotmanager.domain.Site.class.getName() + ".devices");
-            createCache(cm, pl.kamilkoszarny.iotmanager.domain.DeviceType.class.getName() + ".models");
-            createCache(cm, pl.kamilkoszarny.iotmanager.domain.DeviceModel.class.getName() + ".models");
-            createCache(cm, pl.kamilkoszarny.iotmanager.domain.DeviceProducer.class.getName() + ".models");
+            createCache(cm, pl.kamilkoszarny.iotmanager.domain.DeviceType.class.getName() + ".devices");
+            createCache(cm, pl.kamilkoszarny.iotmanager.domain.DeviceModel.class.getName() + ".devices");
+            createCache(cm, pl.kamilkoszarny.iotmanager.domain.DeviceProducer.class.getName() + ".devices");
             // jhipster-needle-caffeine-add-entry
         };
     }

@@ -11,7 +11,7 @@ type EntityArrayResponseType = HttpResponse<IDeviceModel[]>;
 
 @Injectable({ providedIn: 'root' })
 export class DeviceModelService {
-  public resourceUrl = SERVER_API_URL + 'api/device-models';
+  public resourceUrl = SERVER_API_URL + 'api/device-devices';
 
   constructor(protected http: HttpClient) {}
 

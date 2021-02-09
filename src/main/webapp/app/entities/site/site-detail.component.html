@@ -1,13 +1,17 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="site">
-            <h2><span jhiTranslate="iotmanagerApp.site.detail.title">Site</span> {{ site.id }}</h2>
+            <h2><span jhiTranslate="iotmanagerApp.site.detail.title">Site</span>: {{ site.name }}</h2>
 
             <hr>
 
             <jhi-alert-error></jhi-alert-error>
 
             <dl class="row-md jh-entity-details">
+                <dt><span>Id</span></dt>
+                <dd>
+                    <span>{{ site.id }}</span>
+                </dd>
                 <dt><span jhiTranslate="iotmanagerApp.site.name">Name</span></dt>
                 <dd>
                     <span>{{ site.name }}</span>
@@ -29,6 +33,19 @@
                     {{ site.userId }}
                 </dd>
             </dl>
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/site', site.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+            <br/>
+            <br/>
 
             <dt id="jhi-site-devices" jhiTranslate="iotmanagerApp.site.listOfDevices">Devices in this Site:</dt>
             <table *ngIf="site.devices && site.devices.length > 0" class="table table-striped" aria-describedby="page-heading">
@@ -52,17 +69,10 @@
             <div *ngIf="!site.devices || site.devices.length === 0" class="alert alert-warning" id="no-result">
                 <span jhiTranslate="iotmanagerApp.device.home.notFound">No devices found</span>
             </div>
-
-            <button type="submit"
-                    (click)="previousState()"
-                    class="btn btn-info">
-                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
-            </button>
-
             <button type="button"
-                    [routerLink]="['/site', site.id, 'edit']"
+                    [routerLink]="['/device/user/new']" [queryParams]="{siteId: site.id}"
                     class="btn btn-primary">
-                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="iotmanagerApp.device.home.createOwnLabel">Add new Device</span>
             </button>
         </div>
     </div>

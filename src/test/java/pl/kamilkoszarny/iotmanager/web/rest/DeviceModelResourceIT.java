@@ -38,6 +38,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser
 public class DeviceModelResourceIT {
 
+    private final String baseUrl = "/api/device-models";
+
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
@@ -143,7 +145,7 @@ public class DeviceModelResourceIT {
         int databaseSizeBeforeCreate = deviceModelRepository.findAll().size();
         // Create the DeviceModel
         DeviceModelDTO deviceModelDTO = deviceModelMapper.toDto(deviceModel);
-        restDeviceModelMockMvc.perform(post("/api/device-models")
+        restDeviceModelMockMvc.perform(post(baseUrl)
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(deviceModelDTO)))
             .andExpect(status().isCreated());
@@ -166,7 +168,7 @@ public class DeviceModelResourceIT {
         DeviceModelDTO deviceModelDTO = deviceModelMapper.toDto(deviceModel);
 
         // An entity with an existing ID cannot be created, so this API call must fail
-        restDeviceModelMockMvc.perform(post("/api/device-models")
+        restDeviceModelMockMvc.perform(post(baseUrl)
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(deviceModelDTO)))
             .andExpect(status().isBadRequest());
@@ -189,7 +191,7 @@ public class DeviceModelResourceIT {
         DeviceModelDTO deviceModelDTO = deviceModelMapper.toDto(deviceModel);
 
 
-        restDeviceModelMockMvc.perform(post("/api/device-models")
+        restDeviceModelMockMvc.perform(post(baseUrl)
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(deviceModelDTO)))
             .andExpect(status().isBadRequest());
@@ -212,7 +214,7 @@ public class DeviceModelResourceIT {
         csvData.remove(0); //remove header
 
         // Get all the deviceModelList
-        final ResultActions result = restDeviceModelMockMvc.perform(get("/api/device-models?sort=id,asc"))
+        final ResultActions result = restDeviceModelMockMvc.perform(get(baseUrl + "?sort=id,asc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
 
@@ -236,7 +238,7 @@ public class DeviceModelResourceIT {
         filteredCsvData.removeIf(strings -> !strings[2].equals(PRODUCER_ID) || !strings[3].equals(TYPE_ID));
 
         // Get all the deviceModelList
-        final ResultActions result = restDeviceModelMockMvc.perform(get("/api/device-models/filter?sort=id,asc")
+        final ResultActions result = restDeviceModelMockMvc.perform(get(baseUrl + "/filter?sort=id,asc")
             .param("typeId", TYPE_ID)
             .param("producerId", PRODUCER_ID))
             .andExpect(status().isOk())
@@ -261,7 +263,7 @@ public class DeviceModelResourceIT {
         filteredCsvData.removeIf(strings -> !strings[3].equals(TYPE_ID));
 
         // Get all the deviceModelList
-        final ResultActions result = restDeviceModelMockMvc.perform(get("/api/device-models/filter?sort=id,asc")
+        final ResultActions result = restDeviceModelMockMvc.perform(get(baseUrl + "/filter?sort=id,asc")
             .param("typeId", TYPE_ID))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
@@ -285,7 +287,7 @@ public class DeviceModelResourceIT {
         filteredCsvData.removeIf(strings -> !strings[2].equals(PRODUCER_ID));
 
         // Get all the deviceModelList
-        final ResultActions result = restDeviceModelMockMvc.perform(get("/api/device-models/filter?sort=id,asc")
+        final ResultActions result = restDeviceModelMockMvc.perform(get(baseUrl + "/filter?sort=id,asc")
             .param("producerId", PRODUCER_ID))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
@@ -307,7 +309,7 @@ public class DeviceModelResourceIT {
         csvData.remove(0); //remove header
 
         // Get all the deviceModelList
-        final ResultActions result = restDeviceModelMockMvc.perform(get("/api/device-models/filter?sort=id,asc"))
+        final ResultActions result = restDeviceModelMockMvc.perform(get(baseUrl + "/filter?sort=id,asc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
 
@@ -321,7 +323,7 @@ public class DeviceModelResourceIT {
         deviceModelRepository.saveAndFlush(deviceModel);
 
         // Get the deviceModel
-        restDeviceModelMockMvc.perform(get("/api/device-models/{id}", deviceModel.getId()))
+        restDeviceModelMockMvc.perform(get(baseUrl + "/{id}", deviceModel.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(deviceModel.getId().intValue()))
@@ -332,7 +334,7 @@ public class DeviceModelResourceIT {
     @Transactional
     public void getNonExistingDeviceModel() throws Exception {
         // Get the deviceModel
-        restDeviceModelMockMvc.perform(get("/api/device-models/{id}", Long.MAX_VALUE))
+        restDeviceModelMockMvc.perform(get(baseUrl + "/{id}", Long.MAX_VALUE))
             .andExpect(status().isNotFound());
     }
 
@@ -352,7 +354,7 @@ public class DeviceModelResourceIT {
             .name(UPDATED_NAME);
         DeviceModelDTO deviceModelDTO = deviceModelMapper.toDto(updatedDeviceModel);
 
-        restDeviceModelMockMvc.perform(put("/api/device-models")
+        restDeviceModelMockMvc.perform(put(baseUrl)
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(deviceModelDTO)))
             .andExpect(status().isForbidden());
@@ -375,7 +377,7 @@ public class DeviceModelResourceIT {
             .name(UPDATED_NAME);
         DeviceModelDTO deviceModelDTO = deviceModelMapper.toDto(updatedDeviceModel);
 
-        restDeviceModelMockMvc.perform(put("/api/device-models")
+        restDeviceModelMockMvc.perform(put(baseUrl)
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(deviceModelDTO)))
             .andExpect(status().isOk());
@@ -397,7 +399,7 @@ public class DeviceModelResourceIT {
         DeviceModelDTO deviceModelDTO = deviceModelMapper.toDto(deviceModel);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restDeviceModelMockMvc.perform(put("/api/device-models")
+        restDeviceModelMockMvc.perform(put(baseUrl)
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(deviceModelDTO)))
             .andExpect(status().isBadRequest());
@@ -414,7 +416,7 @@ public class DeviceModelResourceIT {
         deviceModelRepository.saveAndFlush(deviceModel);
 
         // Delete the deviceModel
-        restDeviceModelMockMvc.perform(delete("/api/device-models/{id}", deviceModel.getId())
+        restDeviceModelMockMvc.perform(delete(baseUrl + "/{id}", deviceModel.getId())
             .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isForbidden());
     }
@@ -429,7 +431,7 @@ public class DeviceModelResourceIT {
         int databaseSizeBeforeDelete = deviceModelRepository.findAll().size();
 
         // Delete the deviceModel
-        restDeviceModelMockMvc.perform(delete("/api/device-models/{id}", deviceModel.getId())
+        restDeviceModelMockMvc.perform(delete(baseUrl + "/{id}", deviceModel.getId())
             .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 

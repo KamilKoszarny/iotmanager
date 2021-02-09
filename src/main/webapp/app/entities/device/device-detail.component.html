@@ -33,6 +33,19 @@
                     </div>
                 </dd>
             </dl>
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/device', device.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+            <br/>
+            <br/>
 
             <dt id="jhi-device-faults" jhiTranslate="iotmanagerApp.device.listOfFaults">Faults of this Device:</dt>
             <table *ngIf="device.faults && device.faults.length > 0" class="table table-striped" aria-describedby="page-heading">
@@ -56,17 +69,10 @@
             <div *ngIf="!device.faults || device.faults.length === 0" class="alert alert-info" id="no-result">
                 <span jhiTranslate="iotmanagerApp.deviceFault.home.notFound">No faults found</span>
             </div>
-
-            <button type="submit"
-                    (click)="previousState()"
-                    class="btn btn-info">
-                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
-            </button>
-
             <button type="button"
-                    [routerLink]="['/device', device.id, 'edit']"
+                    [routerLink]="['/device-fault/user/new']" [queryParams]="{deviceId: device.id}"
                     class="btn btn-primary">
-                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="iotmanagerApp.deviceFault.home.createOwnLabel">Add new Device Fault</span>
             </button>
         </div>
     </div>

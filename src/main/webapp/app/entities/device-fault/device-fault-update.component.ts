@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 import { DeviceFault, IDeviceFault } from 'app/shared/model/device-fault.model';
 import { DeviceFaultService } from './device-fault.service';
-import { IDevice } from 'app/shared/model/device.model';
+import { Device, IDevice } from 'app/shared/model/device.model';
 import { DeviceService } from 'app/entities/device/device.service';
 
 @Component({
@@ -40,7 +40,14 @@ export class DeviceFaultUpdateComponent implements OnInit {
       this.updateForm(deviceFault);
       this.isAdmin = isAdmin;
 
-      this.deviceService.query(this.isAdmin).subscribe((res: HttpResponse<IDevice[]>) => (this.devices = res.body || []));
+      this.deviceService.query(this.isAdmin).subscribe((res: HttpResponse<IDevice[]>) => {
+        this.devices = res.body || [];
+        this.devices.unshift(new Device());
+        const passedDeviceId = this.activatedRoute.snapshot.queryParamMap.get('deviceId');
+        if (passedDeviceId) {
+          this.editForm.controls['deviceId'].setValue(+passedDeviceId, { onlySelf: true });
+        }
+      });
     });
   }
 

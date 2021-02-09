@@ -13,6 +13,7 @@
 
 - show faults in Device view
 - faults user access
+- add buttons: Device in Site view, Fault in Device view
 
 ##Versions history
 

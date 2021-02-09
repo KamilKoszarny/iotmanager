@@ -44,7 +44,7 @@ public class Device implements Serializable {
 
     @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = "models", allowSetters = true)
+    @JsonIgnoreProperties(value = "devices", allowSetters = true)
     private DeviceModel model;
 
     @ManyToOne(optional = false)
@@ -53,7 +53,6 @@ public class Device implements Serializable {
     private Site site;
 
     @OneToMany(mappedBy = "device", orphanRemoval = true)
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private List<DeviceFault> faults = new ArrayList<>();
 
     public Device name(String name) {
